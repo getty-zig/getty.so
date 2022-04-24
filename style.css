@@ -18,6 +18,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -26,35 +27,34 @@ html, body {
   font-weight: 400;
   line-height: 1.6;
 }
+
 body {
   color: #241f31;
   background-color: #f6f5f4;
 }
+
 h1, h2, h3, h4, h5, h6 {
   margin: 1rem 0 10px;
   font-weight: 600;
   line-height: 1.25;
 }
+
 h1 {
-  text-align: center;
-  font-size: 30px;
-  font-weight: 100;
+  font-size: 38px;
+  font-weight: 600;
   font-style: normal;
   margin-bottom: 2rem;
+  text-decoration-line: underline;
+  text-decoration-style: "solid";
+  text-decoration-color: #EDA642;
+  text-decoration-thickness: 8px;
+}
 
-}
-@media screen and (min-width: 650px) {
-  h1 {
-    margin-left: 10%;
-    margin-right: 10%;
-    font-size: 38px;
-    font-weight: 600;
-  }
-}
 h2 {
   margin-top: 3rem;
   font-size: 1.2rem;
 }
+
 a {
   font-weight: 600;
   text-decoration: none;
@@ -64,12 +64,15 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
 b {
   font-weight: 600;
 }
+
 small {
   color: #777;
 }
+
 hr {
   margin: 3rem auto 4rem;
   width: 40%;
