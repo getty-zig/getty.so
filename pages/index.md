@@ -4,7 +4,7 @@ permalink: /
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
-Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)serializers in [Zig](https://ziglang.org).
+Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)serializers in Zig.
 
 Getty provides out-of-the-box support for a variety of standard library types,
 enables _local_ customization of (de)serialization logic for both existing
@@ -14,13 +14,13 @@ operate.
 
 ---
 
-## Introduction
+# Introduction
 
 - [Overview](/overview)
 - [Guide](/guide)
 - [Examples](/examples)
 
-## Concepts
+# Concepts
 
 - [Data Models](/data-models)
 - [Serializers](/serializers)
@@ -28,13 +28,13 @@ operate.
 - [Visitors](/visitors)
 - [Blocks & Tuples](blocks-and-tuples)
 
-## Contributing
+# Contributing
 
 - [Contributing](/contributing)
 - [Style Guide](/style-guide)
 - [Repository Structure](/repository-structure)
 
-## Project
+# Project
 
 - [GitHub](https://github.com/getty-zig/getty)
 - [Releases](https://github.com/getty-zig/getty/releases)
