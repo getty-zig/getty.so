@@ -92,6 +92,13 @@ hr {
   width: 250px;
 }
 
+.figure {
+    display: block;
+    margin: auto;
+    padding: 2rem 0 2rem;
+    width: 60%;
+}
+
 /* Footer */
 footer {
   text-align: center;

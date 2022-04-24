@@ -23,4 +23,4 @@ a deserializer to deserialize its input data into Getty's deserialization data
 model. The resulting Getty value is then passed to a Visitor, where it is
 converted into a Zig value of the passed-in type.
 
-<!--<img alt="Architecture" src="/assets/images/architecture.svg" width="55%" />-->
+<img alt="Architecture" src="/assets/images/architecture.svg" class="figure" />
