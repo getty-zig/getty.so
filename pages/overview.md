@@ -2,7 +2,7 @@
 title: Overview
 category: Introduction
 layout: default
-permalink: /overview
+permalink: /overview/
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
