@@ -336,10 +336,16 @@ tbody td {
   flex-direction: column;
   align-items: flex-start;
   border-radius: 4px;
-  margin: 1.8rem auto 1.8rem auto;
+  margin: 2rem calc(96% - 50vw) 2rem calc(96% - 50vw);
   padding: 0;
   border: 1px solid #241f31;
   overflow-x: auto;
+}
+
+@media (max-width: 1380px) {
+    .code-block {
+        margin: 1.8rem auto 1.8rem auto;
+    }
 }
 
 .code-block div.language-tag {
@@ -350,15 +356,14 @@ tbody td {
   background: #241f31;
   color: #f6f5f4;
   padding: 0.2rem 0.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  font-size: 1rem;
   border-radius: 0 0 8px 0;
 }
 
 .code-block .code-block-inner {
   display: inline-flex;
   margin: 0;
-  font-size: 1.1rem;
   line-height: 1.4;
   border-radius: initial;
   padding: 0 0.8rem 0 0.8rem;
