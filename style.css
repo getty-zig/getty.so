@@ -55,6 +55,11 @@ h2 {
   margin-top: 3rem;
 }
 
+h3 {
+  font-size: 1.2rem;
+  margin-top: 3rem;
+}
+
 a {
   font-weight: 600;
   color: #241f31;
@@ -323,24 +328,39 @@ tbody td {
   color: #bbbbbb;
 }
 .highlight {
-  background-color: #f8f8f8;
+  margin: 0;
 }
 
-
-/* Code Blocks */
-.highlighter-rouge {
-  padding: 2px 1rem;
-  border-radius: 5px;
-  background-color: white;
-
-  overflow: auto;
-}
-.highlighter-rouge * {
-  background-color: white;
+.code-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 4px;
+  margin: 1.8rem auto 1.8rem auto;
+  padding: 0;
+  border: 1px solid #241f31;
+  overflow-x: auto;
 }
 
-/* Inline Code */
-code.highlighter-rouge {
-  padding: 2px 6px;
-  background-color: rgba(0,0,0, 0.07);
+.code-block div.language-tag {
+  line-height: 1.1;
+  width: auto;
+  display: block;
+  float: left;
+  background: #241f31;
+  color: #f6f5f4;
+  padding: 0.2rem 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 0 0 8px 0;
+}
+
+.code-block .code-block-inner {
+  display: inline-flex;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  border-radius: initial;
+  padding: 0 0.8rem 0 0.8rem;
+  tab-size: 2;
 }
