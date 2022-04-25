@@ -34,20 +34,6 @@ work in Zig, as you'll be using them quite often when working with Getty.
 Generic interfaces in Zig are just functions. The constraints of a generic
 interface are specified as a parameter list.
 
-{% label Zig code %}
-{% highlight zig %}
-// Interface
-fn Writer(
-    // Associated types
-    comptime Context: type,
-    comptime Error: type,
-
-    // Required methods
-    comptime writeFn: fn (Context, []const u8) Error!usize,
-) type
-{% endhighlight %}
-{% endlabel %}
-
 All of the generic interfaces within the standard library return a `type`, just
 like our `Writer` interface does. This returned type is known as an __interface
 type__, and it's typically just a `struct` with one field to store a value of an
