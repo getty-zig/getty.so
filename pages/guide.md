@@ -34,7 +34,7 @@ work in Zig, as you'll be using them quite often when working with Getty.
 Generic interfaces in Zig are just functions. The constraints of a generic
 interface are specified as a parameter list.
 
-{% lang Zig code %}
+{% label Zig code %}
 {% highlight zig %}
 // Interface
 fn Writer(
@@ -46,14 +46,14 @@ fn Writer(
     comptime writeFn: fn (Context, []const u8) Error!usize,
 ) type
 {% endhighlight %}
-{% endlang %}
+{% endlabel %}
 
 All of the generic interfaces within the standard library return a `type`, just
 like our `Writer` interface does. This returned type is known as an __interface
 type__, and it's typically just a `struct` with one field to store a value of an
 implementing type and wrappers for the interface's required methods.
 
-{% lang Zig code %}
+{% label Zig code %}
 {% highlight zig %}
 fn Writer(
     comptime Context: type,
@@ -72,7 +72,7 @@ fn Writer(
     };
 }
 {% endhighlight %}
-{% endlang %}
+{% endlabel %}
 
 The reason generic interfaces return an interface type has to do with how Zig
 handles generics, but the short of it is you can't use a value of a type that
@@ -87,7 +87,8 @@ That is, if you called the `writeByte` method (which is provided by
 Instead, you must first call the `stdout` method on the `File` value to obtain
 a `std.io.Writer` _interface value_, which you can then call `writeByte` on.
 
-```zig
+{% label Zig code %}
+{% highlight zig %}
 const std = @import("std");
 
 pub fn main() anyerror!void {
@@ -96,13 +97,15 @@ pub fn main() anyerror!void {
     stdout.writeByte(123);          // incorrect
     stdout.writer().writeByte(123); // correct
 }
-```
+{% endhighlight %}
+{% endlabel %}
 
 As you can see in the previous code example, implementations of generic
 interfaces will often provide a function, called an __interface function__,
 that creates interface values for you.
 
-```zig
+{% label Zig code %}
+{% highlight zig %}
 // Implementing type
 const MyWriter = struct {
     // Interface type
@@ -118,7 +121,8 @@ const MyWriter = struct {
         return bytes.len;
     }
 };
-```
+{% endhighlight %}
+{% endlabel %}
 
 Alright! Now I can tell you how to actually implement a generic interface. All
 you need to do is provide some way to obtain an interface value. And that's it!
@@ -135,7 +139,8 @@ that is the fact that Getty interfaces do not return an interface type, but
 rather a `struct` namespace containing an interface type and an interface
 function.
 
-```zig
+{% label Zig code %}
+{% highlight zig %}
 fn Writer(
     comptime Context: type,
     comptime Error: type,
@@ -171,11 +176,13 @@ fn Writer(
 
     };
 }
-```
+{% endhighlight %}
+{% endlabel %}
 
 That means you can implement a Getty interface by simply calling it and then applying `usingnamespace` to its return value.
 
-```zig
+{% label Zig code %}
+{% highlight zig %}
 const MyWriter = struct {
     pub usingnamespace Writer(MyWriter, error{Io}, write);
 
@@ -184,7 +191,8 @@ const MyWriter = struct {
         return bytes.len;
     }
 };
-```
+{% endhighlight %}
+{% endlabel %}
 
 Alright, that's enough about interfaces. Let's start writing a serializer and
 deserializer!
