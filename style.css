@@ -336,15 +336,15 @@ tbody td {
   flex-direction: column;
   align-items: flex-start;
   border-radius: 4px;
-  margin: 2rem calc(96% - 50vw) 2rem calc(96% - 50vw);
+  margin: 2rem calc(100% - 50vw) 2rem calc(100% - 50vw);
   padding: 0;
   border: 1px solid #241f31;
   overflow-x: auto;
 }
 
-@media (max-width: 1380px) {
+@media (max-width: 1440px) {
     .code-block {
-        margin: 1.8rem auto 1.8rem auto;
+        margin: 2rem auto 2rem auto;
     }
 }
 
