@@ -171,7 +171,7 @@ code.highlighter-rouge {
   flex-direction: column;
   align-items: flex-start;
   border-radius: 4px;
-  margin: 2rem calc(100% - 50vw) 2rem calc(100% - 50vw);
+  margin: 2rem calc(102% - 50vw) 2rem calc(102% - 50vw);
   padding: 0;
   border: 1px solid #241f31;
   overflow-x: auto;
