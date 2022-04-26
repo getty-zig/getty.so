@@ -8,12 +8,9 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Interfaces
 
-Most of your interactions with Getty will consist of implementing the various
-interfaces Getty defines. As such, it's important to understand how __Getty
-interfaces__ work and how to implement them.
+Most of your interactions with Getty will consist of implementing the various interfaces Getty defines. As such, it's important to understand how __Getty interfaces__ work and how to implement them.
 
-Getty interfaces are functions and their constraints are specified as a
-parameter list.
+Getty interfaces are functions and their constraints are specified as a parameter list.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -30,8 +27,7 @@ fn Serializer(
 {% endhighlight %}
 {% endlabel %}
 
-The return value of a Getty interface is a `struct` namespace that contains two
-public declarations: an __interface type__ and an __interface function__.
+The return value of a Getty interface is a `struct` namespace that contains two public declarations: an __interface type__ and an __interface function__.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -73,21 +69,9 @@ fn Serializer(
 {% endhighlight %}
 {% endlabel %}
 
-Interface types are `struct`s that have a field to store a value of an
-implementing type, declarations for the interface's associated types, and
-wrapper functions for the interface’s required methods. The purpose of an
-interface type is to work around some issues regarding how Zig handles
-generics. In short, you can't use a value of a type that implements a Getty
-interface as an implementation of that interface. Instead, you must use a
-value of an interface type, also known as an __interface value__.
+Interface types are `struct`s that have a field to store a value of an implementing type, declarations for the interface's associated types, and wrapper functions for the interface’s required methods. The purpose of an interface type is to work around some issues regarding how Zig handles generics. In short, you can't use a value of a type that implements a Getty interface as an implementation of that interface. Instead, you must use a value of an interface type, also known as an __interface value__.
 
-For example, the `std.io.getStdOut` function returns a `File` value that
-implements the `std.io.Writer` interface, which is very similar to a Getty
-interface. But as I've mentioned, you can't use the returned `File` value as a
-`std.io.Writer` implementation. That is, if you try to call the `writeByte`
-method (which is provided by `std.io.Writer`) on the `File` value, you'll get
-a compile error. Instead, you must first use the `File.stdout` method to obtain
-a `std.io.Writer` interface value, which you can then call `writeByte` on.
+For example, the `std.io.getStdOut` function returns a `File` value that implements the `std.io.Writer` interface, which is very similar to a Getty interface. But as I've mentioned, you can't use the returned `File` value as a `std.io.Writer` implementation. That is, if you try to call the `writeByte` method (which is provided by `std.io.Writer`) on the `File` value, you'll get a compile error. Instead, you must first use the `File.stdout` method to obtain a `std.io.Writer` interface value, which you can then call `writeByte` on.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -102,17 +86,9 @@ pub fn main() anyerror!void {
 {% endhighlight %}
 {% endlabel %}
 
-And with that, I can finally talk about how to implement Getty (and generic)
-interfaces! All you need to do is provide a way to obtain an interface value
-for the interface you're implementing. This is where interface functions come
-in. They're convenient ways to obtain interface values.
+And with that, I can finally talk about how to implement Getty (and generic) interfaces! All you need to do is provide a way to obtain an interface value for the interface you're implementing. This is where interface functions come in. They're convenient ways to obtain interface values.
 
-For interfaces such as `std.io.Reader` or `std.io.Writer`, an implementing type
-(e.g., `File`) would have to manually write their own interface function (e.g.,
-`File.stdout`). However, if you'll recall, Getty interfaces return a namespace
-_containing_ an interface function, which means you can implement any Getty
-interface just by calling it and applying `usingnamespace` to its return
-value!
+For interfaces such as `std.io.Reader` or `std.io.Writer`, an implementing type (e.g., `File`) would have to manually write their own interface function (e.g., `File.stdout`). However, if you'll recall, Getty interfaces return a namespace _containing_ an interface function, which means you can implement any Getty interface just by calling it and applying `usingnamespace` to its return value!
 
 {% label Zig code %}
 {% highlight zig %}
@@ -127,6 +103,4 @@ const UselessSerializer = struct {
 {% endhighlight %}
 {% endlabel %}
 
-That's everything there is to know about Getty interfaces! In the next section,
-we'll use what we've learned to implement our first Getty interface:
-`getty.Serializer`. Get ready to write some code!
+That's everything there is to know about Getty interfaces! In the next section, we'll use what we've learned to implement our first Getty interface: `getty.Serializer`. Get ready to write some code!
