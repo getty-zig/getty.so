@@ -8,12 +8,12 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Interfaces
 
-Most of your interactions with Getty will consist of you implementing various
-interfaces defined by Getty. As such, it's important to understand how
-Getty interfaces work and how to implement them.
+Most of your interactions with Getty will consist of implementing the various
+interfaces Getty defines. As such, it's important to understand how __Getty
+interfaces__ work and how to implement them.
 
-__Getty interfaces__ are just regular functions and their constraints are
-specified as a parameter list.
+Getty interfaces are functions and their constraints are specified as a
+parameter list.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -77,18 +77,17 @@ Interface types are `struct`s that have a field to store a value of an
 implementing type, declarations for the interface's associated types, and
 wrapper functions for the interface’s required methods. The purpose of an
 interface type is to work around some issues regarding how Zig handles
-generics. In short, you can't use a value of a type that implements a generic
+generics. In short, you can't use a value of a type that implements a Getty
 interface as an implementation of that interface. Instead, you must use a
 value of an interface type, also known as an __interface value__.
 
 For example, the `std.io.getStdOut` function returns a `File` value that
-implements the `std.io.Writer` interface (which is similar to a Getty
-interface). But as I've mentioned, you can't use the returned `File` value as a
-`std.io.Writer` implementation. That is, if you called the `writeByte` method
-(which is provided by `std.io.Writer`) on the `File` value, you'll end up with
-a compile error. Instead, you must first call the `stdout` method
-of the `File` value to obtain a `std.io.Writer` interface value, which you can
-then call `writeByte` on.
+implements the `std.io.Writer` interface, which is very similar to a Getty
+interface. But as I've mentioned, you can't use the returned `File` value as a
+`std.io.Writer` implementation. That is, if you try to call the `writeByte`
+method (which is provided by `std.io.Writer`) on the `File` value, you'll get
+a compile error. Instead, you must first use the `File.stdout` method to obtain
+a `std.io.Writer` interface value, which you can then call `writeByte` on.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -97,52 +96,37 @@ const std = @import("std");
 pub fn main() anyerror!void {
     var out = std.io.getStdOut();
 
-    try out.writer().writeByte(123);  // ✔️ Correct
-    try out.writeByte(123);           // ❌ Compile error
+    try out.writer().writeByte('A');  // ✔️ Correct
+    try out.writeByte('A');           // ❌ Compile error
 }
 {% endhighlight %}
 {% endlabel %}
 
-To implement a Getty interface, all you need to do is provide some way to
-obtain an interface value for the interface you're implementing. This is where
-interface functions come in. They're convenient ways to obtain interface
-values. And if you'll recall, all Getty interfaces return a namespace
-containing an interface function, which means you can implement any Getty
-interface just by calling it and then applying `usingnamespace` to its return
+And with that, I can finally talk about how to implement Getty (and generic)
+interfaces! All you need to do is provide a way to obtain an interface value
+for the interface you're implementing. This is where interface functions come
+in. They're convenient ways to obtain interface values.
+
+For interfaces such as `std.io.Reader` or `std.io.Writer`, an implementing type
+(e.g., `File`) would have to manually write their own interface function (e.g.,
+`File.stdout`). However, if you'll recall, Getty interfaces return a namespace
+_containing_ an interface function, which means you can implement any Getty
+interface just by calling it and applying `usingnamespace` to its return
 value!
 
 {% label Zig code %}
 {% highlight zig %}
-const std = @import("std");
-const getty = @import("getty");
-
-const Serializer = struct {
+const UselessSerializer = struct {
     pub usingnamespace Serializer(
-        @This(),
-        Ok,
-        Error,
-        serializeBool,
+        @This(),              // Context
+        void,                 // Ok
+        error{ Io, Syntax },  // Error
+        undefined,            // serializeBool
     );
-
-    const Ok = void;
-    const Error = error { Io, Syntax };
-
-    fn serializeBool(_: @This(), value: bool) Error!Ok {
-        std.debug.print("the one {} ring\n", .{value});
-    }
 };
-
-pub fn main() anyerror!void {
-    const s = (Serializer{}).serializer();
-
-    try getty.serialize(true, s);
-}
 {% endhighlight %}
 {% endlabel %}
 
-{% label Shell session %}
-{% highlight console %}
-$ zig build run
-the one true ring
-{% endhighlight %}
-{% endlabel %}
+That's everything there is to know about Getty interfaces! In the next section,
+we'll use what we've learned to implement our first Getty interface:
+`getty.Serializer`. Get ready to write some code!
