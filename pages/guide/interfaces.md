@@ -68,7 +68,6 @@ fn Serializer(
         pub fn serializer(self: Context) @"Serializer" {
             return .{ .context = self };
         }
-
     };
 }
 {% endhighlight %}
@@ -115,6 +114,7 @@ value!
 {% label Zig code %}
 {% highlight zig %}
 const std = @import("std");
+const getty = @import("getty");
 
 const Serializer = struct {
     pub usingnamespace Serializer(
@@ -131,5 +131,18 @@ const Serializer = struct {
         std.debug.print("the one {} ring\n", .{value});
     }
 };
+
+pub fn main() anyerror!void {
+    const s = (Serializer{}).serializer();
+
+    try getty.serialize(true, s);
+}
+{% endhighlight %}
+{% endlabel %}
+
+{% label Shell session %}
+{% highlight console %}
+$ zig build run
+the one true ring
 {% endhighlight %}
 {% endlabel %}
