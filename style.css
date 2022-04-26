@@ -177,7 +177,7 @@ code.highlighter-rouge {
   overflow-x: auto;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1467px) {
     .code-block {
         margin: 2rem auto 2rem auto;
     }
