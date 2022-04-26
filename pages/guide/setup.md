@@ -49,4 +49,4 @@ pub fn build(b: *std.build.Builder) void {
 {% endhighlight %}
 {% endlabel %}
 
-And there we go! We've successfully added Getty as a package dependency to our project! 🥳
+And there we go! We've successfully added Getty to our project! 🥳
