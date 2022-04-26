@@ -18,9 +18,7 @@ and information to help get you started.
 ## Issues
 
 - [GitHub Issues](https://github.com/getty-zig/getty/issues) are used
-  exclusively for tracking bugs and feature requests for Getty. If you are
-  looking for help, please reach out on the `#getty` channel in the [Zig
-  Discord server](https://discord.gg/gxsFFjE) instead.
+  exclusively for tracking bugs and feature requests for Getty.
 
 - When filing a feature request, please check if the latest version of Getty
   already implements the feature beforehand and whether there's already an
