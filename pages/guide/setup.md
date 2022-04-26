@@ -26,7 +26,7 @@ git clone https://github.com/getty-zig/getty lib/getty
 {% endhighlight %}
 {% endlabel %}
 
-Finally, make the project aware of Getty by calling the `addPackagePath` method in `build.zig`:
+Finally, make `getty-json` aware of Getty by calling `addPackagePath` in `build.zig`:
 
 {% label Zig code %}
 {% highlight zig %}
@@ -49,5 +49,4 @@ pub fn build(b: *std.build.Builder) void {
 {% endhighlight %}
 {% endlabel %}
 
-And there we go! We've successfully added Getty as a package dependency for our
-project! 🥳
+And there we go! We've successfully added Getty as a package dependency to our project! 🥳
