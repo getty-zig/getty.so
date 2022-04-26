@@ -182,6 +182,11 @@ code.highlighter-rouge {
         margin: 2rem auto 2rem auto;
     }
 }
+@media (min-width: 1681px) {
+    .code-block {
+      margin: 2rem -105.6px 2rem -105.6px;
+    }
+}
 
 .code-block div.language-tag {
   line-height: 1.1;
