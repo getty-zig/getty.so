@@ -27,10 +27,10 @@ const Serializer = struct {
         getty.TODO,
         getty.TODO,
         getty.TODO,
-        serializeDefault,
+        serializeBool,
         serializeEnum,
-        serializeDefault,
-        serializeDefault,
+        serializeNumber,
+        serializeNumber,
         undefined,
         serializeNull,
         undefined,
@@ -43,7 +43,7 @@ const Serializer = struct {
     const Ok = void;
     const Error = error{ Io, Syntax };
 
-    fn serializeDefault(_: @This(), value: anytype) !Ok {
+    fn serializeBool(_: @This(), value: bool) !Ok {
         std.debug.print("{}\n", .{value});
     }
 
@@ -53,6 +53,10 @@ const Serializer = struct {
 
     fn serializeNull(_: @This()) !Ok {
         std.debug.print("null\n", .{});
+    }
+
+    fn serializeNumber(_: @This(), value: anytype) !Ok {
+        std.debug.print("{}\n", .{value});
     }
 
     fn serializeSome(self: @This(), value: anytype) !Ok {
