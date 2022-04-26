@@ -92,7 +92,7 @@ For interfaces such as `std.io.Reader` or `std.io.Writer`, an implementing type 
 
 {% label Zig code %}
 {% highlight zig %}
-const UselessSerializer = struct {
+const Serializer = struct {
     pub usingnamespace Serializer(
         @This(),              // Context
         void,                 // Ok
