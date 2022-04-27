@@ -8,16 +8,14 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Interfaces
 
-In short, working with Getty means implementing various interfaces defined by the framework.
-Therefore, it's important to understand how __Getty interfaces__ work and how to implement them.
+In short, working with Getty means implementing various interfaces defined by the framework. Therefore, it's important to understand how __Getty interfaces__ work and how to implement them.
 
-A Getty interface is just a normal function whose parameter list specifies the interface's constraints.
-If you've seen `std.io.Reader` or `std.io.Writer` before, then this should look familiar to you.
+A Getty interface is just a normal function whose parameter list specifies the interface's constraints. If you've seen `std.io.Reader` or `std.io.Writer` before, then this should look familiar to you.
 
 {% label Zig code %}
 {% highlight zig %}
 // Interface
-fn Serializer(
+fn BoolSerializer(
     // Associated types
     comptime Context: type,
     comptime Ok: type,
@@ -34,7 +32,7 @@ Unlike `std.io.Reader` and `std.io.Writer` however, the return value of a Getty 
 
 {% label Zig code %}
 {% highlight zig %}
-fn Serializer(
+fn BoolSerializer(
     comptime Context: type,
     comptime Ok: type,
     comptime Error: type,
@@ -47,7 +45,7 @@ fn Serializer(
         // In Getty, the name of an interface type is always @"<name>", where
         // <name> is the interface's import path. For example, the interface
         // type for the getty.Serializer interface is @"getty.Serializer".
-        pub const @"Serializer" = struct {
+        pub const @"BoolSerializer" = struct {
             context: Context,
 
             pub const Ok = Ok;
@@ -64,7 +62,7 @@ fn Serializer(
         // implementing type and their names are always the same as their
         // interface, but in camelCase. For example, the interface function
         // for the getty.Serializer interface is called serializer.
-        pub fn serializer(self: Context) @"Serializer" {
+        pub fn boolSerializer(self: Context) @"BoolSerializer" {
             return .{ .context = self };
         }
     };
@@ -96,7 +94,7 @@ For interfaces such as `std.io.Reader` or `std.io.Writer`, an implementing type 
 {% label Zig code %}
 {% highlight zig %}
 const Serializer = struct {
-    pub usingnamespace Serializer(
+    pub usingnamespace BoolSerializer(
         @This(),
         void,
         error{ Io, Syntax },
