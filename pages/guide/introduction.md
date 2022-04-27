@@ -70,7 +70,7 @@ const Serializer = struct {
 {% endhighlight %}
 {% endlabel %}
 
-If you're a bit confused about what you just read, don't worry! This guide is the perfect place for you.
+If you're confused about the code you just saw, don't worry! This guide is the perfect place for you.
 
 In this guide, we'll slowly build up to the above `Serializer` implementation and by the end of it all, you'll understand everything about it. Additionally, we'll extend `Serializer` to support more complex types such as `struct{ x: i32 }` and `std.ArrayList(i32)`. We'll also make a JSON deserializer afterwards and go over how custom (de)serialization works in Getty.
 
