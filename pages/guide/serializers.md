@@ -50,17 +50,17 @@ fn Serializer(
     // and getty.ser.Structure. I'm sure you can figure out which interfaces
     // are expected to be implemented by which parameters.
     //
-    // The reason getty.Serializer needs these types is because serialization
-    // for compound types is slightly different compared to serialization for
-    // non-compound types. Specifically, compound types aren't fully serialized
-    // by their associated serialization methods (e.g., serializeMap). Instead,
-    // the methods just start the serialization process before returning a
-    // value of either Map, Seq, or Struct. The returned value is then used by
-    // each method's caller to finish off serialization.
+    // If you don't want to support serialization for compound types or you
+    // simply haven't implemented it yet, you can use assign the getty.TODO
+    // type to Map, Seq, and Structure.
     //
-    // If you don't support serialization for compound types or you simply
-    // haven't implemented it yet, you can use the getty.TODO type for Map,
-    // Seq, and Structure.
+    // The reason why these types and their associated interfaces exist is
+    // because serialization for compound types is slightly different compared
+    // to serialization for non-compound types. Specifically, compound types
+    // aren't fully serialized by their associated serialization methods.
+    // Instead, the methods merely start the serialization process before
+    // returning a value of either Map, Seq, or Struct. The returned value is
+    // then used by each method's caller to finish off serialization.
     comptime Map: type,
     comptime Seq: type,
     comptime Structure: type,
