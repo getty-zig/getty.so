@@ -8,9 +8,9 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Serializers
 
-In this section, we will write a simple JSON serializer that serializes values by printing their JSON equivalent to `STDERR`. Any code we write will go into `src/main.zig` and will be labeled as such.
+In this section, we will write a simple JSON serializer that serializes values by printing their JSON equivalent to `STDERR`. Any code we write will be in `src/main.zig` and will be labeled as such.
 
-The first step in creating a Getty (de)serializer is learning which interfaces need to be implemented. For serializers, the interface we need to implement is `getty.Serializer`, which is shown below.
+Every Getty serializer is required to implement the `getty.Serializer` interface, shown below.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -38,8 +38,6 @@ fn Serializer(
     // behavior of Getty is defined as getty.default_st and should be set for
     // user_sbt or ser_sbt if user- or serializer-defined customization is not
     // supported or needed.
-    //
-    // We'll talk more about SBTs later on, so just ignore them for now.
     comptime user_sbt: anytype,
     comptime ser_sbt: anytype,
 
@@ -51,16 +49,8 @@ fn Serializer(
     // are expected to be implemented by which parameters.
     //
     // If you don't want to support serialization for compound types or you
-    // simply haven't implemented it yet, you can use assign the getty.TODO
-    // type to Map, Seq, and Structure.
-    //
-    // The reason why these types and their associated interfaces exist is
-    // because serialization for compound types is slightly different compared
-    // to serialization for non-compound types. Specifically, compound types
-    // aren't fully serialized by their associated serialization methods.
-    // Instead, the methods merely start the serialization process before
-    // returning a value of either Map, Seq, or Struct. The returned value is
-    // then used by each method's caller to finish off serialization.
+    // just haven't implemented it yet, you should assign the getty.TODO type
+    // to Map, Seq, and Structure.
     comptime Map: type,
     comptime Seq: type,
     comptime Structure: type,
@@ -85,7 +75,9 @@ fn Serializer(
 {% endhighlight %}
 {% endlabel %}
 
-Quite the parameter list! I assure you though that implementing the interface is actually quite simple. For example, replace the contents of `src/main.zig` with the following:
+Quite the parameter list!
+
+Luckily though, most of the parameters seem to have default values we can use, so go ahead and replace the contents of `src/main.zig` with the following `getty.Serializer` implementation:
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -120,7 +112,9 @@ const Serializer = struct {
 {% endhighlight %}
 {% endlabel %}
 
-Congratulations! You've just written your first Getty serializer! That's right, `Serializer` is a fully functional (though completely useless) Getty serializer. In fact, why don't we try to serialize something with it by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value.
+Congratulations! You've just written your first Getty serializer!
+
+It's a bit useless at the moment, but that doesn't change the fact that's it's a fully functional Getty serializer! In fact, why don't we try to serialize something with it by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value:
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -153,6 +147,7 @@ const Serializer = struct {
     const Error = error{ Io, Syntax };
 };
 
+// 👇
 pub fn main() anyerror!void {
     const s = (Serializer{}).serializer();
 
@@ -174,11 +169,15 @@ A compile error!
 
 What happened was that Getty saw we were trying to serialize a `bool` value and so it called the `serializeBool` method of the interface value we passed in. That method then tried to call the `serializeBool` parameter of the `getty.Serializer` interface, which our `Serializer` implementation was supposed to provide. However, since we set all of the required methods to `undefined`, the compiler kindly reminded us about the dangers of using undefined values.
 
-To fix this problem, all we have to do is provide a method implementation for `serializeBool`:
+To fix this, we just have to provide a method implementation for `serializeBool`. To do so:
+
+1. Look at the type of the `serializeBool` parameter of `getty.Serializer`.
+2. Write a function with the same type.
+3. Pass the function into our `getty.Serializer` call.
 
 {% label src/main.zig %}
 {% highlight zig %}
-const std = @import("std");
+const std = @import("std"); // 👈
 const getty = @import("getty");
 
 const Serializer = struct {
@@ -191,7 +190,7 @@ const Serializer = struct {
         getty.TODO,
         getty.TODO,
         getty.TODO,
-        serializeBool,
+        serializeBool, // 👈
         undefined,
         undefined,
         undefined,
@@ -207,8 +206,9 @@ const Serializer = struct {
     const Ok = void;
     const Error = error{ Io, Syntax };
 
+    // 👇
     fn serializeBool(_: @This(), value: bool) !Ok {
-        std.debug.print("{}\n", .{value});
+        std.debug.print("{}", .{value});
     }
 };
 
@@ -216,6 +216,9 @@ pub fn main() anyerror!void {
     const s = (Serializer{}).serializer();
 
     try getty.serialize(true, s);
+
+    // 👇
+    std.debug.print("\n", .{});
 }
 {% endhighlight %}
 {% endlabel %}
@@ -247,12 +250,129 @@ const Serializer = struct {
         getty.TODO,
         getty.TODO,
         serializeBool,
+        serializeEnum,   // 👈
+        serializeNumber, // 👈
+        serializeNumber, // 👈
+        undefined,
+        serializeNull,   // 👈
+        undefined,
+        serializeSome,   // 👈
+        serializeString, // 👈
+        undefined,
+        serializeNull,   // 👈
+    );
+
+    const Ok = void;
+    const Error = error{ Io, Syntax };
+
+    fn serializeBool(_: @This(), value: bool) !Ok {
+        std.debug.print("{}", .{value});
+    }
+
+    // 👇
+    fn serializeEnum(self: @This(), value: anytype) !Ok {
+        try self.serializeString(@tagName(value));
+    }
+
+    // 👇
+    fn serializeNull(_: @This()) !Ok {
+        std.debug.print("null", .{});
+    }
+
+    // 👇
+    fn serializeNumber(_: @This(), value: anytype) !Ok {
+        std.debug.print("{}", .{value});
+    }
+
+    // 👇
+    fn serializeSome(self: @This(), value: anytype) !Ok {
+        try getty.serialize(value, self.serializer());
+    }
+
+    // 👇
+    fn serializeString(_: @This(), value: anytype) !Ok {
+        std.debug.print("\"{s}\"", .{value});
+    }
+};
+
+pub fn main() anyerror!void {
+    const s = (Serializer{}).serializer();
+
+    // 👇
+    inline for (.{ 10, 10.0, "string", .variant, {}, null }) |v| {
+        try getty.serialize(v, s);
+
+        std.debug.print("\n", .{});
+    }
+}
+{% endhighlight %}
+{% endlabel %}
+
+{% label Shell session %}
+{% highlight console %}
+$ zig build run
+10
+1.0e+01
+"string"
+"variant"
+null
+null
+{% endhighlight %}
+{% endlabel %}
+
+And there we have it! Our initial `Serializer` implementation from the intro! But now with context!
+
+At this point, the only methods left to implement are those related to compound serialization. However, before we move on, I want to highlight out a few things about our `Serializer` type:
+
+- By keeping all of our method implementations private, we avoid polluting the public API of `Serializer` with interface-related code. Additionally, we've ensured that users cannot mistakenly use a `Serializer` value instead of an interface value to perform serialization.
+
+- Because the signatures of the `serializeFloat` and `serializeInt` required methods are the same, we were able to implement them both using one function: `serializeNumber`. We were also able to do the same thing for `serializeNull` and `serializeVoid`.
+
+- Even though the type of the `value` parameter for many of the required methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString` and integers and floating-points will be passed to `serializeNumber`. In other words, you'll never have to type-check the `value` parameter unless you wish to further restrict its type.
+
+Alright, let's move on to compound serialization. Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because compound types have different access and iteration patterns, but Getty can't possibly know about all of them. To solve this issue, serialization methods (e.g., `serializeSeq`) _start_ the serialization process before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by each method's caller to finish off serialization.
+
+To help you understand what I mean, let's implement the `serializeSeq` required method, which returns a value of type `Seq`, which is expected to implement the `getty.ser.Seq` interface:
+
+{% label Zig code %}
+{% highlight zig %}
+// getty.ser.Seq specifies how to serialize the elements of a Getty Sequence,
+// as well as how to end the serialization process for a Getty Sequence.
+//
+// The Ok and Error values of a getty.ser.Seq implementation must match the
+// Ok and Error values of its corresponding getty.Serializer implementation.
+fn Seq(
+    comptime Context: type,
+    comptime Ok: type,
+    comptime Error: type,
+    comptime serializeElement: fn (Context, anytype) Error!void,
+    comptime end: fn (Context) Error!Ok,
+) type
+{% endhighlight %}
+{% endlabel %}
+
+{% label src/main.zig %}
+{% highlight zig %}
+const std = @import("std");
+const getty = @import("getty");
+
+const Serializer = struct {
+    pub usingnamespace getty.Serializer(
+        @This(),
+        Ok,
+        Error,
+        getty.default_st,
+        getty.default_st,
+        getty.TODO,
+        Seq,          // 👈
+        getty.TODO,
+        serializeBool,
         serializeEnum,
         serializeNumber,
         serializeNumber,
         undefined,
         serializeNull,
-        undefined,
+        serializeSeq, // 👈
         serializeSome,
         serializeString,
         undefined,
@@ -263,7 +383,7 @@ const Serializer = struct {
     const Error = error{ Io, Syntax };
 
     fn serializeBool(_: @This(), value: bool) !Ok {
-        std.debug.print("{}\n", .{value});
+        std.debug.print("{}", .{value});
     }
 
     fn serializeEnum(self: @This(), value: anytype) !Ok {
@@ -271,11 +391,18 @@ const Serializer = struct {
     }
 
     fn serializeNull(_: @This()) !Ok {
-        std.debug.print("null\n", .{});
+        std.debug.print("null", .{});
     }
 
     fn serializeNumber(_: @This(), value: anytype) !Ok {
-        std.debug.print("{}\n", .{value});
+        std.debug.print("{}", .{value});
+    }
+
+    // 👇
+    fn serializeSeq(_: @This(), _: ?usize) !Seq {
+        std.debug.print("[", .{});
+
+        return Seq{};
     }
 
     fn serializeSome(self: @This(), value: anytype) !Ok {
@@ -283,17 +410,50 @@ const Serializer = struct {
     }
 
     fn serializeString(_: @This(), value: anytype) !Ok {
-        std.debug.print("\"{s}\"\n", .{value});
+        std.debug.print("\"{s}\"", .{value});
+    }
+};
+
+// 👇
+const Seq = struct {
+    first: bool = true,
+
+    pub usingnamespace getty.ser.Seq(
+        *@This(),
+        Serializer.Ok,
+        Serializer.Error,
+        serializeElement,
+        end,
+    );
+
+    fn serializeElement(self: *@This(), value: anytype) !void {
+        switch (self.first) {
+            true => self.first = false,
+            false => std.debug.print(", ", .{}),
+        }
+
+        try getty.serialize(value, (Serializer{}).serializer());
+    }
+
+    fn end(_: *@This()) !Serializer.Ok {
+        std.debug.print("]", .{});
     }
 };
 
 pub fn main() anyerror!void {
     const s = (Serializer{}).serializer();
-    const values = .{ true, 10, 10.0, "string", .variant, {}, null };
 
-    inline for (values) |v| {
-        try getty.serialize(v, s);
-    }
+    // 👇
+    var list = std.ArrayList(i32).init(std.heap.page_allocator);
+    defer list.deinit();
+    try list.append(1);
+    try list.append(2);
+    try list.append(3);
+
+    // 👇
+    try getty.serialize(list, s);
+
+    std.debug.print("\n", .{});
 }
 {% endhighlight %}
 {% endlabel %}
@@ -301,22 +461,244 @@ pub fn main() anyerror!void {
 {% label Shell session %}
 {% highlight console %}
 $ zig build run
-true
-10
-1.0e+01
-"string"
-"variant"
-null
-null
+[1, 2, 3]
 {% endhighlight %}
 {% endlabel %}
 
-And there we have it! Our initial `Serializer` implementation from the intro! But with more context!
+Hooray!
 
-Now all we have to do is implement `serializeMap`, `serializeSeq`, and `serializeStruct`. However, before we move on, I wanted to point out a few things about our implementation:
+If you'll notice, we didn't have to write any iteration- or access-related code. We simply specified how sequence elements should be serialized and how sequence serialization should end, and Getty took care of the rest!
 
-- By keeping all of our method implementations private, we avoided polluting the public API of `Serializer` with interface-related code. Furthermore, we've ensured that users cannot mistakenly use a `Serializer` value to perform serialization instead of an interface value.
+All that is left is `serializeMap` and `serializeStruct`. Think you can handle them yourself?
 
-- Since the signatures of the `serializeFloat` and `serializeInt` required methods are the same, we were able to implement both of them using one function: `serializeNumber`. We also did the same thing for `serializeNull` and `serializeVoid`.
+{% label Zig code %}
+{% highlight zig %}
+// getty.ser.Map specifies how to serialize the keys and values of a Getty Map,
+// as well as how to end the serialization process for a Getty Map.
+//
+// The Ok and Error values of a getty.ser.Map implementation must match the
+// Ok and Error values of its corresponding getty.Serializer implementation.
+fn Map(
+    comptime Context: type,
+    comptime Ok: type,
+    comptime Error: type,
+    comptime serializeKey: fn (Context, anytype) Error!void,
+    comptime serializeValue: fn (Context, anytype) Error!void,
+    comptime end: fn (Context) Error!Ok,
+) type
+{% endhighlight %}
+{% endlabel %}
 
-- Even though the type of the `value` parameter for many of the required methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type is passed to each function. For example, only string values are passed to `serializeString` and only integers and floating-points are passed to `serializeNumber`. You'll never have to type-check the `value` parameter unless, of course, you wish to further restrict its type.
+{% label Zig code %}
+{% highlight zig %}
+// getty.ser.Structure specifies how to serialize the fields of a Getty Structure,
+// as well as how to end the serialization process for a Getty Structure.
+//
+// The Ok and Error values of a getty.ser.Structure implementation must match
+// the Ok and Error values of its corresponding getty.Serializer implementation.
+fn Structure(
+    comptime Context: type,
+    comptime Ok: type,
+    comptime Error: type,
+    comptime serializeField: fn (Context, comptime []const u8, anytype) Error!void,
+    comptime end: fn (Context) Error!Ok,
+) type
+{% endhighlight %}
+{% endlabel %}
+
+Did you implement them yet?
+
+<br>
+
+You _are_ trying to implement them, right?
+
+<br>
+
+You wouldn't lie to me about that, would you?
+
+<br>
+
+_Right?_
+
+<br>
+
+You better not be lying to me.
+
+<br>
+
+This is your last chance.
+
+<br>
+
+. . .
+
+<br>
+
+Okay, here's how I did it.
+
+{% label src/main.zig %}
+{% highlight zig %}
+{% raw %}
+const std = @import("std");
+const getty = @import("getty");
+
+const Serializer = struct {
+    pub usingnamespace getty.Serializer(
+        @This(),
+        Ok,
+        Error,
+        getty.default_st,
+        getty.default_st,
+        Map,             // 👈
+        Seq,
+        Map,             // 👈
+        serializeBool,
+        serializeEnum,
+        serializeNumber,
+        serializeNumber,
+        serializeMap,    // 👈
+        serializeNull,
+        serializeSeq,
+        serializeSome,
+        serializeString,
+        serializeStruct, // 👈
+        serializeNull,
+    );
+
+    const Ok = void;
+    const Error = error{ Io, Syntax };
+
+    fn serializeBool(_: @This(), value: bool) !Ok {
+        std.debug.print("{}", .{value});
+    }
+
+    fn serializeEnum(self: @This(), value: anytype) !Ok {
+        try self.serializeString(@tagName(value));
+    }
+
+    // 👇
+    fn serializeMap(_: @This(), _: ?usize) !Map {
+        std.debug.print("{{", .{});
+
+        return Map{};
+    }
+
+    fn serializeNull(_: @This()) !Ok {
+        std.debug.print("null", .{});
+    }
+
+    fn serializeNumber(_: @This(), value: anytype) !Ok {
+        std.debug.print("{}", .{value});
+    }
+
+    fn serializeSeq(_: @This(), _: ?usize) !Seq {
+        std.debug.print("[", .{});
+
+        return Seq{};
+    }
+
+    fn serializeSome(self: @This(), value: anytype) !Ok {
+        try getty.serialize(value, self.serializer());
+    }
+
+    fn serializeString(_: @This(), value: anytype) !Ok {
+        std.debug.print("\"{s}\"", .{value});
+    }
+
+    // 👇
+    fn serializeStruct(self: @This(), comptime _: []const u8, len: usize) !Map {
+        return try self.serializeMap(len);
+    }
+};
+
+const Seq = struct {
+    first: bool = true,
+
+    pub usingnamespace getty.ser.Seq(
+        *@This(),
+        Serializer.Ok,
+        Serializer.Error,
+        serializeElement,
+        end,
+    );
+
+    fn serializeElement(self: *@This(), value: anytype) !void {
+        switch (self.first) {
+            true => self.first = false,
+            false => std.debug.print(", ", .{}),
+        }
+
+        try getty.serialize(value, (Serializer{}).serializer());
+    }
+
+    fn end(_: *@This()) !Serializer.Ok {
+        std.debug.print("]", .{});
+    }
+};
+
+// 👇
+const Map = struct {
+    first: bool = true,
+
+    pub usingnamespace getty.ser.Map(
+        *@This(),
+        Serializer.Ok,
+        Serializer.Error,
+        serializeKey,
+        serializeValue,
+        end,
+    );
+
+    pub usingnamespace getty.ser.Structure(
+        *@This(),
+        Serializer.Ok,
+        Serializer.Error,
+        serializeField,
+        end,
+    );
+
+    fn serializeKey(self: *@This(), value: anytype) !void {
+        switch (self.first) {
+            true => self.first = false,
+            false => std.debug.print(", ", .{}),
+        }
+
+        try getty.serialize(value, (Serializer{}).serializer());
+    }
+
+    fn serializeValue(_: *@This(), value: anytype) !void {
+        std.debug.print(": ", .{});
+
+        try getty.serialize(value, (Serializer{}).serializer());
+    }
+
+    fn serializeField(self: *@This(), comptime key: []const u8, value: anytype) !void {
+        try self.serializeKey(key);
+        try self.serializeValue(value);
+    }
+
+    fn end(_: *@This()) !Serializer.Ok {
+        std.debug.print("}}", .{});
+    }
+};
+
+pub fn main() anyerror!void {
+    const s = (Serializer{}).serializer();
+
+    // 👇
+    try getty.serialize(.{ .x = 1, .y = 2 }, s);
+
+    std.debug.print("\n", .{});
+}
+{% endraw %}
+{% endhighlight %}
+{% endlabel %}
+
+{% label Shell session %}
+{% highlight console %}
+$ zig build run
+{"x": 1, "y": 2}
+{% endhighlight %}
+{% endlabel %}
+
+Well done! &nbsp; 🎉
