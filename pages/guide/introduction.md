@@ -47,8 +47,8 @@ const Serializer = struct {
         std.debug.print("{}\n", .{value});
     }
 
-    fn serializeEnum(self: @This(), value: anytype) !Ok {
-        try self.serializeString(@tagName(value));
+    fn serializeEnum(s: @This(), value: anytype) !Ok {
+        try s.serializeString(@tagName(value));
     }
 
     fn serializeNull(_: @This()) !Ok {
@@ -59,8 +59,8 @@ const Serializer = struct {
         std.debug.print("{}\n", .{value});
     }
 
-    fn serializeSome(self: @This(), value: anytype) !Ok {
-        try getty.serialize(value, self.serializer());
+    fn serializeSome(s: @This(), value: anytype) !Ok {
+        try getty.serialize(value, s.serializer());
     }
 
     fn serializeString(_: @This(), value: anytype) !Ok {
