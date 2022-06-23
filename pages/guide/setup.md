@@ -8,7 +8,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Setup
 
-To get started, create a new Zig project called `getty-learn`:
+To kick things off, create a new Zig project called `getty-learn`:
 
 {% label Shell session %}
 {% highlight sh %}
