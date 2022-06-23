@@ -58,7 +58,7 @@ fn Serializer(
     // These are methods that getty.Serializer implementations must provide.
     //
     // For this tutorial, we'll be providing implementations for all of
-    // these methods. However, you always can set any of the required methods
+    // these methods. However, you can always set any of the required methods
     // to `undefined` if you don't want to support a specific behavior.
     comptime serializeBool: fn (Context, bool) Error!Ok,
     comptime serializeEnum: fn (Context, anytype) Error!Ok,
@@ -114,7 +114,7 @@ const Serializer = struct {
 
 Congratulations! You've just written your first Getty serializer!
 
-It's a bit useless at the moment, but that doesn't change the fact that's it's a fully functional Getty serializer! In fact, why don't we try to serialize something with it by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value:
+Let's try to serialize something with it by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value (i.e., a value of the interface type):
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -169,11 +169,7 @@ A compile error!
 
 What happened was that Getty saw we were trying to serialize a `bool` value and so it called the `serializeBool` method of the interface value we passed in. That method then tried to call the `serializeBool` parameter of the `getty.Serializer` interface, which our `Serializer` implementation was supposed to provide. However, since we set all of the required methods to `undefined`, the compiler kindly reminded us about the dangers of using undefined values.
 
-To fix this, we just have to provide a method implementation for `serializeBool`. To do so:
-
-1. Look at the type of the `serializeBool` parameter of `getty.Serializer`.
-2. Write a function with the same type.
-3. Pass the function into our `getty.Serializer` call.
+To fix this, all we have to do is provide a method implementation for `serializeBool`.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -330,9 +326,9 @@ At this point, the only methods left to implement are those related to compound 
 
 - Even though the type of the `value` parameter for many of the required methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString` and integers and floating-points will be passed to `serializeNumber`. In other words, you'll never have to type-check the `value` parameter unless you wish to further restrict its type.
 
-Alright, let's move on to compound serialization. Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because compound types have different access and iteration patterns, but Getty can't possibly know about all of them. To solve this issue, serialization methods (e.g., `serializeSeq`) _start_ the serialization process before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by each method's caller to finish off serialization.
+Alright, let's move on to compound serialization. Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because compound types have different access and iteration patterns, but Getty can't possibly know about all of them. To solve this, compound serialization methods (e.g., `serializeSeq`) are only responsible for _starting_ the serialization process before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the method's caller to finish off serialization.
 
-To help you understand what I mean, let's implement the `serializeSeq` required method, which returns a value of type `Seq`, which is expected to implement the `getty.ser.Seq` interface:
+To help you understand what I mean, let's implement the `serializeSeq` required method, which returns a value of type `Seq`, which is expected to implement the `getty.ser.Seq` interface.
 
 {% label Zig code %}
 {% highlight zig %}
