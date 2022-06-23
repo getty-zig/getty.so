@@ -8,7 +8,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Setup
 
-To get started, create a new (executable) Zig project called `getty-learn`:
+To get started, create a new Zig project called `getty-learn`:
 
 {% label Shell session %}
 {% highlight sh %}
@@ -18,7 +18,7 @@ zig init-exe
 {% endhighlight %}
 {% endlabel %}
 
-Then, we'll act as our own package manager and install Getty into the `lib/getty` directory:
+Next, install Getty into the `lib/getty` directory within `getty-learn`:
 
 {% label Shell session %}
 {% highlight sh %}
@@ -26,9 +26,9 @@ git clone https://github.com/getty-zig/getty lib/getty
 {% endhighlight %}
 {% endlabel %}
 
-Finally, we can make our project aware of Getty by calling `addPackagePath` in `build.zig`:
+Then, make `getty-learn` aware of Getty by calling `addPackagePath` in `build.zig`:
 
-{% label Zig code %}
+{% label build.zig %}
 {% highlight zig %}
 const std = @import("std");
 
@@ -46,4 +46,22 @@ pub fn build(b: *std.build.Builder) void {
 {% endhighlight %}
 {% endlabel %}
 
-And there we go! We've successfully added Getty to our project!
+Finally, check to see that everything is working by running the following program:
+
+{% label src/main.zig %}
+{% highlight zig %}
+const std = @import("std");
+const getty = @import("getty");
+
+pub fn main() anyerror!void {
+    std.debug.print("{}\n", .{getty.TODO});
+}
+{% endhighlight %}
+{% endlabel %}
+
+{% label Shell session %}
+{% highlight sh %}
+$ zig build run
+.getty.TODO
+{% endhighlight %}
+{% endlabel %}
