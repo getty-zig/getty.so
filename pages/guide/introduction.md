@@ -8,9 +8,9 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Introduction
 
-Getty is a (de)serialization framework that helps you build serializers and deserializers in Zig.
+Getty is a framework for building serializers and deserializers in Zig.
 
-As an example, the following shows a simple JSON serializer that supports scalar and string values. At around 50 lines of code, `Serializer` is a fully functional serializer that is capable of converting values of type `bool`, `i32`, `f64`, `enum{ foo }`, `[]u8`, `*const [5]u8`, `?void`, and more!
+For example, the following code shows a JSON serializer that only supports scalar and string values. At around 50 lines of code, `Serializer` is a fully functional serializer capable of converting values of type `bool`, `i32`, `f64`, `enum{ foo, bar }`, `[]u8`, `*const [5]u8`, `?void`, and more!
 
 {% label Zig code %}
 {% highlight zig %}
@@ -70,8 +70,8 @@ const Serializer = struct {
 {% endhighlight %}
 {% endlabel %}
 
-If you're confused about the code you just saw, don't worry! This guide is the perfect place for you.
+Don't worry if you're confused about the code you just saw.
 
-In this guide, we'll slowly build up to the above `Serializer` implementation and by the end of it all, you'll understand everything about it. Additionally, we'll extend `Serializer` to support more complex types such as `struct{ x: i32 }` and `std.ArrayList(i32)`. We'll also make a JSON deserializer afterwards and go over how custom (de)serialization works in Getty.
+In this guide, we'll slowly build up to the above `Serializer` implementation and by the end of it all you'll understand everything there is to know about it. Additionally, we'll extend `Serializer` to support more complex types such as `struct{ x: i32 }` and `std.ArrayList(i32)`. We'll also make a JSON deserializer afterwards and go over how custom (de)serialization works in Getty.
 
-Sound good? Then let's get started!
+So, without further ado, let's get started!
