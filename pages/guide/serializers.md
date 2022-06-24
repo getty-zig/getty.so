@@ -17,7 +17,7 @@ Every Getty serializer is required to implement the `getty.Serializer` interface
 // getty.Serializer specifies the behavior of a serializer, and must be
 // implemented by all Getty serializers.
 fn Serializer(
-    // Context is a namespace that contains the method implementations you want
+    // Context is the namespace that owns the method implementations you want
     // to use to implement getty.Serializer.
     //
     // Typically, this is whatever type is implementing getty.Serializer (or a
@@ -320,11 +320,11 @@ And there we have it! Our initial `Serializer` implementation from the intro! Bu
 
 At this point, the only methods left to implement are those related to compound serialization. However, before we move on, I want to highlight out a few things about our `Serializer` type:
 
-- By keeping all of our method implementations private, we avoid polluting the public API of `Serializer` with interface-related code. Additionally, we've ensured that users cannot mistakenly use a `Serializer` value instead of an interface value to perform serialization.
-
 - Because the signatures of the `serializeFloat` and `serializeInt` required methods are the same, we were able to implement them both using one function: `serializeNumber`. We were also able to do the same thing for `serializeNull` and `serializeVoid`.
 
-- Even though the type of the `value` parameter for many of the required methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString` and integers and floating-points will be passed to `serializeNumber`. In other words, you'll never have to type-check the `value` parameter unless you wish to further restrict its type.
+- By keeping all of our method implementations private, we avoid polluting the public API of `Serializer` with interface-related code. Additionally, we've ensured that users cannot mistakenly use a `Serializer` value instead of an interface value to perform serialization.
+
+- Even though the type of the `value` parameter for many of the required methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString` and integers and floating-points will be passed to `serializeNumber`.
 
 Alright, let's move on to compound serialization. Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because compound types have different access and iteration patterns, but Getty can't possibly know about all of them. To solve this, compound serialization methods (e.g., `serializeSeq`) are only responsible for _starting_ the serialization process before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the method's caller to finish off serialization.
 
@@ -465,7 +465,7 @@ Hooray!
 
 If you'll notice, we didn't have to write any iteration- or access-related code. We simply specified how sequence elements should be serialized and how sequence serialization should end, and Getty took care of the rest!
 
-All that is left is `serializeMap` and `serializeStruct`. Think you can handle them yourself?
+All that is left is `serializeMap` and `serializeStruct`. Try to implement them on your own!
 
 {% label Zig code %}
 {% highlight zig %}
@@ -515,14 +515,6 @@ You wouldn't lie to me about that, would you?
 <br>
 
 _Right?_
-
-<br>
-
-You better not be lying to me.
-
-<br>
-
-This is your last chance.
 
 <br>
 
