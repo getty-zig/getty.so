@@ -27,7 +27,7 @@ This document contains some information and a few guidelines to help get you sta
 ## Pull Requests
 
 
-- Please follow our [Coding Style](/coding-style) whenever contributing code.
+- Please follow our [Style Guide](/style-guide) whenever contributing code.
 
 - Before submitting a PR, please test your changes and ensure that the test suite passes locally.
 
