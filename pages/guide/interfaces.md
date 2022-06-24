@@ -8,10 +8,10 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Interfaces
 
-Before we starting writing any code, let's quickly go over how interfaces work in Getty since they're a fairly important part of the framework.
-For a more detailed explanation on Getty interfaces, see [here]().
+Before we begin writing any code, let's quickly go over how interfaces work in Getty since they're a fairly important part of the framework.
+For a more in-depth explanation on Getty interfaces, see [here]().
 
-A __Getty interface__ is just a normal function, and its constraints are specified as a parameter list:
+A __Getty interface__ is just a function, and its constraints are specified as a parameter list. For example, the following interface requires three associated types and one method from its implementations:
 
 {% label Zig code %}
 {% highlight zig %}
@@ -28,10 +28,7 @@ fn BoolSerializer(
 {% endhighlight %}
 {% endlabel %}
 
-The return value of a Getty interface is a `struct` namespace that contains two declarations:
-
-- An __interface type__.
-- An __interface function__.
+The return value of a Getty interface is a `struct` namespace that contains two declarations: an __interface type__ and an __interface function__. A value of the interface type is known as an __interface value__.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -57,6 +54,7 @@ fn BoolSerializer(
 
         // Interface function
         pub fn boolSerializer(self: Context) @"BoolSerializer" {
+            // Interface value
             return .{ .context = self };
         }
     };
@@ -64,7 +62,7 @@ fn BoolSerializer(
 {% endhighlight %}
 {% endlabel %}
 
-To implement a Getty interface, call it and apply `usingnamespace` to the returned value:
+To implement a Getty interface, simply call it and apply `usingnamespace` to the returned value. This will import an interface type and interface function into your implementation.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -107,10 +105,10 @@ fn main() anyerror!void {
     // Create a value of the implementing type.
     const os = OppositeSerializer{};
 
-    // Create a value of the interface type via the interface function.
+    // Create an interface value from it.
     const bs = os.boolSerializer();
 
-    // That's it!
+    // Use the interface value!
     try bs.serializeBool(true);  // output: false
     try bs.serializeBool(false); // output: true
 }
