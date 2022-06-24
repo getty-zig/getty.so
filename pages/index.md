@@ -14,7 +14,7 @@ Getty provides out-of-the-box support for a variety of standard library types, e
 
 - [Overview](/overview)
 - [Guide](/guide)
-- [Examples](/examples)
+- [Examples](https://github.com/getty-zig/getty/tree/main/examples)
 
 # Concepts
 
