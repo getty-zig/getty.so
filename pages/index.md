@@ -28,7 +28,6 @@ Getty provides out-of-the-box support for a variety of standard library types, e
 
 - [Contributing](/contributing)
 - [Style Guide](/style-guide)
-- [Repository Structure](/repository-structure)
 
 # Project
 
