@@ -12,8 +12,6 @@ Contributions to Getty are very welcome! 😄
 
 This document contains some information and a few guidelines to help get you started. If you have any questions about contributing, feel free to reach out to me on the [Zig Discord](https://discord.gg/gxsFFjE) (`kacho#1012`).
 
----
-
 ## Zig
 
 - Getty currently tracks the `master` release of Zig, so make sure your Zig is updated!
