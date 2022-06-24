@@ -6,7 +6,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)serializers in Zig.
 
-Getty provides out-of-the-box support for a variety of standard library types, enables _local_ customization of (de)serialization logic for both existing and remote types, and maintains its own data model abstractions that serve as simple and generic baselines from which serializers and deserializers can operate.
+Getty provides out-of-the-box support for a variety of standard library types, enables users to _locally_ customize the (de)serialization process for both existing and remote types, and maintains its own data model abstractions that serve as simple and generic baselines for serializers and deserializers.
 
 ---
 
