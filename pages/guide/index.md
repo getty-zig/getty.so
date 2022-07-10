@@ -17,8 +17,8 @@ Welcome to Getty! This is the official guide for the Getty framework, and is des
 
 - [Introduction](/guide/introduction)
 - [Setup](/guide/setup)
-- [Serialization](/guide/serialization)
 - [Interfaces](/guide/interfaces)
+- [Serialization](/guide/serialization)
 - [Serializers](/guide/serializers)
 - [Deserialization](/guide/deserialization)
 - [Deserializers](/guide/deserializers)

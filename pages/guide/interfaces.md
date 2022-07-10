@@ -115,4 +115,4 @@ fn main() anyerror!void {
 {% endhighlight %}
 {% endlabel %}
 
-Aaaaand, that's pretty much all you need to know about Getty interfaces. Let's start writing code!
+Aaaaand, that's pretty much all you need to know about Getty interfaces!
