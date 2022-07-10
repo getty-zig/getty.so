@@ -103,7 +103,15 @@ hr {
     display: block;
     margin: auto;
     padding: 2rem 0 2rem;
-    width: 60%;
+    width: 83%;
+    /*width: 60%;*/
+}
+
+.figure-small {
+    display: block;
+    margin: auto;
+    padding: 2rem 0 2rem;
+    width: 51%;
 }
 
 /* Footer */

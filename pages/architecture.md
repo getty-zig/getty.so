@@ -1,12 +1,12 @@
 ---
-title: Overview
+title: Design
 category: Introduction
 layout: default
-permalink: /overview/
+permalink: /design/
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
-# Overview
+# Design
 
 At a high-level, Getty consists of two flows: a __serialization flow__ and a __deserialization flow__.
 

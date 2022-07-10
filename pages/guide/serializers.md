@@ -160,7 +160,7 @@ pub fn main() anyerror!void {
 {% highlight console %}
 $ zig build run
 [...] error: use of undefined value here causes undefined behavior
-  return try serializeBool(self.context, value);
+  return try serializeBool(s.context, value);
              ^
 {% endhighlight %}
 {% endlabel %}
@@ -266,8 +266,8 @@ const Serializer = struct {
     }
 
     // 👇
-    fn serializeEnum(self: @This(), value: anytype) !Ok {
-        try self.serializeString(@tagName(value));
+    fn serializeEnum(s: @This(), value: anytype) !Ok {
+        try s.serializeString(@tagName(value));
     }
 
     // 👇
@@ -281,8 +281,8 @@ const Serializer = struct {
     }
 
     // 👇
-    fn serializeSome(self: @This(), value: anytype) !Ok {
-        try getty.serialize(value, self.serializer());
+    fn serializeSome(s: @This(), value: anytype) !Ok {
+        try getty.serialize(value, s.serializer());
     }
 
     // 👇
@@ -382,8 +382,8 @@ const Serializer = struct {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeEnum(self: @This(), value: anytype) !Ok {
-        try self.serializeString(@tagName(value));
+    fn serializeEnum(s: @This(), value: anytype) !Ok {
+        try s.serializeString(@tagName(value));
     }
 
     fn serializeNull(_: @This()) !Ok {
@@ -401,8 +401,8 @@ const Serializer = struct {
         return Seq{};
     }
 
-    fn serializeSome(self: @This(), value: anytype) !Ok {
-        try getty.serialize(value, self.serializer());
+    fn serializeSome(s: @This(), value: anytype) !Ok {
+        try getty.serialize(value, s.serializer());
     }
 
     fn serializeString(_: @This(), value: anytype) !Ok {
@@ -422,9 +422,9 @@ const Seq = struct {
         end,
     );
 
-    fn serializeElement(self: *@This(), value: anytype) !void {
-        switch (self.first) {
-            true => self.first = false,
+    fn serializeElement(s: *@This(), value: anytype) !void {
+        switch (s.first) {
+            true => s.first = false,
             false => std.debug.print(", ", .{}),
         }
 
@@ -560,8 +560,8 @@ const Serializer = struct {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeEnum(self: @This(), value: anytype) !Ok {
-        try self.serializeString(@tagName(value));
+    fn serializeEnum(s: @This(), value: anytype) !Ok {
+        try s.serializeString(@tagName(value));
     }
 
     // 👇
@@ -585,8 +585,8 @@ const Serializer = struct {
         return Seq{};
     }
 
-    fn serializeSome(self: @This(), value: anytype) !Ok {
-        try getty.serialize(value, self.serializer());
+    fn serializeSome(s: @This(), value: anytype) !Ok {
+        try getty.serialize(value, s.serializer());
     }
 
     fn serializeString(_: @This(), value: anytype) !Ok {
@@ -594,8 +594,8 @@ const Serializer = struct {
     }
 
     // 👇
-    fn serializeStruct(self: @This(), comptime _: []const u8, len: usize) !Map {
-        return try self.serializeMap(len);
+    fn serializeStruct(s: @This(), comptime _: []const u8, len: usize) !Map {
+        return try s.serializeMap(len);
     }
 };
 
@@ -610,9 +610,9 @@ const Seq = struct {
         end,
     );
 
-    fn serializeElement(self: *@This(), value: anytype) !void {
-        switch (self.first) {
-            true => self.first = false,
+    fn serializeElement(s: *@This(), value: anytype) !void {
+        switch (s.first) {
+            true => s.first = false,
             false => std.debug.print(", ", .{}),
         }
 
@@ -645,9 +645,9 @@ const Map = struct {
         end,
     );
 
-    fn serializeKey(self: *@This(), value: anytype) !void {
-        switch (self.first) {
-            true => self.first = false,
+    fn serializeKey(m: *@This(), value: anytype) !void {
+        switch (m.first) {
+            true => m.first = false,
             false => std.debug.print(", ", .{}),
         }
 
@@ -660,9 +660,9 @@ const Map = struct {
         try getty.serialize(value, (Serializer{}).serializer());
     }
 
-    fn serializeField(self: *@This(), comptime key: []const u8, value: anytype) !void {
-        try self.serializeKey(key);
-        try self.serializeValue(value);
+    fn serializeField(m: *@This(), comptime key: []const u8, value: anytype) !void {
+        try m.serializeKey(key);
+        try m.serializeValue(value);
     }
 
     fn end(_: *@This()) !Serializer.Ok {
