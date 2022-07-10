@@ -114,7 +114,7 @@ const Serializer = struct {
 
 Congratulations! You've just written your first Getty serializer!
 
-Let's try to serialize something with it by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value (i.e., a value of the interface type):
+Let's try to serialize something with it by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value:
 
 {% label src/main.zig %}
 {% highlight zig %}
