@@ -11,6 +11,8 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 Before we begin writing any code, let's quickly go over how interfaces work in Getty since they're a fairly important part of the framework.
 For a more in-depth explanation on Getty interfaces, see [here]().
 
+## What is a Getty Interface?
+
 A __Getty interface__ is just a function, and its constraints are specified as a parameter list. For example, the following interface requires three associated types and one method from its implementations:
 
 {% label Zig code %}
@@ -62,6 +64,8 @@ fn BoolSerializer(
 {% endhighlight %}
 {% endlabel %}
 
+## How Do I Implement a Getty Interface?
+
 To implement a Getty interface, simply call it and apply `usingnamespace` to the returned value. This will import an interface type and interface function into your implementation.
 
 {% label Zig code %}
@@ -97,6 +101,8 @@ const OppositeSerializer = struct {
 {% endhighlight %}
 {% endlabel %}
 
+## How Do I Use a Getty Interface Implementation?
+
 To use a value of `OppositeSerializer` as an implementation of `BoolSerializer`:
 
 {% label Zig code %}
@@ -114,5 +120,3 @@ fn main() anyerror!void {
 }
 {% endhighlight %}
 {% endlabel %}
-
-Aaaaand, that's pretty much all you need to know about Getty interfaces!
