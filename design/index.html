@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<html>
+
+  <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0021D8">
+
+  <title>Design</title>
+
+  <link rel="canonical" href="https://getty.so/design/">
+  <link rel="alternate" type="application/rss+xml" title="Getty" href="https://getty.so/feed.xml" />
+
+  <link rel="stylesheet" href="/style.css">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+</head>
+
+
+  <body>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<header class="site-header">
+  <div class="wrapper" style="text-align: center;">
+    <a class="page-logo" href="/">
+      <img src="/assets/images/page-logo.svg" alt="getty">
+    </a>
+  </div>
+</header>
+
+
+    <div class="container">
+      <h1 id="design">Design</h1>
+
+<p>At a high-level, Getty consists of two flows: a <strong>serialization flow</strong> and a <strong>deserialization flow</strong>.</p>
+
+<p>In the serialization flow, a Zig value is passed to Getty and, based on its type, a Serialization Block is selected and executed by Getty, serializing the passed-in value into Getty’s serialization data model. The resulting Getty value is then passed to a serializer, which serializes it into an output data format.</p>
+
+<p>In the deserialization flow, a Zig type is passed to Getty and, based on the type, a Deserialization Block is selected and executed by Getty, prompting a deserializer to deserialize its input data into Getty’s deserialization data model. The resulting Getty value is then passed to a Visitor, where it is converted into a Zig value of the passed-in type.</p>
+
+<p><img alt="Architecture" src="/assets/images/architecture.svg" class="figure" /></p>
+
+    </div>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<footer class="site-footer">
+  <p>&copy; 2022 Getty</p>
+</footer>
+
+
+  </body>
+
+</html>
