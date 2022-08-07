@@ -8,9 +8,9 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Serializers
 
-In this section, we will write a simple JSON serializer that serializes values by printing their JSON equivalent to `STDERR`. Any code we write will be in `src/main.zig` and will be labeled as such.
+We will now write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`. Note that any code we write will be in `src/main.zig` and will be labeled as such.
 
-Every Getty serializer is required to implement the `getty.Serializer` interface, shown below.
+Every Getty serializer must implement the `getty.Serializer` interface, shown below.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -20,7 +20,7 @@ fn Serializer(
     // Context is the namespace that owns the method implementations you want
     // to use to implement getty.Serializer.
     //
-    // Typically, this is whatever type is implementing getty.Serializer (or a
+    // Usually, this is whatever type is implementing getty.Serializer (or a
     // pointer to it if mutability is required in your method implementations).
     comptime Context: type,
 
@@ -77,7 +77,7 @@ fn Serializer(
 
 Quite the parameter list!
 
-Luckily though, most of the parameters seem to have default values we can use, so go ahead and replace the contents of `src/main.zig` with the following `getty.Serializer` implementation:
+Luckily though, most of the parameters have default values we can use, so let's start with the following `getty.Serializer` implementation:
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -114,7 +114,7 @@ const Serializer = struct {
 
 Congratulations! You've just written your first Getty serializer!
 
-Let's try to serialize something with it by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value:
+Now let's try to serialize a value into JSON by calling `getty.serialize`, which takes a value to serialize and a `getty.Serializer` interface value:
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -167,7 +167,7 @@ $ zig build run
 
 A compile error!
 
-What happened was that Getty saw we were trying to serialize a `bool` value and so it called the `serializeBool` method of the interface value we passed in. That method then tried to call the `serializeBool` parameter of the `getty.Serializer` interface, which our `Serializer` implementation was supposed to provide. However, since we set all of the required methods to `undefined`, the compiler kindly reminded us about the dangers of using undefined values.
+What happened was that Getty saw we were trying to serialize a `bool` value and so it called the `serializeBool` method of the interface value we passed in. That method then tried to call the `serializeBool` parameter of the `getty.Serializer` interface. However, since we set all of the required methods to `undefined` in our call to `getty.Serializer`, the compiler kindly reminded us about the dangers of using undefined values.
 
 To fix this, all we have to do is provide a method implementation for `serializeBool`.
 
