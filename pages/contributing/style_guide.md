@@ -16,14 +16,8 @@ This document describes the coding style that all new code for Getty should try 
 
 - When writing a comment, use `///` for public API descriptions and `//` for everything else.
 
-- Try to limit lines to 100 characters. It's okay to go over though, readability always comes first.
+- Try to limit lines to 100 characters. It's okay to go over though, so long as things are readable.
 
 ## Naming
 
-- Namespaces are written in `lowercase` and should only be one word.
-
-- Types are written in `PascalCase`.
-
-- Functions are written in `camelCase`.
-
-- Variables and constants are written in `snake_case`.
+- Follow the naming conventions listed [here](https://ziglang.org/documentation/master/#Names).
