@@ -23,8 +23,8 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 # Introduction
 
+- [Overview](/overview)
 - [Guide](/guide)
-- [Design](/design)
 - [Examples](https://github.com/getty-zig/getty/tree/main/examples)
 
 # Concepts
@@ -39,7 +39,6 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 - [Contributing](/contributing)
 - [Style Guide](/style-guide)
-- [Repository Structure](/repository-structure)
 
 # Project
 
