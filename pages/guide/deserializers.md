@@ -8,15 +8,15 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Deserializers
 
-We will now write a simple, but complete, JSON deserializer. Note that any code we write will be in `src/main.zig` and will be labeled as such.
+We will now write a simple, but complete, JSON deserializer.
 
 ## Deserialization
 
-Before we can get started, we need to go over how deserialization works in Getty:
+But first, we need to go over how deserialization works in Getty.
 
 <img alt="Architecture" src="/assets/images/deserialization.svg" class="figure" />
 
-Let's break this down:
+Basically, it works like this:
 
 1. A user passes a Zig type to Getty.
 1. Based on the type, Getty selects and executes a Deserialization Block (DB).
@@ -32,14 +32,18 @@ For example, say we want to deserialize into an `std.ArrayList(i32)` from a JSON
 1. The DB calls the `deserializeSeq` method on a deserializer.
 1. The deserializer parses an array from its input data and deserializes it into a Getty Sequence.
 1. The deserializer passes the Getty Sequence to a visitor (by calling `visitSeq` on the Visitor).
-1. The visitor uses the Getty Sequence value to create a `std.ArrayList(i32)` value.
+1. The visitor uses the Getty Sequence to create a `std.ArrayList(i32)` value.
 
-Notice the difference between deserializers and visitors:
+The important thing to understand here is that deserializers and visitors are different:
 
 - Deserializers deserialize from a data format into Getty's Data Model.
 - Visitors deserialize from Getty's Data Model into Zig.
 
+<br>
+
 __It's _very_ important that you understand this difference!__ So be sure you got it down before moving on.
+
+<br>
 
 ## Let's Write a Deserializer!
 
@@ -95,7 +99,7 @@ fn Deserializer(
 {% endhighlight %}
 {% endlabel %}
 
-Similar to `getty.Deserializer`, most of `getty.Deserializer`'s parameters have default values that we can use. So let's start with the following `getty.Deserializer` implementation:
+Similar to `getty.Serializer`, most of `getty.Deserializer`'s parameters have default values that we can use. So let's start with the following `getty.Deserializer` implementation:
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -129,6 +133,8 @@ const Deserializer = struct {
         std.json.TokenStream.Error ||
         std.fmt.ParseIntError ||
         std.fmt.ParseFloatError;
+
+    const De = Self.@"getty.Deserializer"; // 👋 Alias for our interface type.
 
     pub fn init(json: []const u8) Self {
         return .{ .tokens = std.json.TokenStream.init(json) };
@@ -241,8 +247,7 @@ const Deserializer = struct {
         std.fmt.ParseIntError ||
         std.fmt.ParseFloatError;
 
-    // 👇
-    const De = Self.@"getty.Deserializer"; // 👋 Alias for our interface type.
+    const De = Self.@"getty.Deserializer";
 
     pub fn init(json: []const u8) Self {
         return .{ .tokens = std.json.TokenStream.init(json) };
@@ -255,7 +260,7 @@ const Deserializer = struct {
         //      1. Parse a token from the JSON data.
         //      2. Check to see if the token is a Boolean.
         //      3. Deserialize the token into a Getty Boolean (token == .True).
-        //      4. Pass the Getty Boolean to the Visitor, v.
+        //      4. Pass the Getty Boolean to the visitor, v.
         if (try self.tokens.next()) |token| {
             if (token == .True or token == .False) {
                 return try v.visitBool(allocator, De, token == .True);
@@ -350,11 +355,13 @@ const Deserializer = struct {
 
     // 👇
     fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+        // 👋 Again, all we're doing is parsing tokens, turning them into Getty
+        //    values, and passing those values to a visitor.
         if (try self.tokens.next()) |token| {
             if (token == .String) {
-                // 👋 You'll see lines like this pretty often throughout the
+                // 👋 By the way, you'll see token.X.slice pretty often in our
                 //    deserializer. All it's doing is getting the string that
-                //    corresponds to our token from our JSON data.
+                //    corresponds to our token from the JSON data.
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
                 return try v.visitString(allocator, De, str);
             }
@@ -394,30 +401,6 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
-        const backup = self.tokens;
-
-        if (try self.tokens.next()) |token| {
-            if (token == .Null) {
-                return try v.visitNull(allocator, De);
-            }
-
-            // 👋 visitSome works a bit differently from the other visitor
-            //    methods. It doesn't take a Getty value because the way
-            //    it works is that it'll call getty.deserialize again, except
-            //    this time the optional's payload type will be used.
-            //
-            //    That's why we restore the token we just ate. When
-            //    getty.deserialize is called again by visitSome, we want the
-            //    deserializer to parse the same token.
-            self.tokens = backup;
-            return try v.visitSome(allocator, self.deserializer());
-        }
-
-        return error.InvalidType;
-    }
-
-    // 👇
     fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
@@ -439,10 +422,34 @@ const Deserializer = struct {
 
         return error.InvalidType;
     }
+
+    // 👇
+    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+        // 👋 deserializeOptional is a bit different from the other methods.
+        //    Instead of passing a Getty value to a visitor, you pass a
+        //    deserializer to visitSome. The visitor will then restart the
+        //    deserialization process using the optional's payload type.
+        //
+        //    You can think of this method as a place to do some pre-processing
+        //    before deserializing the actual payload value.
+        const backup = self.tokens;
+
+        if (try self.tokens.next()) |token| {
+            if (token == .Null) {
+                return try v.visitNull(allocator, De);
+            }
+
+            self.tokens = backup;
+            return try v.visitSome(allocator, self.deserializer());
+        }
+
+        return error.InvalidType;
+    }
 };
 
 pub fn main() anyerror!void {
     // 👇
+    const allocator = std.heap.page_allocator;
     const types = .{ i32, f32, []u8, enum { foo }, ?u8, void };
     const jsons = .{ "10", "10.0", "\"ABC\"", "\"foo\"", "null", "null" };
 
@@ -450,7 +457,8 @@ pub fn main() anyerror!void {
     inline for (jsons) |s, i| {
         const T = types[i];
         const d = Deserializer.init(s).deserializer();
-        const v = try getty.deserialize(std.heap.c_allocator, T, d);
+        const v = try getty.deserialize(allocator, T, d);
+        defer getty.de.free(allocator, v);
 
         std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
     }
