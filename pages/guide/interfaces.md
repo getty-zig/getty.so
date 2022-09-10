@@ -9,7 +9,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 # Interfaces
 
 Before we begin writing any code, let's quickly go over how interfaces work in Getty since they're a fairly important part of the framework.
-For a more in-depth explanation on Getty interfaces, see [here]().
+For a more in-depth explanation on Getty interfaces, see [here](/interfaces).
 
 ## What is a Getty Interface?
 
