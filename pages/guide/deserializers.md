@@ -355,8 +355,8 @@ const Deserializer = struct {
 
     // 👇
     fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
-        // 👋 Again, all we're doing is parsing tokens, turning them into Getty
-        //    values, and passing those values to a visitor.
+        // 👋 Again, all we're doing is parsing tokens, turning them
+        //    into Getty values, and passing those values to a visitor.
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 // 👋 By the way, you'll see token.X.slice pretty often in our
@@ -430,8 +430,8 @@ const Deserializer = struct {
         //    deserializer to visitSome. The visitor will then restart the
         //    deserialization process using the optional's payload type.
         //
-        //    You can think of this method as a place to do some pre-processing
-        //    before deserializing the actual payload value.
+        //    In other words, you can think of this method as a place to do
+        //    some pre-processing before deserializing an actual payload value.
         const backup = self.tokens;
 
         if (try self.tokens.next()) |token| {
@@ -478,4 +478,6 @@ void (void)
 {% endhighlight %}
 {% endlabel %}
 
-Hooray! 🎉
+Not too shabby! 🤩
+
+But wait a second! With type reflection, we could've just written a simple function to do what we did. What benefit is there in doing all of these extra steps?
