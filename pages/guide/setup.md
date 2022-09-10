@@ -62,6 +62,6 @@ pub fn main() anyerror!void {
 {% label Shell session %}
 {% highlight sh %}
 $ zig build run
-.getty.TODO
+lib.TODO
 {% endhighlight %}
 {% endlabel %}
