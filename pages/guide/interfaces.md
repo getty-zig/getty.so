@@ -21,11 +21,11 @@ A __Getty interface__ is just a function, and its constraints are specified as a
 fn BoolSerializer(
     // Associated types
     comptime Context: type,
-    comptime Ok: type,
-    comptime Error: type,
+    comptime O: type,
+    comptime E: type,
 
     // Required methods
-    comptime serializeBool: fn (Context, bool) Error!Ok,
+    comptime serializeBoolFn: fn (Context, bool) E!O,
 ) type
 {% endhighlight %}
 {% endlabel %}
@@ -36,26 +36,26 @@ The return value of a Getty interface is a `struct` namespace that contains two 
 {% highlight zig %}
 fn BoolSerializer(
     comptime Context: type,
-    comptime Ok: type,
-    comptime Error: type,
-    comptime serializeBool: fn (Context, bool) Error!Ok,
-) type
+    comptime O: type,
+    comptime E: type,
+    comptime serializeBoolFn: fn (Context, bool) E!O,
+) type {
     // Namespace
     return struct {
         // Interface type
-        pub const @"BoolSerializer" = struct {
+        pub const Interface = struct {
             context: Context,
 
-            pub const Ok = Ok;
-            pub const Error = Error;
+            pub const Ok = O;
+            pub const Error = E;
 
             pub fn serializeBool(self: @This(), value: bool) Error!Ok {
-                return serializeBool(self.context, value);
+                return serializeBoolFn(self.context, value);
             }
         };
 
         // Interface function
-        pub fn boolSerializer(self: Context) @"BoolSerializer" {
+        pub fn boolSerializer(self: Context) Interface {
             // Interface value
             return .{ .context = self };
         }
@@ -73,7 +73,6 @@ To implement a Getty interface, simply call it and apply `usingnamespace` to the
 const std = @import("std");
 
 const UselessSerializer = struct {
-    // Implements BoolSerializer for UselessSerializer.
     usingnamespace BoolSerializer(
         @This(),
         void,
@@ -83,7 +82,6 @@ const UselessSerializer = struct {
 };
 
 const OppositeSerializer = struct {
-    // Implements BoolSerializer for OppositeSerializer.
     usingnamespace BoolSerializer(
         @This(),
         Ok,
@@ -107,7 +105,7 @@ To use a value of `OppositeSerializer` as an implementation of `BoolSerializer`:
 
 {% label Zig code %}
 {% highlight zig %}
-fn main() anyerror!void {
+pub fn main() anyerror!void {
     // Create a value of the implementing type.
     const os = OppositeSerializer{};
 
