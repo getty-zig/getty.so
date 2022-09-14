@@ -10,7 +10,8 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 Contributions to Getty are very welcome! 😄
 
-This document contains some information and a few guidelines to help get you started. If you have any questions about contributing, feel free to reach out to me on the [Zig Discord](https://discord.gg/gxsFFjE) (`kacho#1012`).
+This document contains some information and a few guidelines to help get you
+started. If you have questions about contributing or Getty, feel free to reach out on the [Getty Discord](https://discord.gg/njDA67U5ph) (`ibokuri#1012`).
 
 ## Zig
 
