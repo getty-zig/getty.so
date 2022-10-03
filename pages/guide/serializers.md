@@ -34,24 +34,24 @@ fn Serializer(
     // failure.
     comptime E: type,
 
-    // user_sbt and ser_sbt are user- and serializer- defined Serialization
-    // Blocks or Tuples (SBT), respectively.
+    // user_sbt and serializer_sbt are user- and serializer- defined
+    // Serialization Blocks or Tuples (SBT), respectively.
     //
     // SBTs define Getty's serialization behavior. The default serialization
     // behavior of Getty is defined as getty.default_st and should be set for
-    // user_sbt or ser_sbt if user- or serializer-defined customization is not
-    // supported or needed by the serializer.
+    // user_sbt or serializer_sbt if user- or serializer-defined customization
+    // is not supported or needed by the serializer.
     comptime user_sbt: anytype,
-    comptime ser_sbt: anytype,
+    comptime serializer_sbt: anytype,
 
-    // Map, Seq, and Structure are types that implement Getty's compound
+    // Map, Seq, and Structure are types that implement Getty's aggregate
     // serialization interfaces.
     //
-    // The compound serialization interfaces are getty.ser.Map, getty.ser.Seq,
+    // The aggregate serialization interfaces are getty.ser.Map, getty.ser.Seq,
     // and getty.ser.Structure. I'm sure you can figure out which interfaces
     // are expected to be implemented by which parameters.
     //
-    // If you don't want to support serialization for compound types or you
+    // If you don't want to support serialization for aggregate types or you
     // just haven't implemented it yet, you should assign the getty.TODO type
     // to Map, Seq, and Structure.
     comptime Map: type,
@@ -321,7 +321,7 @@ null
 
 And there we have it! Our initial `Serializer` implementation from the intro! But now with context!
 
-At this point, the only methods left to implement are those related to compound serialization. However, before we move on, I want to highlight out a few things about our `Serializer` type:
+At this point, the only methods left to implement are those related to aggregate serialization. However, before we move on, I want to highlight out a few things about our `Serializer` type:
 
 - Because the signatures of the `serializeFloat` and `serializeInt` required methods are the same, we were able to implement them both using one function: `serializeNumber`. We were also able to do the same thing for `serializeNull` and `serializeVoid`.
 
@@ -330,11 +330,11 @@ At this point, the only methods left to implement are those related to compound 
 - Even though the type of the `value` parameter for many of the required methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString` and integers and floating-points will be passed to `serializeNumber`.
 
 
-## Compound Serialization
+## Aggregate Serialization
 
-Alright, let's move on to compound serialization!
+Alright, let's move on to serialization for aggregate types!
 
-Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because compound types have different access and iteration patterns, but Getty can't possibly know about all of them. As a result, serialization methods like `serializeMap` are responsible only for _starting_ the serialization process, before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the method's caller to finish off serialization.
+Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because aggregate types have different access and iteration patterns, but Getty can't possibly know about all of them. As a result, serialization methods like `serializeMap` are responsible only for _starting_ the serialization process, before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the method's caller to finish off serialization.
 
 To help you understand what I mean, let's implement the `serializeSeq` required method, which returns a value of type `Seq`, which is expected to implement the `getty.ser.Seq` interface.
 
@@ -474,9 +474,9 @@ $ zig build run
 
 Hooray!
 
-If you'll notice, we didn't have to write any iteration- or access-related code. All we did was specify how sequence serialization should start, how sequence elements should be serialized, and how sequence serialization should end. Then, Getty took care of the rest!
+If you'll notice, we didn't have to write any iteration- or access-related code specific to the `std.ArrayList` type. All we did was specify how sequence serialization should start, how elements should be serialized, and how serialization should end. Then, Getty took care of the rest!
 
-All that is left is `serializeMap` and `serializeStruct`. Here's how I implemented them.
+That leaves us with `serializeMap` and `serializeStruct`. Here's how I implemented them.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -684,4 +684,4 @@ $ zig build run
 {% endhighlight %}
 {% endlabel %}
 
-Well done! &nbsp; 🎉
+And there we go! Our JSON serializer is now complete!
