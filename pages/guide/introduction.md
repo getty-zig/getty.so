@@ -43,30 +43,43 @@ const Serializer = struct {
     const Ok = void;
     const Error = error{ Io, Syntax };
 
-    fn serializeBool(_: @This(), value: bool) !Ok {
+    fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}\n", .{value});
     }
 
-    fn serializeEnum(s: @This(), value: anytype) !Ok {
+    fn serializeEnum(s: @This(), value: anytype) Error!Ok {
         try s.serializeString(@tagName(value));
     }
 
-    fn serializeNull(_: @This()) !Ok {
+    fn serializeNull(_: @This()) Error!Ok {
         std.debug.print("null\n", .{});
     }
 
-    fn serializeNumber(_: @This(), value: anytype) !Ok {
+    fn serializeNumber(_: @This(), value: anytype) Error!Ok {
         std.debug.print("{}\n", .{value});
     }
 
-    fn serializeSome(s: @This(), value: anytype) !Ok {
+    fn serializeSome(s: @This(), value: anytype) Error!Ok {
         try getty.serialize(value, s.serializer());
     }
 
-    fn serializeString(_: @This(), value: anytype) !Ok {
+    fn serializeString(_: @This(), value: anytype) Error!Ok {
         std.debug.print("\"{s}\"\n", .{value});
     }
 };
+
+pub fn main() !void {
+    const s = (Serializer{}).serializer();
+
+    try getty.serialize("Getty!", s);
+}
+{% endhighlight %}
+{% endlabel %}
+
+{% label Shell session %}
+{% highlight sh %}
+$ zig build run
+"Getty!"
 {% endhighlight %}
 {% endlabel %}
 
