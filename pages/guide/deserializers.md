@@ -188,10 +188,13 @@ const Deserializer = struct {
 // 👇
 pub fn main() anyerror!void {
     const s = "true";
-    const d = Deserializer.init(s).deserializer();
-    const v = try getty.deserialize(null, bool, d);
 
-    std.debug.print("{} ({s})\n", .{v, @TypeOf(v)});
+    var d = Deserializer.init(s);
+    const deserializer = d.deserializer();
+
+    const v = try getty.deserialize(null, bool, deserializer);
+
+    std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
 }
 {% endhighlight %}
 {% endlabel %}
@@ -274,10 +277,13 @@ const Deserializer = struct {
 
 pub fn main() anyerror!void {
     const s = "true";
-    const d = Deserializer.init(s).deserializer();
-    const v = try getty.deserialize(null, bool, d);
 
-    std.debug.print("{} ({s})\n", .{v, @TypeOf(v)});
+    var d = Deserializer.init(s);
+    const deserializer = d.deserializer();
+
+    const v = try getty.deserialize(null, bool, deserializer);
+
+    std.debug.print("{} ({})\n", .{v, @TypeOf(v)});
 }
 {% endhighlight %}
 {% endlabel %}
@@ -456,7 +462,10 @@ pub fn main() anyerror!void {
     // 👇
     inline for (jsons) |s, i| {
         const T = types[i];
-        const d = Deserializer.init(s).deserializer();
+
+        var d = Deserializer.init(s);
+        const deserializer = d.deserializer();
+
         const v = try getty.deserialize(allocator, T, d);
         defer getty.de.free(allocator, v);
 
