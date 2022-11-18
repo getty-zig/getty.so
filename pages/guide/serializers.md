@@ -39,6 +39,8 @@ fn Serializer(
     // SBTs define Getty's serialization behavior. If user- or serializer-
     // defined customization is not supported or needed by your serializer,
     // you can pass in null for these parameters.
+    //
+    // Don't worry about these for now. We'll come back to them later.
     comptime user_sbt: anytype,
     comptime serializer_sbt: anytype,
 
@@ -51,16 +53,16 @@ fn Serializer(
     //
     // If you don't want to support serialization for aggregate types or you
     // just haven't implemented it yet, you can pass in null for these parameters.
-    comptime Map: type,
-    comptime Seq: type,
-    comptime Structure: type,
+    comptime Map: ?type,
+    comptime Seq: ?type,
+    comptime Structure: ?type,
 
     // methods contains every method that getty.Serializer implementations can
     // implement.
     //
     // In this tutorial, we'll be providing implementations for all of
     // these methods. However, if you don't want to implement a specific
-    // method for whatever reason, you can simply omit it from this argument.
+    // method for whatever reason, you can simply omit its corresponding field.
     comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
         serializeEnum: ?fn (Context, anytype) E!O = null,
