@@ -36,10 +36,9 @@ fn Serializer(
     // user_sbt and serializer_sbt are user- and serializer- defined
     // Serialization Blocks or Tuples (SBT), respectively.
     //
-    // SBTs define Getty's serialization behavior. The default serialization
-    // behavior of Getty is defined as getty.default_st and should be set for
-    // user_sbt or serializer_sbt if user- or serializer-defined customization
-    // is not supported or needed by the serializer.
+    // SBTs define Getty's serialization behavior. If user- or serializer-
+    // defined customization is not supported or needed by your serializer,
+    // you can pass in null for these parameters.
     comptime user_sbt: anytype,
     comptime serializer_sbt: anytype,
 
@@ -51,8 +50,7 @@ fn Serializer(
     // are expected to be implemented by which parameters.
     //
     // If you don't want to support serialization for aggregate types or you
-    // just haven't implemented it yet, you should assign the getty.TODO type
-    // to Map, Seq, and Structure.
+    // just haven't implemented it yet, you can pass in null for these parameters.
     comptime Map: type,
     comptime Seq: type,
     comptime Structure: type,
@@ -93,11 +91,11 @@ const Serializer = struct {
         @This(),
         Ok,
         Error,
-        getty.default_st,
-        getty.default_st,
-        getty.TODO,
-        getty.TODO,
-        getty.TODO,
+        null,
+        null,
+        null,
+        null,
+        null,
         .{},
     );
 
@@ -120,11 +118,11 @@ const Serializer = struct {
         @This(),
         Ok,
         Error,
-        getty.default_st,
-        getty.default_st,
-        getty.TODO,
-        getty.TODO,
-        getty.TODO,
+        null,
+        null,
+        null,
+        null,
+        null,
         .{},
     );
 
@@ -164,11 +162,11 @@ const Serializer = struct {
         @This(),
         Ok,
         Error,
-        getty.default_st,
-        getty.default_st,
-        getty.TODO,
-        getty.TODO,
-        getty.TODO,
+        null,
+        null,
+        null,
+        null,
+        null,
         .{
             .serializeBool = serializeBool, // 👈
         },
@@ -215,11 +213,11 @@ const Serializer = struct {
         @This(),
         Ok,
         Error,
-        getty.default_st,
-        getty.default_st,
-        getty.TODO,
-        getty.TODO,
-        getty.TODO,
+        null,
+        null,
+        null,
+        null,
+        null,
         .{
             .serializeBool = serializeBool,
             .serializeEnum = serializeEnum,     // 👈
@@ -338,11 +336,11 @@ const Serializer = struct {
         @This(),
         Ok,
         Error,
-        getty.default_st,
-        getty.default_st,
-        getty.TODO,
+        null,
+        null,
+        null,
         Seq,          // 👈
-        getty.TODO,
+        null,
         .{
             .serializeBool = serializeBool,
             .serializeEnum = serializeEnum,
@@ -506,8 +504,8 @@ const Serializer = struct {
         @This(),
         Ok,
         Error,
-        getty.default_st,
-        getty.default_st,
+        null,
+        null,
         Map, // 👈
         Seq,
         Map, // 👈
