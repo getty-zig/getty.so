@@ -27,21 +27,20 @@ const Serializer = struct {
         getty.TODO,
         getty.TODO,
         getty.TODO,
-        serializeBool,
-        serializeEnum,
-        serializeNumber,
-        serializeNumber,
-        undefined,
-        serializeNull,
-        undefined,
-        serializeSome,
-        serializeString,
-        undefined,
-        serializeNull,
+        .{
+            .serializeBool = serializeBool,
+            .serializeEnum = serializeEnum,
+            .serializeFloat = serializeNumber,
+            .serializeInt = serializeNumber,
+            .serializeNull = serializeNull,
+            .serializeSome = serializeSome,
+            .serializeString = serializeString,
+            .serializeVoid = serializeNull,
+        },
     );
 
     const Ok = void;
-    const Error = error{ Io, Syntax };
+    const Error = error{};
 
     fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}\n", .{value});
@@ -83,8 +82,6 @@ $ zig build run
 {% endhighlight %}
 {% endlabel %}
 
-Don't worry if you're confused about the code you just saw.
-
-In this guide, we'll slowly build up to the above `Serializer` implementation so that by the end of it all you'll understand everything there is to know about it. Additionally, we'll extend `Serializer` to support more complex types such as `struct{ x: i32 }` and `std.ArrayList(i32)`. We'll also make a JSON deserializer afterwards and go over how custom (de)serialization works in Getty.
+In this guide, we'll slowly build up to the above `Serializer` implementation so that by the end of it, you'll understand all there is to know about Getty serializers. Additionally, we'll extend `Serializer` to support more complex types such as `struct{ x: i32 }` and `std.ArrayList(i32)`. We'll also make a JSON deserializer afterwards and go over how custom (de)serialization works in Getty.
 
 So, without further ado, let's get started!

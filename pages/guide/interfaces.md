@@ -8,8 +8,9 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Interfaces
 
-Before we begin writing any code, let's quickly go over how interfaces work in Getty since they're a fairly important part of the framework.
-For a more in-depth explanation on Getty interfaces, see [here](/interfaces).
+To create a Getty serializer or deserializer, you're going to have to implement a **Getty interface**.
+
+Interfaces in Zig are a userspace thing, so everyone has their own way of doing things. Naturally, that means that before we can start writing any code, it's important that we go over how Getty implements its interfaces. This section is pretty important so be sure to pay attention!
 
 ## What is a Getty Interface?
 
@@ -24,8 +25,10 @@ fn BoolSerializer(
     comptime O: type,
     comptime E: type,
 
-    // Required methods
-    comptime serializeBoolFn: fn (Context, bool) E!O,
+    comptime impls: struct {
+        // Required methods
+        serializeBool: ?fn (Context, bool) E!O = null,
+    },
 ) type
 {% endhighlight %}
 {% endlabel %}
@@ -38,7 +41,9 @@ fn BoolSerializer(
     comptime Context: type,
     comptime O: type,
     comptime E: type,
-    comptime serializeBoolFn: fn (Context, bool) E!O,
+    comptime impls: struct {
+        serializeBool: ?fn (Context, bool) E!O = null,
+    },
 ) type {
     // Namespace
     return struct {
@@ -50,7 +55,11 @@ fn BoolSerializer(
             pub const Error = E;
 
             pub fn serializeBool(self: @This(), value: bool) Error!Ok {
-                return serializeBoolFn(self.context, value);
+                if (impls.serializeBool) |f| {
+                    return try f(self.context, value);
+                }
+
+                @compileError("serializeBool is unimplemented");
             }
         };
 
@@ -66,7 +75,7 @@ fn BoolSerializer(
 
 ## How Do I Implement a Getty Interface?
 
-To implement a Getty interface, simply call it and apply `usingnamespace` to the returned value. This will import an interface type and interface function into your implementation.
+To implement a Getty interface, call the interface and apply `usingnamespace` to its return value. This will import an interface type and interface function into your implementation.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -76,8 +85,8 @@ const UselessSerializer = struct {
     usingnamespace BoolSerializer(
         @This(),
         void,
-        error{ Io, Syntax },
-        undefined,
+        error{},
+        .{},
     );
 };
 
@@ -86,11 +95,11 @@ const OppositeSerializer = struct {
         @This(),
         Ok,
         Error,
-        serializeBool,
+        .{ .serializeBool = serializeBool },
     );
 
     const Ok = void;
-    const Error = error{ Io, Syntax };
+    const Error = error{};
 
     fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}", .{!value});
@@ -101,7 +110,7 @@ const OppositeSerializer = struct {
 
 ## How Do I Use a Getty Interface Implementation?
 
-To use a value of `OppositeSerializer` as an implementation of `BoolSerializer`:
+To use a value of, say `OppositeSerializer`, as an implementation of `BoolSerializer`:
 
 {% label Zig code %}
 {% highlight zig %}
