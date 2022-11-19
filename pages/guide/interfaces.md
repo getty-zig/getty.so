@@ -25,8 +25,8 @@ fn BoolSerializer(
     comptime O: type,
     comptime E: type,
 
-    comptime impls: struct {
-        // Required methods
+    // Required methods
+    comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
     },
 ) type
@@ -41,7 +41,7 @@ fn BoolSerializer(
     comptime Context: type,
     comptime O: type,
     comptime E: type,
-    comptime impls: struct {
+    comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
     },
 ) type {
@@ -55,7 +55,7 @@ fn BoolSerializer(
             pub const Error = E;
 
             pub fn serializeBool(self: @This(), value: bool) Error!Ok {
-                if (impls.serializeBool) |f| {
+                if (methods.serializeBool) |f| {
                     return try f(self.context, value);
                 }
 
