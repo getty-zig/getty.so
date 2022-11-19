@@ -28,6 +28,7 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 # Concepts
 
+- [Values](/values)
 - [Data Models](/data-models)
 - [Serializers](/serializers)
 - [Deserializers](/deserializers)
