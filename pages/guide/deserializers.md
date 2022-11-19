@@ -8,15 +8,15 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Deserializers
 
-We will now write a simple, but complete, JSON deserializer.
+Now let’s write ourselves a (simple) JSON deserializer.
 
 ## Deserialization
 
-But first, we need to go over how deserialization works in Getty.
+Before we start though, we need to go over how deserialization works in Getty.
 
 <img alt="Architecture" src="/assets/images/deserialization.svg" class="figure" />
 
-Basically, it works like this:
+Basically, it goes like this:
 
 1. A user passes a Zig type to Getty.
 1. Based on the type, Getty selects and executes a Deserialization Block (DB).
@@ -25,14 +25,14 @@ Basically, it works like this:
 1. The resulting Getty value is then passed to a visitor.
 1. The visitor uses the Getty value to create a Zig value of the passed-in type.
 
-For example, say we want to deserialize into an `std.ArrayList(i32)` from a JSON array:
+As an example, say we want to deserialize into a `std.ArrayList(i32)` from a JSON array:
 
 1. `std.ArrayList(i32)` is passed to Getty.
-1. Getty selects and executes a DB for sequences.
+1. Getty selects and executes a DB for _Sequences_.
 1. The DB calls the `deserializeSeq` method on a deserializer.
-1. The deserializer parses an array from its input data and deserializes it into a Getty Sequence.
-1. The deserializer passes the Getty Sequence to a visitor (by calling `visitSeq` on the Visitor).
-1. The visitor uses the Getty Sequence to create a `std.ArrayList(i32)` value.
+1. The deserializer parses an array from its input data and deserializes it into a _Sequence_.
+1. The deserializer passes the _Sequence_ to a visitor (by calling `visitSeq` on the Visitor).
+1. The visitor uses the _Sequence_ to create a `std.ArrayList(i32)` value.
 
 The important thing to understand here is that deserializers and visitors are different:
 
@@ -61,40 +61,50 @@ fn Deserializer(
     // pointer to it if mutability is required in your method implementations).
     comptime Context: type,
 
-    // Error is the error set returned by getty.Deserializer's required methods
+    // E is the error set returned by getty.Deserializer's required methods
     // upon failure.
     //
     // A default error set, getty.de.Error, is provided by Getty. Every default
     // Visitor within Getty uses the default error set, which means that 9 times
-    // out of 10, you will want to include getty.de.Error in your Error type.
-    comptime Error: type,
+    // out of 10, you will want to include getty.de.Error for this parameter.
+    comptime E: type,
 
     // user_dbt and de_dbt are user- and deserializer- defined Deserialization
     // Blocks or Tuples (DBT), respectively.
     //
-    // DBTs define Getty's deserialization behavior. The default deserialization
-    // behavior of Getty is defined as getty.default_dt and should be set for
-    // user_dbt or de_dbt if user- or deserializer-defined customization is not
-    // supported or needed.
+    // DBTs define Getty's deserialization behavior. If user- or deserializer-
+    // defined customization is not supported or needed by your deserializer,
+    // you can pass in null for these parameters.
+    //
+    // You can ignore these parameters for now. We'll come back to them later.
     comptime user_dbt: anytype,
     comptime ser_dbt: anytype,
 
-    // These are methods that getty.Deserializer implementations must provide.
+    // methods contains every method that getty.Deserializer implementations can
+    // implement.
     //
-    // For this tutorial, we'll be providing implementations for all of
-    // these methods. However, you can always set any of the required methods
-    // to `undefined` if you don't want to support a specific behavior.
-    comptime deserializeBool: Fn(Context, Error),
-    comptime deserializeEnum: Fn(Context, Error),
-    comptime deserializeFloat: Fn(Context, Error),
-    comptime deserializeInt: Fn(Context, Error),
-    comptime deserializeMap: Fn(Context, Error),
-    comptime deserializeOptional: Fn(Context, Error),
-    comptime deserializeSeq: Fn(Context, Error),
-    comptime deserializeString: Fn(Context, Error),
-    comptime deserializeStruct: Fn(Context, Error),
-    comptime deserializeUnion: Fn(Context, Error),
-    comptime deserializeVoid: Fn(Context, Error),
+    // In this tutorial, we'll be providing implementations for all of
+    // these methods. However, if you don't want to implement a specific
+    // method, you can simply omit its corresponding field.
+    comptime methods: struct {
+        const T = ?@TypeOf(struct {
+            fn f(_: Context, _: ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value {
+                unreachable;
+            }
+        }.f);
+
+        deserializeBool: T = null,
+        deserializeEnum: T = null,
+        deserializeFloat: T = null,
+        deserializeInt: T = null,
+        deserializeMap: T = null,
+        deserializeOptional: T = null,
+        deserializeSeq: T = null,
+        deserializeString: T = null,
+        deserializeStruct: T = null,
+        deserializeUnion: T = null,
+        deserializeVoid: T = null,
+    },
 ) type
 {% endhighlight %}
 {% endlabel %}
@@ -114,19 +124,9 @@ const Deserializer = struct {
     pub usingnamespace getty.Deserializer(
         *Self,
         Error,
-        getty.default_dt,
-        getty.default_dt,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
+        null,
+        null,
+        .{},
     );
 
     const Error = getty.de.Error ||
@@ -145,7 +145,7 @@ const Deserializer = struct {
 
 Congratulations! You've just written your first Getty deserializer!
 
-Now let's try to deserialize some JSON input by calling `getty.deserialize`, which takes an optional allocator, a type to deserialize into, and a `getty.Deserializer` interface value:
+Let's try deserializing some JSON data with it by calling `getty.deserialize`, which takes an optional allocator, a type to deserialize into, and a `getty.Deserializer` interface value.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -160,25 +160,17 @@ const Deserializer = struct {
     pub usingnamespace getty.Deserializer(
         *Self,
         Error,
-        getty.default_dt,
-        getty.default_dt,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
+        null,
+        null,
+        .{},
     );
 
     const Error = getty.de.Error ||
         std.json.TokenStream.Error ||
         std.fmt.ParseIntError ||
         std.fmt.ParseFloatError;
+
+    const De = Self.@"getty.Deserializer";
 
     pub fn init(json: []const u8) Self {
         return .{ .tokens = std.json.TokenStream.init(json) };
@@ -202,17 +194,13 @@ pub fn main() anyerror!void {
 {% label Shell session %}
 {% highlight console %}
 $ zig build run
-[...] error: use of undefined value here causes undefined behavior
-  return try deserializeBool(self.context, allocator, visitor);
-             ^
+[...] error:  deserializeBool is not implemented by type: *main.Deserializer
 {% endhighlight %}
 {% endlabel %}
 
-A compile error!
+Oh no, a compile error!
 
-What happened was that Getty saw we were trying to deserialize into a `bool` and so it called the `deserializeBool` method of the interface value we passed in. That method then tried to call the `deserializeBool` parameter of the `getty.Deserializer` interface. However, since we set all of the required methods to `undefined` in our call to the interface, the compiler kindly reminded us about the dangers of using undefined values.
-
-To fix this, all we have to do is provide a method implementation for `deserializeBool`.
+Looks like Getty can't deserialize into the `bool` type for us unless the `deserializeBool` method has been implemented. So, let's go ahead and do that.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -230,19 +218,11 @@ const Deserializer = struct {
     pub usingnamespace getty.Deserializer(
         *Self,
         Error,
-        getty.default_dt,
-        getty.default_dt,
-        deserializeBool, // 👈
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
+        null,
+        null,
+        .{
+            .deserializeBool = deserializeBool, // 👈
+        },
     );
 
     const Error = getty.de.Error ||
@@ -261,7 +241,7 @@ const Deserializer = struct {
         // 👋 Here's what we're doing:
         //
         //      1. Parse a token from the JSON data.
-        //      2. Check to see if the token is a Boolean.
+        //      2. Check to see if the token is a JSON Boolean.
         //      3. Deserialize the token into a Getty Boolean (token == .True).
         //      4. Pass the Getty Boolean to the visitor, v.
         if (try self.tokens.next()) |token| {
@@ -272,7 +252,6 @@ const Deserializer = struct {
 
         return error.InvalidType;
     }
-
 };
 
 pub fn main() anyerror!void {
@@ -283,7 +262,7 @@ pub fn main() anyerror!void {
 
     const v = try getty.deserialize(null, bool, deserializer);
 
-    std.debug.print("{} ({})\n", .{v, @TypeOf(v)});
+    std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
 }
 {% endhighlight %}
 {% endlabel %}
@@ -323,19 +302,17 @@ const Deserializer = struct {
     pub usingnamespace getty.Deserializer(
         *Self,
         Error,
-        getty.default_dt,
-        getty.default_dt,
-        deserializeBool,
-        deserializeEnum,
-        deserializeFloat,
-        deserializeInt,
-        undefined,
-        deserializeOptional,
-        undefined,
-        deserializeString,
-        undefined,
-        undefined,
-        deserializeVoid,
+        null,
+        null,
+        .{
+            .deserializeBool = deserializeBool,
+            .deserializeEnum = deserializeEnum,         // 👈
+            .deserializeFloat = deserializeFloat,       // 👈
+            .deserializeInt = deserializeInt,           // 👈
+            .deserializeString = deserializeString,     // 👈
+            .deserializeVoid = deserializeVoid,         // 👈
+            .deserializeOptional = deserializeOptional, // 👈
+        },
     );
 
     const Error = getty.de.Error ||
@@ -434,7 +411,7 @@ const Deserializer = struct {
         // 👋 deserializeOptional is a bit different from the other methods.
         //    Instead of passing a Getty value to a visitor, you pass a
         //    deserializer to visitSome. The visitor will then restart the
-        //    deserialization process using the optional's payload type.
+        //    deserialization process using the optional's payload.
         //
         //    In other words, you can think of this method as a place to do
         //    some pre-processing before deserializing an actual payload value.
@@ -466,7 +443,7 @@ pub fn main() anyerror!void {
         var d = Deserializer.init(s);
         const deserializer = d.deserializer();
 
-        const v = try getty.deserialize(allocator, T, d);
+        const v = try getty.deserialize(allocator, T, deserializer);
         defer getty.de.free(allocator, v);
 
         std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
@@ -481,7 +458,7 @@ $ zig build run
 10 (i32)
 1.0e+01 (f32)
 { 65, 66, 67 } ([]u8)
-types.foo (types)
+main.main__enum_1317.foo (main.main__enum_1317)
 null (?u8)
 void (void)
 {% endhighlight %}
@@ -489,4 +466,37 @@ void (void)
 
 Not too shabby! 🤩
 
-But wait a second! With type reflection, we could've just written a simple function to do what we did. What benefit is there in doing all of these extra steps?
+At this point, the only methods left to implement are those related to aggregate deserialization. However, before we move on, I want to point out something important about `Deserializer`.
+
+When Getty calls the `deserializeBool` method we implemented earlier, it is _not_ telling `Deserializer` that it should parse and deserialize a JSON Boolean from its input data. Instead, __Getty is simply providing a _hint_ about the type that is being deserialized into__. That is, Getty is telling `Deserializer`, "_Hey, the type that the user is deserializing into can probably be made from a Getty Boolean._"
+
+What this means is that we don't have to limit ourselves to parsing only JSON Booleans in `deserializeBool`. We could, for instance, have it support JSON numbers as well!
+
+
+{% label Zig code %}
+{% highlight zig %}
+fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    if (try self.tokens.next()) |token| {
+        // JSON Booleans -> Getty Booleans
+        if (token == .True or token == .False) {
+            return try v.visitBool(allocator, De, token == .True);
+        }
+
+        // JSON Numbers -> Getty Booleans
+        if (token == .Number) {
+            const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
+
+            if (token.Number.is_integer) {
+                return try v.visitBool(allocator, De, try std.fmt.parseInt(i64, str, 10) != 0);
+            }
+        }
+    }
+
+    return error.InvalidType;
+}
+{% endhighlight %}
+{% endlabel %}
+
+## Aggregate Deserialization
+
+Alright, let's move on to deserialization for aggregate types!

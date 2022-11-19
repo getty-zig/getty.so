@@ -8,7 +8,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Serializers
 
-Let's write a simple JSON serializer that serializes values by printing their JSON equivalent to `STDERR`. Note that any code we write will be in `src/main.zig` and will be labeled as such.
+Let's write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`. Note that any code we write will be in `src/main.zig` and will be labeled as such.
 
 
 ## Scalar Serialization
@@ -40,7 +40,7 @@ fn Serializer(
     // defined customization is not supported or needed by your serializer,
     // you can pass in null for these parameters.
     //
-    // Don't worry about these for now. We'll come back to them later.
+    // You can ignore these parameters for now. We'll come back to them later.
     comptime user_sbt: anytype,
     comptime serializer_sbt: anytype,
 
@@ -62,7 +62,7 @@ fn Serializer(
     //
     // In this tutorial, we'll be providing implementations for all of
     // these methods. However, if you don't want to implement a specific
-    // method for whatever reason, you can simply omit its corresponding field.
+    // method, you can simply omit its corresponding field.
     comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
         serializeEnum: ?fn (Context, anytype) E!O = null,
@@ -148,11 +148,9 @@ $ zig build run
 {% endhighlight %}
 {% endlabel %}
 
-A compile error!
+Oh no, a compile error!
 
-What happened was that Getty saw we were trying to serialize a `bool` value and so it called the `serializeBool` method of the interface value we passed in. That method then looked at the `serializeBool` field in the `impls` parameter of the `getty.Serializer` interface. However, since we didn't provide a value for that field, the compiler reminded us that we forgot to implement it.
-
-To fix this, all we have to do is provide a method implementation for `serializeBool`.
+Looks like Getty can't serialize `bool` values for us unless the `serializeBool` method has been implemented. So, let's go ahead and do that.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -296,18 +294,18 @@ At this point, the only methods left to implement are those related to aggregate
 
 - Because the signatures of the `serializeFloat` and `serializeInt` methods are the same, we were able to implement them both using one function: `serializeNumber`. We were also able to do the same thing for `serializeNull` and `serializeVoid`.
 
-- By keeping all of our method implementations private, we avoid polluting the public API of `Serializer` with interface-related code. Additionally, we've ensured that users cannot mistakenly use a `Serializer` value instead of an interface value to perform serialization.
+- By keeping all of our method implementations private, we avoided polluting the public API of `Serializer` with interface-related code. Additionally, we've ensured that users cannot mistakenly use a `Serializer` value instead of an interface value to perform serialization.
 
-- Even though the type of the `value` parameter for many of the methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString` and integers and floating-points will be passed to `serializeNumber`.
+- Even though the type of the `value` parameter for many of our methods is `anytype`, we didn't perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString` and integers and floating-points will be passed to `serializeNumber`.
 
 
 ## Aggregate Serialization
 
 Alright, let's move on to serialization for aggregate types!
 
-Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because aggregate types have different access and iteration patterns, but Getty can't possibly know about all of them. As a result, serialization methods like `serializeMap` are only responsible for _starting_ the serialization process, before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the method's caller to finish off serialization.
+Remember the `Map`, `Seq`, and `Structure` parameters of `getty.Serializer`? Well, the reason they exist is because aggregate types have all kinds of different access and iteration patterns, but Getty can't possibly know about all of them. As such, serialization methods like `serializeMap` are only responsible for _starting_ the serialization process, before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the caller to finish off serialization.
 
-To help you understand what I mean, let's implement the `serializeSeq` method, which returns a value of type `Seq`, which is expected to implement the `getty.ser.Seq` interface.
+To give you an example of what I mean, let's implement the `serializeSeq` method, which returns a value of type `Seq`, which is expected to implement the `getty.ser.Seq` interface.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -674,4 +672,4 @@ $ zig build run
 {% endhighlight %}
 {% endlabel %}
 
-And there we go! Our JSON serializer is now complete!
+And there we go! We've finished our JSON serializer!

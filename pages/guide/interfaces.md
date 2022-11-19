@@ -14,7 +14,7 @@ Interfaces in Zig are a userspace thing, so everyone has their own way of doing 
 
 ## What is a Getty Interface?
 
-A __Getty interface__ is just a function, and its constraints are specified as a parameter list. For example, the following interface requires three associated types and one method from its implementations:
+A __Getty interface__ is just a function, and its constraints are specified as a parameter list. For example, the following interface requires three associated types and one method from its implementations.
 
 {% label Zig code %}
 {% highlight zig %}
@@ -73,7 +73,7 @@ fn BoolSerializer(
 {% endhighlight %}
 {% endlabel %}
 
-## How Do I Implement a Getty Interface?
+## How to Implement a Getty Interface?
 
 To implement a Getty interface, call the interface and apply `usingnamespace` to its return value. This will import an interface type and interface function into your implementation.
 
@@ -108,7 +108,7 @@ const OppositeSerializer = struct {
 {% endhighlight %}
 {% endlabel %}
 
-## How Do I Use a Getty Interface Implementation?
+## How to Use a Getty Interface Implementation?
 
 To use a value of, say `OppositeSerializer`, as an implementation of `BoolSerializer`:
 
