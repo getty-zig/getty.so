@@ -14,54 +14,6 @@ Usually, (de)serializers written in Zig are just functions that take a value, sw
 
 And it doesn't matter whether you're working with JSON, YAML, or whatever other data format there is. Getty is data format-agnostic, so as long as you can figure out how to map from your data format to Getty's data models, you'll be set!
 
-{% label Zig code %}
-{% highlight zig %}
-const std = @import("std");
-const getty = @import("getty");
-
-const OppositeSerializer = struct {
-    pub usingnamespace getty.Serializer(
-        @This(),
-        Ok,
-        Error,
-        null,
-        null,
-        null,
-        null,
-        null,
-        .{ .serializeBool = serializeBool },
-    );
-
-    const Ok = void;
-    const Error = error{};
-
-    fn serializeBool(_: @This(), value: bool) Error!Ok {
-        std.debug.print("{}\n", .{!value});
-    }
-};
-
-pub fn main() anyerror!void {
-    const s = (OppositeSerializer{}).serializer();
-
-    try getty.serialize(true, s);
-    try getty.serialize(false, s);
-    try getty.serialize(&&true, s);
-    try getty.serialize(&&false, s);
-}
-{% endhighlight %}
-{% endlabel %}
-
-{% label Shell session %}
-{% highlight console %}
-$ zig build run
-false
-true
-false
-true
-{% endhighlight %}
-{% endlabel %}
-
-
 ## Architecture
 
 At a high-level, Getty consists of two flows: a __serialization flow__ and a __deserialization flow__.
