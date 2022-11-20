@@ -1,12 +1,12 @@
 ---
-title: Overview
-category: Introduction
+title: Introduction
+category: Overview
 layout: default
-permalink: /overview/
+permalink: /introduction/
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
-# Overview
+# Introduction
 
 Getty is a framework for building serializers and deserializers in Zig.
 
@@ -22,4 +22,4 @@ In the serialization flow, a Zig value is passed to Getty and, based on its type
 
 In the deserialization flow, a Zig type is passed to Getty and, based on the type, a Deserialization Block is selected and executed by Getty, prompting a deserializer to deserialize its input data into Getty's deserialization data model. The resulting Getty value is then passed to a Visitor, where it is converted into a Zig value of the passed-in type.
 
-<img alt="Architecture" src="/assets/images/architecture.svg" class="figure" />
+<img alt="Architecture" src="/assets/images/architecture.svg" class="figure-medium" />

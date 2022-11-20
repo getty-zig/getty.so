@@ -87,17 +87,17 @@ fn Deserializer(
     // these methods. However, if you don't want to implement a specific
     // method, you can simply omit its corresponding field.
     comptime methods: struct {
-        deserializeBool: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeEnum: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeFloat: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeInt: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeMap: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeOptional: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeSeq: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeString: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeStruct: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeUnion: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeVoid: ?fn f(Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeBool: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeEnum: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeFloat: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeInt: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeMap: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeOptional: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeSeq: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeString: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeStruct: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeUnion: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeVoid: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
     },
 ) type
 {% endhighlight %}
@@ -231,7 +231,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         // 👋 Here's what we're doing:
         //
         //      1. Parse a token from the JSON data.
@@ -320,7 +320,7 @@ const Deserializer = struct {
         return .{ .tokens = std.json.TokenStream.init(json) };
     }
 
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .True or token == .False) {
                 return try v.visitBool(allocator, De, token == .True);
@@ -331,7 +331,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         // 👋 Again, all we're doing is parsing tokens, turning them
         //    into Getty values, and passing those values to a visitor.
         if (try self.tokens.next()) |token| {
@@ -348,7 +348,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeFloat(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeFloat(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
@@ -360,7 +360,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeInt(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeInt(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
@@ -378,7 +378,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
@@ -390,7 +390,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeVoid(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeVoid(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
                 return try v.visitVoid(allocator, De);
@@ -401,7 +401,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         // 👋 deserializeOptional is a bit different from the other methods.
         //    Instead of passing a Getty value to a visitor, you pass a
         //    deserializer to visitSome. The visitor will then restart the
@@ -469,7 +469,7 @@ What this means is that we don't have to limit ourselves to parsing only JSON Bo
 
 {% label Zig code %}
 {% highlight zig %}
-fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
     if (try self.tokens.next()) |token| {
         // JSON Booleans -> Getty Booleans
         if (token == .True or token == .False) {
@@ -553,7 +553,7 @@ const Deserializer = struct {
         return .{ .tokens = std.json.TokenStream.init(json) };
     }
 
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .True or token == .False) {
                 return try v.visitBool(allocator, De, token == .True);
@@ -563,7 +563,7 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
@@ -574,7 +574,7 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeFloat(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeFloat(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
@@ -585,7 +585,7 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeInt(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeInt(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
@@ -602,7 +602,7 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
@@ -613,7 +613,7 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeVoid(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeVoid(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
                 return try v.visitVoid(allocator, De);
@@ -623,7 +623,7 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         const backup = self.tokens;
 
         if (try self.tokens.next()) |token| {
@@ -639,7 +639,7 @@ const Deserializer = struct {
     }
 
     // 👇
-    fn deserializeSeq(self: *Self, allocator: ?Allocator, v: anytype) !@TypeOf(v).Value {
+    fn deserializeSeq(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .ArrayBegin) {
                 // 👋 Note that we pass in the interface value of SeqAccess to
@@ -663,8 +663,8 @@ const SeqAccess = struct {
         .{ .nextElementSeed = nextElementSeed },
     );
 
-    fn nextElementSeed(self: *@This(), allocator: ?Allocator, seed: anytype) !?@TypeOf(seed).Value {
-        // 👋 Ignore all of the parsing details here. All we're doing is
+    fn nextElementSeed(self: *@This(), allocator: ?Allocator, seed: anytype) Error!?@TypeOf(seed).Value {
+        // 👋 You can ignore the parsing details here. All we're doing is
         //    telling Getty to perform deserialization again (by calling
         //    seed.deserialize) so that we can deserialize an element from
         //    the sequence. If there are no elements left (i.e., if ']' was
@@ -706,3 +706,7 @@ $ zig build run
 { 1, 2, 3 } (array_list.ArrayListAligned(i32,null))
 {% endhighlight %}
 {% endlabel %}
+
+Hooray!
+
+

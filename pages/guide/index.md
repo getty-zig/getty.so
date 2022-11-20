@@ -1,6 +1,6 @@
 ---
 title: Guide
-category: Introduction
+category: Overview
 layout: default
 permalink: /guide/
 SPDX-License-Identifier: LGPL-2.1-or-later
@@ -20,3 +20,4 @@ Welcome to Getty! This is the official guide for the Getty framework, and is des
 - [Interfaces](/guide/interfaces)
 - [Serializers](/guide/serializers)
 - [Deserializers](/guide/deserializers)
+- [Customization](/guide/customization)
