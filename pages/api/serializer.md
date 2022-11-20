@@ -10,7 +10,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 ## Description
 
-`getty.Serializer` specifies the behavior of a serializer.
+`getty.Serializer` is an interface that specifies the behavior of a serializer.
 
 ## Synopsis
 
@@ -50,15 +50,15 @@ fn Serializer(
 
 - `E`: The error set returned by `getty.Serializer`'s methods upon failure.
 
-- `user_sbt`: A user-defined [Serialization Block or Tuple](/TODO).
+- `user_sbt`: An optional user-defined [Serialization Block or Tuple](/TODO).
 
-- `serializer_sbt`: A serializer-defined [Serialization Block or Tuple](/TODO).
+- `serializer_sbt`: An optional serializer-defined [Serialization Block or Tuple](/TODO).
 
-- `Map`: A type that implements the [`getty.ser.Map`](/api/ser/Map) interface.
+- `Map`: An optional type that implements [`getty.ser.Map`](/api/ser/Map).
 
-- `Seq`: A type that implements the [`getty.ser.Seq`](/api/ser/Seq) interface.
+- `Seq`: An optional type that implements [`getty.ser.Seq`](/api/ser/Seq).
 
-- `Structure`: A type that implements the [`getty.ser.Structure`](/api/ser/Structure) interface.
+- `Structure`: An optional type that implements [`getty.ser.Structure`](/api/ser/Structure).
 
 - `methods`: A namespace containing every method that `getty.Serializer` implementations can implement.
 
@@ -70,8 +70,8 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `value`: A Getty Boolean value to serialize.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 - `serializeEnum`: Serializes a Getty Enum value.
 
@@ -79,8 +79,8 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `value`: A Getty Enum value to serialize.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 - `serializeFloat`: Serializes a Getty Float value.
 
@@ -88,8 +88,8 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `value`: A Getty Float value to serialize.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 - `serializeInt`: Serializes a Getty Integer value.
 
@@ -97,8 +97,8 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `value`: A Getty Integer value to serialize.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 - `serializeMap`: Begins the serialization process for a Getty Map value.
 
@@ -106,16 +106,16 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `length`: An optional length for the Getty Map that will be returned.
     - __Return__:
-        - A value of type `Map` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `Map`.
+        - On failure, an error in the error set `E`.
 
 - `serializeNull`: Serializes a Getty Null value.
 
     - __Parameters__:
         - `context`: A value of type `Context`.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 - `serializeSeq`: Begins the serialization process for a Getty Sequence value.
 
@@ -123,8 +123,8 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `length`: An optional length for the Getty Sequence that will be returned.
     - __Return__:
-        - A value of type `Seq` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `Map`.
+        - On failure, an error in the error set `E`.
 
 - `serializeSome`: Serializes a Getty Some value.
 
@@ -132,8 +132,8 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `value`: A Getty Some value to serialize.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 - `serializeString`: Serializes a Getty String value.
 
@@ -141,8 +141,8 @@ fn Serializer(
         - `context`: A value of type `Context`.
         - `value`: A Getty String value to serialize.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 - `serializeStruct`: Begins the serialization process for a Getty Structure value.
 
@@ -151,13 +151,13 @@ fn Serializer(
         - `name`: A name for the Getty Structure that will be returned.
         - `length`: An optional length for the Getty Structure that will be returned.
     - __Return__:
-        - A value of type `Structure` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `Structure`.
+        - On failure, an error in the error set `E`.
 
 - `serializeVoid`: Serializes a Getty Void value.
 
     - __Parameters__:
         - `context`: A value of type `Context`.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.

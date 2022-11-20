@@ -6,17 +6,11 @@ permalink: /api/ser/Map/
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
-# `Map`
+# `getty.ser.Map`
 
 ## Description
 
-`getty.ser.Map` is an interface that specifies the serialization process for Getty Map values.
-
-Getty Maps are only partially serialized by [`getty.Serializer`](/api/Serializer) implementations
-due to the fact that there are many different ways to iterate over and access
-the keys and values of a map. As such, this interface is provided so that
-serialization can be driven and completed by the user of a serializer.
-
+`getty.ser.Map` is an interface that specifies how to serialize Getty Maps.
 
 ## Synopsis
 
@@ -54,8 +48,8 @@ fn Map(
         - `context`: A value of type `Context`.
         - `value`: A key to serialize.
     - __Return__:
-        - `void` on success.
-        - A value of type `E` on failure.
+        - On success, `void`.
+        - On failure, an error in the error set `E`.
 
 - `serializeValue`: Serializes a value in a Getty Map.
 
@@ -63,16 +57,16 @@ fn Map(
         - `context`: A value of type `Context`.
         - `value`: A value to serialize.
     - __Return__:
-        - `void` on success.
-        - A value of type `E` on failure.
+        - on success, `void`.
+        - on failure, an error in the error set `E`.
 
 - `end`: Ends the serialization process for a Getty Map.
 
     - __Parameters__:
         - `context`: A value of type `Context`.
     - __Return__:
-        - A value of type `O` on success.
-        - A value of type `E` on failure.
+        - On success, a value of type `O`.
+        - On failure, an error in the error set `E`.
 
 ### Provided Methods
 
@@ -83,5 +77,5 @@ fn Map(
         - `key`: A key to serialize.
         - `value`: A value to serialize.
     - __Return__:
-        - `void` on success.
-        - A value of type `E` on failure.
+        - on success, `void`.
+        - on failure, an error in the error set `E`.
