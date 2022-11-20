@@ -1,31 +1,31 @@
 ---
 title: Interfaces
-category: Guide
+category: Concepts
 layout: default
-permalink: /guide/interfaces/
+permalink: /interfaces/
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
 # Interfaces
 
-To create a Getty serializer or deserializer, you're going to have to implement a **Getty interface**.
+Whether you're building a serializer or deserializer, you'll eventually have to implement an interface.
 
-Interfaces in Zig are a userspace thing, so everyone has their own way of doing things. Naturally, that means that before we can start writing any code, it's important that we go over how Getty implements its interfaces. This section is pretty important so be sure to pay attention!
+Interfaces in Zig are a userspace thing, so everyone has their own way of doing things. Naturally, that means that before you start writing any code, it's important that you learn how Getty does interfaces.
 
 ## What is a Getty Interface?
 
-A __Getty interface__ is just a function, and its constraints are specified as a parameter list. For example, the following interface requires three associated types and one method from its implementations.
+A __Getty interface__ is just a function, and its constraints are specified as a parameter list. For instance, the following, example interface requires 3 associated types and 1 method from its implementations.
 
 {% label Zig code %}
 {% highlight zig %}
-// Interface
+// 👋 Interface
 fn BoolSerializer(
-    // Associated types
+    // 👋 Associated types
     comptime Context: type,
     comptime O: type,
     comptime E: type,
 
-    // Required methods
+    // 👋 Required methods
     comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
     },
@@ -45,9 +45,9 @@ fn BoolSerializer(
         serializeBool: ?fn (Context, bool) E!O = null,
     },
 ) type {
-    // Namespace
+    // 👋 Namespace
     return struct {
-        // Interface type
+        // 👋 Interface type
         pub const Interface = struct {
             context: Context,
 
@@ -63,9 +63,9 @@ fn BoolSerializer(
             }
         };
 
-        // Interface function
+        // 👋 Interface function
         pub fn boolSerializer(self: Context) Interface {
-            // Interface value
+            // 👋 Interface value
             return .{ .context = self };
         }
     };
@@ -82,6 +82,7 @@ To implement a Getty interface, call the interface and apply `usingnamespace` to
 const std = @import("std");
 
 const UselessSerializer = struct {
+    // 👋 Implements BoolSerializer for UselessSerializer.
     usingnamespace BoolSerializer(
         @This(),
         void,
@@ -91,6 +92,7 @@ const UselessSerializer = struct {
 };
 
 const OppositeSerializer = struct {
+    // 👋 Implements BoolSerializer for OppositeSerializer.
     usingnamespace BoolSerializer(
         @This(),
         Ok,
@@ -115,13 +117,13 @@ To use a value of, say `OppositeSerializer`, as an implementation of `BoolSerial
 {% label Zig code %}
 {% highlight zig %}
 pub fn main() anyerror!void {
-    // Create a value of the implementing type.
+    // 👋 Create a value of the implementing type.
     const os = OppositeSerializer{};
 
-    // Create an interface value from it.
+    // 👋 Create an interface value from it.
     const bs = os.boolSerializer();
 
-    // Use the interface value!
+    // 👋 Use the interface value!
     try bs.serializeBool(true);  // output: false
     try bs.serializeBool(false); // output: true
 }

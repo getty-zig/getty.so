@@ -28,6 +28,11 @@ fn Seq(
 {% endhighlight %}
 {% endlabel %}
 
+### Interface
+
+- `@"getty.ser.Seq"`: Interface type.
+- `seq`: Interface function.
+
 ### Parameters
 
 - `Context`: The namespace that owns the method implementations you provide in `methods`.

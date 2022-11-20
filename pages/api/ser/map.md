@@ -30,6 +30,11 @@ fn Map(
 {% endhighlight %}
 {% endlabel %}
 
+### Interface
+
+- `@"getty.ser.Map"`: Interface type.
+- `map`: Interface function.
+
 ### Parameters
 
 - `Context`: The namespace that owns the method implementations you provide in `methods`.

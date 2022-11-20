@@ -46,7 +46,7 @@ pub fn build(b: *std.build.Builder) void {
 {% endhighlight %}
 {% endlabel %}
 
-Finally, check to see that everything is working by running the following program:
+You can check to see that everything is working by running the following program:
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -65,3 +65,5 @@ $ zig build run
 lib.TODO
 {% endhighlight %}
 {% endlabel %}
+
+Finally, take a few minutes to learn how [Getty interfaces](/interfaces) work. We'll be running into them quite often!

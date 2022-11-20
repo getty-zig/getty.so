@@ -28,6 +28,11 @@ fn Structure(
 {% endhighlight %}
 {% endlabel %}
 
+### Interface
+
+- `@"getty.ser.Structure"`: Interface type.
+- `structure`: Interface function.
+
 ### Parameters
 
 - `Context`: The namespace that owns the method implementations you provide in `methods`.

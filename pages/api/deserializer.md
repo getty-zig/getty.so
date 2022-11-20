@@ -40,6 +40,11 @@ fn Deserializer(
 {% endhighlight %}
 {% endlabel %}
 
+### Interface
+
+- `@"getty.Deserializer"`: Interface type.
+- `deserializer`: Interface function.
+
 ### Parameters
 
 - `Context`: The namespace that owns the method implementations you provide in `methods`.

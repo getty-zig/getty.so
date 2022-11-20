@@ -236,7 +236,7 @@ Among the parameters of the [`getty.Serializer`](/api/Serializer) interface are 
 
 The reason we need these parameters is because aggregate types have all kinds of different access and iteration patterns, but Getty can't possibly know about all of them. As such, serialization methods like `serializeMap` are only responsible for _starting_ the serialization process, before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the caller to finish off serialization.
 
-To give you an example of what I mean, let's implement the `serializeSeq` method, which returns a value of type `Seq`, which is expected to implement the [`getty.ser.Seq`](/api/seq/Seq) interface.
+To give you an example of what I mean, let's implement the `serializeSeq` method, which returns a value of type `Seq`, which is expected to implement the [`getty.ser.Seq`](/api/ser/Seq) interface.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -251,7 +251,7 @@ const Serializer = struct {
         null,
         null,
         null,
-        Seq,          // 👈
+        Seq, // 👈
         null,
         .{
             .serializeBool = serializeBool,
@@ -542,4 +542,4 @@ $ zig build run
 {% endhighlight %}
 {% endlabel %}
 
-And there we go! We've finished our JSON serializer!
+Huzzah! Our JSON serializer is now complete!

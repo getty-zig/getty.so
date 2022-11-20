@@ -42,6 +42,11 @@ fn Serializer(
 {% endhighlight %}
 {% endlabel %}
 
+### Interface
+
+- `@"getty.Serializer"`: Interface type.
+- `serializer`: Interface function.
+
 ### Parameters
 
 - `Context`: The namespace that owns the method implementations you provide in `methods`.

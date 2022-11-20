@@ -25,7 +25,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 - [`serialize`](/api/serialize)
 - [`deserialize`](/api/deserialize)
 
-## Declarations
+## Values
 
 - [`default_st`](/api/default_st)
 - [`default_dt`](/api/default_dt)
