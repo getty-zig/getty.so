@@ -25,7 +25,7 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 - [Introduction](/introduction)
 - [Guide](/guide)
-- [API Reference](/api)
+- [API Reference](https://docs.getty.so)
 
 # Concepts
 
