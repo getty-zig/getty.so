@@ -38,7 +38,7 @@ pub fn build(b: *std.build.Builder) void {
     const exe = b.addExecutable("getty-learn", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
-    exe.addPackagePath("getty", "lib/getty/src/lib.zig"); // 👈
+    exe.addPackagePath("getty", "lib/getty/src/getty.zig"); // 👈
     exe.install();
 
     ...
@@ -54,7 +54,7 @@ const std = @import("std");
 const getty = @import("getty");
 
 pub fn main() anyerror!void {
-    std.debug.print("{}\n", .{getty.TODO});
+    std.debug.print("{}\n", .{getty});
 }
 {% endhighlight %}
 {% endlabel %}
@@ -62,7 +62,7 @@ pub fn main() anyerror!void {
 {% label Shell session %}
 {% highlight sh %}
 $ zig build run
-lib.TODO
+getty
 {% endhighlight %}
 {% endlabel %}
 
