@@ -1,12 +1,12 @@
 ---
-title: Introduction
-category: Overview
+title: Overview
+category: Introduction
 layout: default
-permalink: /introduction/
+permalink: /overview/
 SPDX-License-Identifier: LGPL-2.1-or-later
 ---
 
-# Introduction
+# Overview
 
 Getty is a framework for building serializers and deserializers in Zig.
 
