@@ -15,7 +15,7 @@ To install Getty, you can use any of the following methods.
 First, add Getty to your project:
 
 {% label Shell session %}
-{% highlight zig %}
+{% highlight console %}
 git clone https://github.com/getty-zig/getty lib/getty
 {% endhighlight %}
 {% endlabel %}
