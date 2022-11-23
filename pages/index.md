@@ -44,3 +44,4 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 - [GitHub](https://github.com/getty-zig/getty)
 - [Releases](https://github.com/getty-zig/getty/releases)
+- [Discord](https://discord.gg/njDA67U5ph)
