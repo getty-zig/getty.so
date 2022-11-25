@@ -663,7 +663,7 @@ const SeqAccess = struct {
         .{ .nextElementSeed = nextElementSeed },
     );
 
-    fn nextElementSeed(self: *@This(), allocator: ?Allocator, seed: anytype) Error!?@TypeOf(seed).Value {
+    fn nextElementSeed(self: *@This(), allocator: ?Allocator, seed: anytype) Deserializer.Error!?@TypeOf(seed).Value {
         // 👋 You can ignore the parsing details here. All we're doing is
         //    telling Getty to perform deserialization again (by calling
         //    seed.deserialize) so that we can deserialize an element from
