@@ -83,13 +83,14 @@ fn Deserializer(
     // methods contains every method that getty.Deserializer implementations can
     // implement.
     //
-    // In this tutorial, we'll be providing implementations for all of
+    // In this tutorial, we'll be providing implementations for most of
     // these methods. However, if you don't want to implement a specific
     // method, you can simply omit its corresponding field.
     comptime methods: struct {
         deserializeBool: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
         deserializeEnum: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
         deserializeFloat: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeIgnored: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
         deserializeInt: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
         deserializeMap: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
         deserializeOptional: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
