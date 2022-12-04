@@ -13,7 +13,7 @@ Let's write a JSON serializer that serializes values by printing their JSON equi
 
 ## Scalar Serialization
 
-Every Getty serializer must implement the [`getty.Serializer`](/api/Serializer) interface. For example:
+Every Getty serializer must implement the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface. For example:
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -38,7 +38,7 @@ const Serializer = struct {
 {% endhighlight %}
 {% endlabel %}
 
-Quite a useless serializer, but let's try serializing a value with it anyway. We can do so by calling [`getty.serialize`](/api/serialize), which takes a value to serialize and a [`getty.Serializer`](/api/Serializer) interface value.
+Quite a useless serializer, but let's try serializing a value with it anyway. We can do so by calling [`getty.serialize`](https://docs.getty.so/#root;serialize), which takes a value to serialize and a [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface value.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -232,11 +232,11 @@ At this point, the only methods left to implement are those related to aggregate
 
 Alright, let's move on to serialization for aggregate types!
 
-Among the parameters of the [`getty.Serializer`](/api/Serializer) interface are the `Map`, `Seq`, and `Structure` types. So far, we've just been passing in `null` for these parameters. But now we need to update them in order to do aggregate serialization.
+Among the parameters of the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface are the `Map`, `Seq`, and `Structure` types. So far, we've just been passing in `null` for these parameters. But now we need to update them in order to do aggregate serialization.
 
 The reason we need these parameters is because aggregate types have all kinds of different access and iteration patterns, but Getty can't possibly know about all of them. As such, serialization methods like `serializeMap` are only responsible for _starting_ the serialization process, before returning a value of either `Map`, `Seq`, or `Structure`. The returned value is then used by the caller to finish off serialization.
 
-To give you an example of what I mean, let's implement the `serializeSeq` method, which returns a value of type `Seq`, which is expected to implement the [`getty.ser.Seq`](/api/ser/Seq) interface.
+To give you an example of what I mean, let's implement the `serializeSeq` method, which returns a value of type `Seq`, which is expected to implement the [`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq) interface.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -361,7 +361,7 @@ Hooray!
 
 If you'll notice, we didn't have to write any iteration- or access-related code specific to the `std.ArrayList` type. All we did was specify how sequence serialization should start, how elements should be serialized, and how serialization should end. And Getty took care of the rest!
 
-Alright, that leaves us with `serializeMap` and `serializeStruct`, which return implementations of [`getty.ser.Map`](/api/ser/Map) and [`getty.ser.Structure`](/api/ser/Structure), respectively.
+Alright, that leaves us with `serializeMap` and `serializeStruct`, which return implementations of [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) and [`getty.ser.Structure`](https://docs.getty.so/#root;ser.Structure), respectively.
 
 {% label src/main.zig %}
 {% highlight zig %}
