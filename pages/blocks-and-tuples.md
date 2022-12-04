@@ -19,7 +19,7 @@ A __Tuple__ is a tuple of blocks.
 
 Every block requires a few specific declarations. What and how many declarations a block requires depends on whether you're serializing or deserializing, and which customization method you're using.
 
-In any case, the [`getty.Serializer`](/api/Serializer) and [`getty.Deserializer`](/api/Deserializer) interfaces have parameters such as `user_sbt`, `serializer_sbt`, `user_dbt` and `deserializer_dbt`. These are where you'd pass in your blocks and tuples in order to customize Getty's behavior.
+In any case, the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) and [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interfaces have parameters such as `user_sbt`, `serializer_sbt`, `user_dbt` and `deserializer_dbt`. These are where you'd pass in your blocks and tuples in order to customize Getty's behavior.
 
 ### Attribute Blocks (AB)
 

@@ -14,7 +14,7 @@ Getty allows both users and (de)serializers to customize the (de)serialization p
 
 ## Overview
 
-Customization in Getty revolves around [Blocks and Tuples (BT)](/blocks-and-tuples). I encourage you to take a few minutes to read up on them before continuing on. In any case, once you've defined a BT, you can pass it on to Getty via the [`getty.Serializer`](/api/Serializer) or [`getty.Deserializer`](/api/Deserializer) interfaces.
+Customization in Getty revolves around [Blocks and Tuples (BT)](/blocks-and-tuples). I encourage you to take a few minutes to read up on them before continuing on. In any case, once you've defined a BT, you can pass it on to Getty via the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) or [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interfaces.
 
 ### Out-of-Band Customization
 
