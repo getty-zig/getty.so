@@ -13,7 +13,76 @@ Let's write a JSON serializer that serializes values by printing their JSON equi
 
 ## Scalar Serialization
 
-Every Getty serializer must implement the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface. For example:
+Every Getty serializer must implement the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface, shown below.
+
+{% label Zig code %}
+{% highlight zig %}
+// getty.Serializer specifies the behavior of a serializer, and must be
+// implemented by all Getty serializers.
+fn Serializer(
+    // Context is the namespace that owns the method implementations you want
+    // to use to implement getty.Serializer.
+    //
+    // Usually, this is whatever type is implementing getty.Serializer (or a
+    // pointer to it if mutability is required in your method implementations).
+    comptime Context: type,
+
+    // O is the return type for most of getty.Serializer's methods.
+    comptime O: type,
+
+    // E is the error set returned by getty.Serializer's methods upon failure.
+    comptime E: type,
+
+    // user_sbt and serializer_sbt are user- and serializer- defined
+    // Serialization Blocks or Tuples (SBT), respectively.
+    //
+    // SBTs define Getty's serialization behavior. If user- or serializer-
+    // defined customization is not supported or needed by your serializer,
+    // you can pass in null for these parameters.
+    //
+    // You can ignore these parameters for now. We'll come back to them later.
+    comptime user_sbt: anytype,
+    comptime serializer_sbt: anytype,
+
+    // Map, Seq, and Structure are types that implement Getty's aggregate
+    // serialization interfaces.
+    //
+    // The aggregate serialization interfaces are getty.ser.Map, getty.ser.Seq,
+    // and getty.ser.Structure. I'm sure you can figure out which interfaces
+    // are expected to be implemented by which parameters.
+    //
+    // If you don't want to support serialization for aggregate types or you
+    // just haven't implemented it yet, you can pass in null for these parameters.
+    comptime Map: ?type,
+    comptime Seq: ?type,
+    comptime Structure: ?type,
+
+    // methods contains every method that getty.Serializer implementations can
+    // implement.
+    //
+    // In this tutorial, we'll be providing implementations for all of
+    // these methods. However, if you don't want to implement a specific
+    // method, you can simply omit its corresponding field.
+    comptime methods: struct {
+        serializeBool: ?fn (Context, bool) E!O = null,
+        serializeEnum: ?fn (Context, anytype) E!O = null,
+        serializeFloat: ?fn (Context, anytype) E!O = null,
+        serializeInt: ?fn (Context, anytype) E!O = null,
+        serializeMap: ?fn (Context, ?usize) E!Map = null,
+        serializeNull: ?fn (Context) E!O = null,
+        serializeSeq: ?fn (Context, ?usize) E!Seq = null,
+        serializeSome: ?fn (Context, anytype) E!O = null,
+        serializeString: ?fn (Context, anytype) E!O = null,
+        serializeStruct: ?fn (Context, comptime []const u8, usize) E!Structure = null,
+        serializeVoid: ?fn (Context) E!O = null,
+    },
+) type
+{% endhighlight %}
+{% endlabel %}
+
+Quite the parameter list!
+
+Luckily though, most of the parameters seem to have default values we can use, so let's kick things off with the following implementation.
 
 {% label src/main.zig %}
 {% highlight zig %}
@@ -238,6 +307,25 @@ The reason we need these parameters is because aggregate types have all kinds of
 
 To give you an example of what I mean, let's implement the `serializeSeq` method, which returns a value of type `Seq`, which is expected to implement the [`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq) interface.
 
+{% label Zig code %}
+{% highlight zig %}
+// getty.ser.Seq specifies how to serialize the elements of a Getty Sequence,
+// as well as how to end the serialization process for a Getty Sequence.
+//
+// The O and E values of a getty.ser.Seq implementation must match the O and E
+// values of a corresponding getty.Serializer implementation.
+fn Seq(
+    comptime Context: type,
+    comptime O: type,
+    comptime E: type,
+    comptime methods: struct {
+        serializeElement: ?fn (Context, anytype) E!void = null,
+        end: ?fn (Context) E!O = null,
+    },
+) type
+{% endhighlight %}
+{% endlabel %}
+
 {% label src/main.zig %}
 {% highlight zig %}
 const std = @import("std");
@@ -362,6 +450,48 @@ Hooray!
 If you'll notice, we didn't have to write any iteration- or access-related code specific to the `std.ArrayList` type. All we did was specify how sequence serialization should start, how elements should be serialized, and how serialization should end. And Getty took care of the rest!
 
 Alright, that leaves us with `serializeMap` and `serializeStruct`, which return implementations of [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) and [`getty.ser.Structure`](https://docs.getty.so/#root;ser.Structure), respectively.
+
+{% label Zig code %}
+{% highlight zig %}
+// getty.ser.Map specifies how to serialize the keys and values of a Getty Map,
+// as well as how to end the serialization process for a Getty Map.
+//
+// The O and E values of a getty.ser.Map implementation must match the O and E
+// values of a corresponding getty.Serializer implementation.
+fn Map(
+    comptime Context: type,
+    comptime O: type,
+    comptime E: type,
+    comptime methods: struct {
+        serializeKey: ?fn (Context, anytype) E!void = null,
+        serializeValue: ?fn (Context, anytype) E!void = null,
+        end: ?fn (Context) E!O = null,
+
+        // Provided method.
+        serializeEntry: ?fn (Context, anytype, anytype) E!void = null,
+    },
+) type
+{% endhighlight %}
+{% endlabel %}
+
+{% label Zig code %}
+{% highlight zig %}
+// getty.ser.Structure specifies how to serialize the fields of a Getty Structure,
+// as well as how to end the serialization process for a Getty Structure.
+//
+// The O and E values of a getty.ser.Structure implementation must match the O
+// and E values of a corresponding getty.Serializer implementation.
+fn Structure(
+    comptime Context: type,
+    comptime O: type,
+    comptime E: type,
+    comptime methods: struct {
+        serializeField: ?fn (Context, comptime []const u8, anytype) E!void = null,
+        end: ?fn (Context) E!O = null,
+    },
+) type
+{% endhighlight %}
+{% endlabel %}
 
 {% label src/main.zig %}
 {% highlight zig %}
