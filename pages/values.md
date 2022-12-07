@@ -8,7 +8,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Values
 
-The way a Zig value is represented within a data format is determined entirely by whichever Getty serializer you use. Therefore, it's important that you check how a serialization library is handling things before you starting using it. As an example, here's how the [Getty JSON](https://github.com/getty-zig/json/) library does things:
+The way a Zig value is represented within a data format is determined entirely by whichever Getty serializer you use. Therefore, it's important that you check how a serialization library is handling things before you start using it. As an example, here's how the [Getty JSON](https://github.com/getty-zig/json/) library does things:
 
 {% label Zig code %}
 {% highlight zig %}
