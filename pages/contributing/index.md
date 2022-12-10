@@ -27,7 +27,6 @@ started. If you have questions about contributing or Getty, feel free to reach o
 
 ## Pull Requests
 
-
 - Please follow our [Style Guide](/style-guide) whenever contributing code.
 
 - Before submitting a PR, please test your changes and ensure that the test suite passes locally.
@@ -37,3 +36,15 @@ started. If you have questions about contributing or Getty, feel free to reach o
 - After pushing a new version of a PR, please add a comment about the new
   version. Notifications aren't sent for commits, so it's easy to miss updates
   without an explicit comment.
+
+## Workflow
+
+Getty uses the [Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) model for its development. Essentially, what that means is:
+
+- The `main` branch is strictly for releases. **Do not work on or branch off of it.**
+
+- The `develop` branch is an integration branch for features and fixes. **Do not work on it.**
+
+- Features are developed on `feature/<name>` branches, which branch off of `develop`.
+
+- Fixes are developed on `fix/<name>` branches, which branch off of `develop`.
