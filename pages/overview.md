@@ -10,7 +10,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 Getty is a framework for building serializers and deserializers in Zig.
 
-Usually, (de)serializers written in Zig are just functions that take a value, switch on its type, and (de)serialize based on the resulting type information. In fact, this is exactly what `std.json` does! Unfortunately, the problem with this approach is that it is very brittle, inflexible, and ends up being a lot of redundant work.
+Usually, (de)serializers written in Zig are just functions that take a value, switch on its type, and (de)serialize based on the resulting type information. In fact, this is exactly what `std.json` does! Unfortunately, the problem with this approach is that it is very brittle, inflexible, and ends up being a lot of unnecessary work.
 
 The goal of Getty is to help you avoid all of that and reduce the amount of code you need to write a (de)serializer that is customizable, performant, and able to support a wide variety of data types out of the box.
 Additionally, Getty is data format-agnostic, meaning that you can make a (de)serialier for any data format out there so long as you're able to map from the data format to Getty's data models!
