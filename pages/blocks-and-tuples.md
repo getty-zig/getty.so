@@ -11,7 +11,7 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 A __Block__ is a `struct` namespace that is responsible for specifying two things:
 
 1. The types that should be (de)serialized by the block.
-1. How to serialize values those types or deserialize into those types.
+1. How to either serialize values of those types or deserialize into those types.
 
 A __Tuple__ is a tuple of blocks.
 
@@ -34,6 +34,7 @@ const Point = struct {
     y: i32,
 };
 
+// 👋 This is a serialization block for the Point type.
 const ab = struct {
     // 👋 is specifies which types should be serialized by this block.
     pub fn is(comptime T: type) bool {
@@ -51,7 +52,7 @@ const ab = struct {
     //    known as container attributes.
     //
     //    Each field in attributes is also an anonymous struct literal. The
-    //    fields in this struct depend on the kind of attribute you are
+    //    fields in these inner structs depend on the kind of attribute you're
     //    specifying.
     pub const attributes = .{
         .x = .{ .rename = "X" },
@@ -65,7 +66,7 @@ For a complete list of all of the attributes you can specify, see [here](/attrib
 
 ### Serialization Blocks (SB)
 
-In cases where attributes aren't sufficient, you can manually customize the serialization process by simply replacing the `attributes` declaration with a `serialize` function:
+In cases where attributes aren't sufficient, you can manually customize the serialization process by replacing the `attributes` declaration with a `serialize` function:
 
 {% label Zig code %}
 {% highlight zig %}
@@ -78,7 +79,10 @@ const sb = struct {
     //
     //    Here, we're telling Getty to serialize bool values as Getty Integers.
     pub fn serialize(value: anytype, serializer: anytype) @TypeOf(serializer).Error!@TypeOf(serializer).Ok {
+        // Convert value to a Getty Integer (represented by any integer type).
         const v: i32 = if (value) 1 else 0;
+
+        // Pass the Getty Integer value to the serializer.
         return try serializer.serializeInt(v);
     }
 };
@@ -138,11 +142,7 @@ const db = struct {
                 comptime Deserializer: type,
                 input: anytype,
             ) Deserializer.Error!Value {
-                return switch (input) {
-                    0 => false,
-                    1 => true,
-                    else => error.InvalidType,
-                };
+                return input != 0;
             }
         };
     }
