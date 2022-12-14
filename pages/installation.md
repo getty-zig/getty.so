@@ -8,7 +8,11 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 # Installation
 
-To install Getty, you can use any of the following methods.
+To install Getty for your project, you may use any of the following methods:
+
+- [Manual](#manual)
+- [Gyro](#gyro)
+- [Zigmod](#zigmod)
 
 ## Manual
 
