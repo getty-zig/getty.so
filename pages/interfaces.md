@@ -48,6 +48,11 @@ fn BoolSerializer(
     // 👋 Namespace
     return struct {
         // 👋 Interface type
+        //
+        //    Interface types generally have a single field to store an
+        //    instance of an implementing type, a few declarations that may
+        //    be useful to implementations, and wrapper methods that define the
+        //    interface's behavior.
         pub const Interface = struct {
             context: Context,
 

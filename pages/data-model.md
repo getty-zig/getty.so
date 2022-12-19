@@ -10,10 +10,11 @@ SPDX-License-Identifier: LGPL-2.1-or-later
 
 Getty defines two data models: one for serialization and one for deserialization.
 
-A data model represents the set of types supported by Getty. The types within a
-data model are purely conceptual; they aren't actually Zig types. For example,
-there isn't an `i32` or `u64` in either of Getty's data models. Instead, `i32` and
-`u64` are both considered to the same type: _Integer_.
+A __data model__ represents the set of types supported by Getty. The types
+within Getty's data models are purely conceptual; they aren't actually Zig
+types. For example, there isn't an `i32` or `u64` in either of Getty's data
+models. Instead, `i32` and `u64` are both considered to the same type:
+_Integer_.
 
 By maintaining a data model, Getty establishes a generic baseline from which
 (de)serializers operate. This often simplifies the job of a (de)serializer
