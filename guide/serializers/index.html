@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<html>
+
+  <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0021D8">
+
+  <title>Serializers</title>
+
+  <link rel="canonical" href="https://getty.so/guide/serializers/">
+  <link rel="alternate" type="application/rss+xml" title="Getty" href="https://getty.so/feed.xml" />
+
+  <link rel="stylesheet" href="/style.css">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+</head>
+
+
+  <body>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<header class="site-header">
+  <div class="wrapper" style="text-align: center;">
+    <a class="page-logo" href="/">
+      <img src="/assets/images/page-logo.svg" alt="getty">
+    </a>
+  </div>
+</header>
+
+
+    <div class="container">
+      <h1 id="serializers">Serializers</h1>
+
+<p>Let’s write a JSON serializer that serializes values by printing their JSON equivalent to <code class="language-plaintext highlighter-rouge">STDERR</code>. Note that any code we write will be in <code class="language-plaintext highlighter-rouge">src/main.zig</code> and will be labeled as such.</p>
+
+<h2 id="scalar-serialization">Scalar Serialization</h2>
+
+<p>Every Getty serializer must implement the <a href="https://docs.getty.so/#root;Serializer"><code class="language-plaintext highlighter-rouge">getty.Serializer</code></a> interface, shown below.</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="c">// getty.Serializer specifies the behavior of a serializer, and must be</span>
+<span class="c">// implemented by all Getty serializers.</span>
+<span class="k">fn</span> <span class="n">Serializer</span><span class="p">(</span>
+    <span class="c">// Context is the namespace that owns the method implementations you want</span>
+    <span class="c">// to use to implement getty.Serializer.</span>
+    <span class="c">//</span>
+    <span class="c">// Usually, this is whatever type is implementing getty.Serializer (or a</span>
+    <span class="c">// pointer to it if mutability is required in your method implementations).</span>
+    <span class="k">comptime</span> <span class="n">Context</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+
+    <span class="c">// O is the return type for most of getty.Serializer's methods.</span>
+    <span class="k">comptime</span> <span class="n">O</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+
+    <span class="c">// E is the error set returned by getty.Serializer's methods upon failure.</span>
+    <span class="k">comptime</span> <span class="n">E</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+
+    <span class="c">// user_sbt and serializer_sbt are user- and serializer- defined</span>
+    <span class="c">// Serialization Blocks or Tuples (SBT), respectively.</span>
+    <span class="c">//</span>
+    <span class="c">// SBTs define Getty's serialization behavior. If user- or serializer-</span>
+    <span class="c">// defined customization is not supported or needed by your serializer,</span>
+    <span class="c">// you can pass in null for these parameters.</span>
+    <span class="c">//</span>
+    <span class="c">// You can ignore these parameters for now. We'll come back to them later.</span>
+    <span class="k">comptime</span> <span class="n">user_sbt</span><span class="p">:</span> <span class="n">anytype</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">serializer_sbt</span><span class="p">:</span> <span class="n">anytype</span><span class="p">,</span>
+
+    <span class="c">// Map, Seq, and Structure are types that implement Getty's aggregate</span>
+    <span class="c">// serialization interfaces.</span>
+    <span class="c">//</span>
+    <span class="c">// The aggregate serialization interfaces are getty.ser.Map, getty.ser.Seq,</span>
+    <span class="c">// and getty.ser.Structure. I'm sure you can figure out which interfaces</span>
+    <span class="c">// are expected to be implemented by which parameters.</span>
+    <span class="c">//</span>
+    <span class="c">// If you don't want to support serialization for aggregate types or you</span>
+    <span class="c">// just haven't implemented it yet, you can pass in null for these parameters.</span>
+    <span class="k">comptime</span> <span class="n">Map</span><span class="p">:</span> <span class="o">?</span><span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">Seq</span><span class="p">:</span> <span class="o">?</span><span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">Structure</span><span class="p">:</span> <span class="o">?</span><span class="k">type</span><span class="p">,</span>
+
+    <span class="c">// methods contains every method that getty.Serializer implementations can</span>
+    <span class="c">// implement.</span>
+    <span class="c">//</span>
+    <span class="c">// In this tutorial, we'll be providing implementations for all of</span>
+    <span class="c">// these methods. However, if you don't want to implement a specific</span>
+    <span class="c">// method, you can simply omit its corresponding field.</span>
+    <span class="k">comptime</span> <span class="n">methods</span><span class="p">:</span> <span class="k">struct</span> <span class="p">{</span>
+        <span class="n">serializeBool</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="k">bool</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeEnum</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeFloat</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeInt</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeMap</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="o">?</span><span class="kt">usize</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">Map</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeNull</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeSeq</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="o">?</span><span class="kt">usize</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">Seq</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeSome</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeString</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeStruct</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="k">comptime</span> <span class="p">[]</span><span class="k">const</span> <span class="kt">u8</span><span class="p">,</span> <span class="kt">usize</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">Structure</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeVoid</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span> <span class="k">type</span></code></pre></figure>
+
+</pre></div>
+
+<p>Quite the parameter list!</p>
+
+<p>Luckily though, most of the parameters seem to have default values we can use, so let’s kick things off with the following implementation.</p>
+
+<div class="code-block"><div class="language-tag">src/main.zig</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">getty</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"getty"</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="n">Serializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="nf">Serializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="k">void</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="k">error</span><span class="p">{};</span>
+<span class="p">};</span></code></pre></figure>
+
+</pre></div>
+
+<p>Quite a useless serializer, but let’s try serializing a value with it anyway. We can do so by calling <a href="https://docs.getty.so/#root;serialize"><code class="language-plaintext highlighter-rouge">getty.serialize</code></a>, which takes a value to serialize and a <a href="https://docs.getty.so/#root;Serializer"><code class="language-plaintext highlighter-rouge">getty.Serializer</code></a> interface value.</p>
+
+<div class="code-block"><div class="language-tag">src/main.zig</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">getty</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"getty"</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="n">Serializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="nf">Serializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="k">void</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="k">error</span><span class="p">{};</span>
+<span class="p">};</span>
+
+<span class="c">// 👇</span>
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="k">anyerror</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">();</span>
+
+    <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span><span class="w"> </span>zig build run
+<span class="go">[...] error: serializeBool is not implemented by type: main.Serializer</span></code></pre></figure>
+
+</pre></div>
+
+<p>Oh no, a compile error!</p>
+
+<p>Looks like Getty can’t serialize <code class="language-plaintext highlighter-rouge">bool</code> values for us unless the <code class="language-plaintext highlighter-rouge">serializeBool</code> method has been implemented. So, let’s go ahead and do that.</p>
+
+<div class="code-block"><div class="language-tag">src/main.zig</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span> <span class="c">// 👈</span>
+<span class="k">const</span> <span class="n">getty</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"getty"</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="n">Serializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="nf">Serializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeBool</span> <span class="o">=</span> <span class="n">serializeBool</span><span class="p">,</span> <span class="c">// 👈</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="k">void</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="k">error</span><span class="p">{};</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeBool</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="k">bool</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="k">anyerror</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">();</span>
+
+    <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+
+    <span class="c">// 👇</span>
+    <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span><span class="w"> </span>zig build run
+<span class="go">true</span></code></pre></figure>
+
+</pre></div>
+
+<p>Success!</p>
+
+<p>Now let’s do the exact same thing for <code class="language-plaintext highlighter-rouge">serializeEnum</code>, <code class="language-plaintext highlighter-rouge">serializeFloat</code>, <code class="language-plaintext highlighter-rouge">serializeInt</code>, <code class="language-plaintext highlighter-rouge">serializeNull</code>, <code class="language-plaintext highlighter-rouge">serializeSome</code>, <code class="language-plaintext highlighter-rouge">serializeString</code>, and <code class="language-plaintext highlighter-rouge">serializeVoid</code>.</p>
+
+<div class="code-block"><div class="language-tag">src/main.zig</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span>
+<span class="k">const</span> <span class="n">getty</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"getty"</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="n">Serializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="nf">Serializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeBool</span> <span class="o">=</span> <span class="n">serializeBool</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeEnum</span> <span class="o">=</span> <span class="n">serializeEnum</span><span class="p">,</span>     <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeFloat</span> <span class="o">=</span> <span class="n">serializeNumber</span><span class="p">,</span>  <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeInt</span> <span class="o">=</span> <span class="n">serializeNumber</span><span class="p">,</span>    <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeNull</span> <span class="o">=</span> <span class="n">serializeNull</span><span class="p">,</span>     <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeSome</span> <span class="o">=</span> <span class="n">serializeSome</span><span class="p">,</span>     <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeString</span> <span class="o">=</span> <span class="n">serializeString</span><span class="p">,</span> <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeVoid</span> <span class="o">=</span> <span class="n">serializeNull</span><span class="p">,</span>     <span class="c">// 👈</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="k">void</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="k">error</span><span class="p">{};</span>
+
+    <span class="k">fn</span> <span class="n">serializeBool</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="k">bool</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeEnum</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">self</span><span class="p">.</span><span class="nf">serializeString</span><span class="p">(</span><span class="nb">@tagName</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeNull</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">())</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"null"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeNumber</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeSome</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="nf">serializer</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeString</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">{s}</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="k">anyerror</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">();</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">inline</span> <span class="k">for</span> <span class="p">(</span><span class="o">.</span><span class="p">{</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="p">.</span><span class="py">variant</span><span class="p">,</span> <span class="p">{},</span> <span class="kc">null</span> <span class="p">})</span> <span class="p">|</span><span class="n">v</span><span class="p">|</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span><span class="w"> </span>zig build run
+<span class="go">10
+1.0e+01
+"string"
+"variant"
+null
+null</span></code></pre></figure>
+
+</pre></div>
+
+<p>And there we have it! Our initial <code class="language-plaintext highlighter-rouge">Serializer</code> implementation from the intro! But now with context!</p>
+
+<p>At this point, the only methods left to implement are those related to aggregate serialization. However, before we move on, I want to highlight out a few things about our <code class="language-plaintext highlighter-rouge">Serializer</code> type:</p>
+
+<ul>
+  <li>
+    <p>Because the signatures of the <code class="language-plaintext highlighter-rouge">serializeFloat</code> and <code class="language-plaintext highlighter-rouge">serializeInt</code> methods are the same, we were able to implement them both using one function: <code class="language-plaintext highlighter-rouge">serializeNumber</code>. We were also able to do the same thing for <code class="language-plaintext highlighter-rouge">serializeNull</code> and <code class="language-plaintext highlighter-rouge">serializeVoid</code>.</p>
+  </li>
+  <li>
+    <p>By keeping all of our method implementations private, we avoided polluting the public API of <code class="language-plaintext highlighter-rouge">Serializer</code> with interface-related code. Additionally, we’ve ensured that users cannot mistakenly use a <code class="language-plaintext highlighter-rouge">Serializer</code> value instead of an interface value to perform serialization.</p>
+  </li>
+  <li>
+    <p>Even though the type of the <code class="language-plaintext highlighter-rouge">value</code> parameter for many of our methods is <code class="language-plaintext highlighter-rouge">anytype</code>, we didn’t perform any type validation. That is because Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to <code class="language-plaintext highlighter-rouge">serializeString</code> and integers and floating-points will be passed to <code class="language-plaintext highlighter-rouge">serializeNumber</code>.</p>
+  </li>
+</ul>
+
+<h2 id="aggregate-serialization">Aggregate Serialization</h2>
+
+<p>Alright, let’s move on to serialization for aggregate types!</p>
+
+<p>Among the parameters of the <a href="https://docs.getty.so/#root;Serializer"><code class="language-plaintext highlighter-rouge">getty.Serializer</code></a> interface are the <code class="language-plaintext highlighter-rouge">Map</code>, <code class="language-plaintext highlighter-rouge">Seq</code>, and <code class="language-plaintext highlighter-rouge">Structure</code> types. So far, we’ve just been passing in <code class="language-plaintext highlighter-rouge">null</code> for these parameters. But now we need to update them in order to do aggregate serialization.</p>
+
+<p>The reason we need these parameters is because aggregate types have all kinds of different access and iteration patterns, but Getty can’t possibly know about all of them. As such, serialization methods like <code class="language-plaintext highlighter-rouge">serializeMap</code> are only responsible for <em>starting</em> the serialization process, before returning a value of either <code class="language-plaintext highlighter-rouge">Map</code>, <code class="language-plaintext highlighter-rouge">Seq</code>, or <code class="language-plaintext highlighter-rouge">Structure</code>. The returned value is then used by the caller to finish off serialization.</p>
+
+<p>To give you an example of what I mean, let’s implement the <code class="language-plaintext highlighter-rouge">serializeSeq</code> method, which returns a value of type <code class="language-plaintext highlighter-rouge">Seq</code>, which is expected to implement the <a href="https://docs.getty.so/#root;ser.Seq"><code class="language-plaintext highlighter-rouge">getty.ser.Seq</code></a> interface.</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="c">// getty.ser.Seq specifies how to serialize the elements of a Getty Sequence,</span>
+<span class="c">// as well as how to end the serialization process for a Getty Sequence.</span>
+<span class="c">//</span>
+<span class="c">// The O and E values of a getty.ser.Seq implementation must match the O and E</span>
+<span class="c">// values of a corresponding getty.Serializer implementation.</span>
+<span class="k">fn</span> <span class="n">Seq</span><span class="p">(</span>
+    <span class="k">comptime</span> <span class="n">Context</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">O</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">E</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">methods</span><span class="p">:</span> <span class="k">struct</span> <span class="p">{</span>
+        <span class="n">serializeElement</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="k">void</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">end</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span> <span class="k">type</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">src/main.zig</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span>
+<span class="k">const</span> <span class="n">getty</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"getty"</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="n">Serializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="nf">Serializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="n">Seq</span><span class="p">,</span> <span class="c">// 👈</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeBool</span> <span class="o">=</span> <span class="n">serializeBool</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeEnum</span> <span class="o">=</span> <span class="n">serializeEnum</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeFloat</span> <span class="o">=</span> <span class="n">serializeNumber</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeInt</span> <span class="o">=</span> <span class="n">serializeNumber</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeNull</span> <span class="o">=</span> <span class="n">serializeNull</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeSeq</span> <span class="o">=</span> <span class="n">serializeSeq</span><span class="p">,</span> <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeSome</span> <span class="o">=</span> <span class="n">serializeSome</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeString</span> <span class="o">=</span> <span class="n">serializeString</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeVoid</span> <span class="o">=</span> <span class="n">serializeNull</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="k">void</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="k">error</span><span class="p">{};</span>
+
+    <span class="k">fn</span> <span class="n">serializeBool</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="k">bool</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeEnum</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">s</span><span class="p">.</span><span class="nf">serializeString</span><span class="p">(</span><span class="nb">@tagName</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeNull</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">())</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"null"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeNumber</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeSeq</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="mi">_</span><span class="p">:</span> <span class="o">?</span><span class="kt">usize</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Seq</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"["</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+
+        <span class="k">return</span> <span class="n">Seq</span><span class="p">{};</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeSome</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="nf">serializer</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeString</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">{s}</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c">// 👇</span>
+<span class="k">const</span> <span class="n">Seq</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">first</span><span class="p">:</span> <span class="k">bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="py">ser</span><span class="p">.</span><span class="nf">Seq</span><span class="p">(</span>
+        <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeElement</span> <span class="o">=</span> <span class="n">serializeElement</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">end</span> <span class="o">=</span> <span class="n">end</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="n">Serializer</span><span class="p">.</span><span class="py">Ok</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="n">Serializer</span><span class="p">.</span><span class="py">Error</span><span class="p">;</span>
+
+    <span class="k">fn</span> <span class="n">serializeElement</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="py">first</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kc">true</span> <span class="o">=&gt;</span> <span class="n">s</span><span class="p">.</span><span class="py">first</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="kc">false</span> <span class="o">=&gt;</span> <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">", "</span><span class="p">,</span> <span class="o">.</span><span class="p">{}),</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">end</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">())</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"]"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="k">anyerror</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">();</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">var</span> <span class="n">list</span> <span class="o">=</span> <span class="n">std</span><span class="p">.</span><span class="nf">ArrayList</span><span class="p">(</span><span class="kt">i32</span><span class="p">).</span><span class="nf">init</span><span class="p">(</span><span class="n">std</span><span class="p">.</span><span class="py">heap</span><span class="p">.</span><span class="py">page_allocator</span><span class="p">);</span>
+    <span class="k">defer</span> <span class="n">list</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
+    <span class="k">try</span> <span class="n">list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">try</span> <span class="n">list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="k">try</span> <span class="n">list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span><span class="w"> </span>zig build run
+<span class="go">[1, 2, 3]</span></code></pre></figure>
+
+</pre></div>
+
+<p>Hooray!</p>
+
+<p>If you’ll notice, we didn’t have to write any iteration- or access-related code specific to the <code class="language-plaintext highlighter-rouge">std.ArrayList</code> type. All we did was specify how sequence serialization should start, how elements should be serialized, and how serialization should end. And Getty took care of the rest!</p>
+
+<p>Alright, that leaves us with <code class="language-plaintext highlighter-rouge">serializeMap</code> and <code class="language-plaintext highlighter-rouge">serializeStruct</code>, which return implementations of <a href="https://docs.getty.so/#root;ser.Map"><code class="language-plaintext highlighter-rouge">getty.ser.Map</code></a> and <a href="https://docs.getty.so/#root;ser.Structure"><code class="language-plaintext highlighter-rouge">getty.ser.Structure</code></a>, respectively.</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="c">// getty.ser.Map specifies how to serialize the keys and values of a Getty Map,</span>
+<span class="c">// as well as how to end the serialization process for a Getty Map.</span>
+<span class="c">//</span>
+<span class="c">// The O and E values of a getty.ser.Map implementation must match the O and E</span>
+<span class="c">// values of a corresponding getty.Serializer implementation.</span>
+<span class="k">fn</span> <span class="n">Map</span><span class="p">(</span>
+    <span class="k">comptime</span> <span class="n">Context</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">O</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">E</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">methods</span><span class="p">:</span> <span class="k">struct</span> <span class="p">{</span>
+        <span class="n">serializeKey</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="k">void</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">serializeValue</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="k">void</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">end</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+
+        <span class="c">// Provided method.</span>
+        <span class="n">serializeEntry</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">anytype</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="k">void</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span> <span class="k">type</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="c">// getty.ser.Structure specifies how to serialize the fields of a Getty Structure,</span>
+<span class="c">// as well as how to end the serialization process for a Getty Structure.</span>
+<span class="c">//</span>
+<span class="c">// The O and E values of a getty.ser.Structure implementation must match the O</span>
+<span class="c">// and E values of a corresponding getty.Serializer implementation.</span>
+<span class="k">fn</span> <span class="n">Structure</span><span class="p">(</span>
+    <span class="k">comptime</span> <span class="n">Context</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">O</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">E</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">methods</span><span class="p">:</span> <span class="k">struct</span> <span class="p">{</span>
+        <span class="n">serializeField</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="k">comptime</span> <span class="p">[]</span><span class="k">const</span> <span class="kt">u8</span><span class="p">,</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="k">void</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="n">end</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span> <span class="k">type</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">src/main.zig</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span>
+<span class="k">const</span> <span class="n">getty</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"getty"</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="n">Serializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="nf">Serializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="kc">null</span><span class="p">,</span>
+        <span class="n">Map</span><span class="p">,</span> <span class="c">// 👈</span>
+        <span class="n">Seq</span><span class="p">,</span>
+        <span class="n">Map</span><span class="p">,</span> <span class="c">// 👈</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeBool</span> <span class="o">=</span> <span class="n">serializeBool</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeEnum</span> <span class="o">=</span> <span class="n">serializeEnum</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeFloat</span> <span class="o">=</span> <span class="n">serializeNumber</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeInt</span> <span class="o">=</span> <span class="n">serializeNumber</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeMap</span> <span class="o">=</span> <span class="n">serializeMap</span><span class="p">,</span>       <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeNull</span> <span class="o">=</span> <span class="n">serializeNull</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeSeq</span> <span class="o">=</span> <span class="n">serializeSeq</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeSome</span> <span class="o">=</span> <span class="n">serializeSome</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeString</span> <span class="o">=</span> <span class="n">serializeString</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeStruct</span> <span class="o">=</span> <span class="n">serializeStruct</span><span class="p">,</span> <span class="c">// 👈</span>
+            <span class="p">.</span><span class="py">serializeVoid</span> <span class="o">=</span> <span class="n">serializeNull</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="k">void</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="k">error</span><span class="p">{};</span>
+
+    <span class="k">fn</span> <span class="n">serializeBool</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="k">bool</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeEnum</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">s</span><span class="p">.</span><span class="nf">serializeString</span><span class="p">(</span><span class="nb">@tagName</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeMap</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="mi">_</span><span class="p">:</span> <span class="o">?</span><span class="kt">usize</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Map</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{{"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+
+        <span class="k">return</span> <span class="n">Map</span><span class="p">{};</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeNull</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">())</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"null"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeNumber</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeSeq</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="mi">_</span><span class="p">:</span> <span class="o">?</span><span class="kt">usize</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Seq</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"["</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+
+        <span class="k">return</span> <span class="n">Seq</span><span class="p">{};</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeSome</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="nf">serializer</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeString</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">{s}</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">fn</span> <span class="n">serializeStruct</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="k">comptime</span> <span class="mi">_</span><span class="p">:</span> <span class="p">[]</span><span class="k">const</span> <span class="kt">u8</span><span class="p">,</span> <span class="n">len</span><span class="p">:</span> <span class="kt">usize</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Map</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">try</span> <span class="n">self</span><span class="p">.</span><span class="nf">serializeMap</span><span class="p">(</span><span class="n">len</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">const</span> <span class="n">Seq</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">first</span><span class="p">:</span> <span class="k">bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="py">ser</span><span class="p">.</span><span class="nf">Seq</span><span class="p">(</span>
+        <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeElement</span> <span class="o">=</span> <span class="n">serializeElement</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">end</span> <span class="o">=</span> <span class="n">end</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="n">Serializer</span><span class="p">.</span><span class="py">Ok</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="n">Serializer</span><span class="p">.</span><span class="py">Error</span><span class="p">;</span>
+
+    <span class="k">fn</span> <span class="n">serializeElement</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="py">first</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kc">true</span> <span class="o">=&gt;</span> <span class="n">self</span><span class="p">.</span><span class="py">first</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="kc">false</span> <span class="o">=&gt;</span> <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">", "</span><span class="p">,</span> <span class="o">.</span><span class="p">{}),</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">end</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">())</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"]"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c">// 👇</span>
+<span class="k">const</span> <span class="n">Map</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">first</span><span class="p">:</span> <span class="k">bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="py">ser</span><span class="p">.</span><span class="nf">Map</span><span class="p">(</span>
+        <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeKey</span> <span class="o">=</span> <span class="n">serializeKey</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">serializeValue</span> <span class="o">=</span> <span class="n">serializeValue</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">end</span> <span class="o">=</span> <span class="n">end</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">pub</span> <span class="k">usingnamespace</span> <span class="n">getty</span><span class="p">.</span><span class="py">ser</span><span class="p">.</span><span class="nf">Structure</span><span class="p">(</span>
+        <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span>
+            <span class="p">.</span><span class="py">serializeField</span> <span class="o">=</span> <span class="n">serializeField</span><span class="p">,</span>
+            <span class="p">.</span><span class="py">end</span> <span class="o">=</span> <span class="n">end</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="n">Serializer</span><span class="p">.</span><span class="py">Ok</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="n">Serializer</span><span class="p">.</span><span class="py">Error</span><span class="p">;</span>
+
+    <span class="k">fn</span> <span class="n">serializeKey</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="py">first</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kc">true</span> <span class="o">=&gt;</span> <span class="n">self</span><span class="p">.</span><span class="py">first</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="kc">false</span> <span class="o">=&gt;</span> <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">", "</span><span class="p">,</span> <span class="o">.</span><span class="p">{}),</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeValue</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">": "</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+
+        <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">serializeField</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">(),</span> <span class="k">comptime</span> <span class="n">key</span><span class="p">:</span> <span class="p">[]</span><span class="k">const</span> <span class="kt">u8</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">anytype</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">self</span><span class="p">.</span><span class="nf">serializeKey</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+        <span class="k">try</span> <span class="n">self</span><span class="p">.</span><span class="nf">serializeValue</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">fn</span> <span class="n">end</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="o">*</span><span class="nb">@This</span><span class="p">())</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"}}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="k">anyerror</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="nf">serializer</span><span class="p">();</span>
+
+    <span class="c">// 👇</span>
+    <span class="k">try</span> <span class="n">getty</span><span class="p">.</span><span class="nf">serialize</span><span class="p">(</span><span class="o">.</span><span class="p">{</span> <span class="p">.</span><span class="py">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">.</span><span class="py">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">},</span> <span class="n">s</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">$</span><span class="w"> </span>zig build run
+<span class="go">{"x": 1, "y": 2}</span></code></pre></figure>
+
+</pre></div>
+
+<p>Huzzah! Our JSON serializer is now complete!</p>
+
+    </div>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<footer class="site-footer">
+  <p>&copy; 2022 Getty</p>
+</footer>
+
+
+  </body>
+
+</html>

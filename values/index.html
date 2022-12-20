@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<html>
+
+  <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0021D8">
+
+  <title>Values</title>
+
+  <link rel="canonical" href="https://getty.so/values/">
+  <link rel="alternate" type="application/rss+xml" title="Getty" href="https://getty.so/feed.xml" />
+
+  <link rel="stylesheet" href="/style.css">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+</head>
+
+
+  <body>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<header class="site-header">
+  <div class="wrapper" style="text-align: center;">
+    <a class="page-logo" href="/">
+      <img src="/assets/images/page-logo.svg" alt="getty">
+    </a>
+  </div>
+</header>
+
+
+    <div class="container">
+      <h1 id="values">Values</h1>
+
+<h2 id="serialization">Serialization</h2>
+
+<p>How a Zig value is represented within a data format is determined entirely by whichever Getty serializer you use. Therefore, it’s important that you check how a serialization library is handling things before you start using it. As an example, here’s how the <a href="https://github.com/getty-zig/json/">Getty JSON</a> library does things:</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{};</span>                        <span class="c">// void is represented as null</span>
+<span class="k">const</span> <span class="n">b</span> <span class="o">=</span> <span class="p">.</span><span class="py">foobar</span><span class="p">;</span>                   <span class="c">// enums are represented as "foobar"</span>
+<span class="k">const</span> <span class="n">C</span> <span class="o">=</span> <span class="k">union</span><span class="p">(</span><span class="k">enum</span><span class="p">)</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="kt">i32</span> <span class="p">};</span>
+<span class="k">const</span> <span class="n">c</span> <span class="o">=</span> <span class="n">U</span><span class="p">{</span> <span class="p">.</span><span class="py">foo</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">};</span>             <span class="c">// tagged unions are represented as {"foo":1}</span>
+<span class="k">const</span> <span class="n">d</span> <span class="o">=</span> <span class="o">.</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>              <span class="c">// tuples are represented as [1,2,3]</span>
+<span class="k">const</span> <span class="n">e</span> <span class="o">=</span> <span class="o">.</span><span class="p">{</span> <span class="p">.</span><span class="py">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">.</span><span class="py">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">};</span>       <span class="c">// structs are represented as {"x":1,"y":2}</span></code></pre></figure>
+
+</pre></div>
+
+<h2 id="deserialization">Deserialization</h2>
+
+<p>Similarly, it is up to a Getty deserializer to determine how values within a data format should be parsed and deserialized into Getty’s data model. For instance, the <a href="https://github.com/getty-zig/json/">Getty JSON</a> library has no issues converting the JSON object <code class="language-plaintext highlighter-rouge">{"foo":1}</code> into a tagged union. However, other deserializers may expect something different from their input data when deserializing into a union value.</p>
+
+    </div>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<footer class="site-footer">
+  <p>&copy; 2022 Getty</p>
+</footer>
+
+
+  </body>
+
+</html>

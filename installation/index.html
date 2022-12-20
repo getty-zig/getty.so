@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<html>
+
+  <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0021D8">
+
+  <title>Installation</title>
+
+  <link rel="canonical" href="https://getty.so/installation/">
+  <link rel="alternate" type="application/rss+xml" title="Getty" href="https://getty.so/feed.xml" />
+
+  <link rel="stylesheet" href="/style.css">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+</head>
+
+
+  <body>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<header class="site-header">
+  <div class="wrapper" style="text-align: center;">
+    <a class="page-logo" href="/">
+      <img src="/assets/images/page-logo.svg" alt="getty">
+    </a>
+  </div>
+</header>
+
+
+    <div class="container">
+      <h1 id="installation">Installation</h1>
+
+<p>To install Getty for your project, you may use any of the following methods:</p>
+
+<ul>
+  <li><a href="#manual">Manual</a></li>
+  <li><a href="#gyro">Gyro</a></li>
+  <li><a href="#zigmod">Zigmod</a></li>
+</ul>
+
+<h2 id="manual">Manual</h2>
+
+<p>First, add Getty to your project:</p>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">git clone https://github.com/getty-zig/getty lib/getty</span></code></pre></figure>
+
+</pre></div>
+
+<p>Then, add the following line to <code class="language-plaintext highlighter-rouge">build.zig</code>:</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span>
+
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="py">build</span><span class="p">.</span><span class="py">Builder</span><span class="p">)</span> <span class="k">void</span> <span class="p">{</span>
+    <span class="c">// ...</span>
+
+    <span class="k">const</span> <span class="n">exe</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="nf">addExecutable</span><span class="p">(</span><span class="s">"my-project"</span><span class="p">,</span> <span class="s">"src/main.zig"</span><span class="p">);</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">setTarget</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">setBuildMode</span><span class="p">(</span><span class="n">mode</span><span class="p">);</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">addPackagePath</span><span class="p">(</span><span class="s">"getty"</span><span class="p">,</span> <span class="s">"lib/getty/src/getty.zig"</span><span class="p">);</span> <span class="c">// 👈</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">install</span><span class="p">();</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<h2 id="gyro">Gyro</h2>
+
+<p>First, add Getty to your project:</p>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">gyro add -s github getty-zig/getty
+gyro fetch</span></code></pre></figure>
+
+</pre></div>
+
+<p>Then, add the following lines to <code class="language-plaintext highlighter-rouge">build.zig</code>:</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span>
+<span class="k">const</span> <span class="n">pkgs</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"deps.zig"</span><span class="p">).</span><span class="py">pkgs</span><span class="p">;</span> <span class="c">// 👈</span>
+
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="py">build</span><span class="p">.</span><span class="py">Builder</span><span class="p">)</span> <span class="k">void</span> <span class="p">{</span>
+    <span class="c">// ...</span>
+
+    <span class="k">const</span> <span class="n">exe</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="nf">addExecutable</span><span class="p">(</span><span class="s">"my-project"</span><span class="p">,</span> <span class="s">"src/main.zig"</span><span class="p">);</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">setTarget</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">setBuildMode</span><span class="p">(</span><span class="n">mode</span><span class="p">);</span>
+    <span class="n">pkgs</span><span class="p">.</span><span class="nf">addAllTo</span><span class="p">(</span><span class="n">exe</span><span class="p">);</span> <span class="c">// 👈</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">install</span><span class="p">();</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<h2 id="zigmod">Zigmod</h2>
+
+<p>First, add the following line to <code class="language-plaintext highlighter-rouge">zigmod.yml</code>:</p>
+
+<div class="code-block"><div class="language-tag">YAML</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># ...</span>
+
+<span class="na">root_dependencies</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">src</span><span class="pi">:</span> <span class="s">git https://gitub.com/getty-zig/getty</span> <span class="c1"># 👈</span></code></pre></figure>
+
+</pre></div>
+
+<p>Then, add Getty to your project:</p>
+
+<div class="code-block"><div class="language-tag">Shell session</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">zigmod fetch</span></code></pre></figure>
+
+</pre></div>
+
+<p>Finally, add the following lines to <code class="language-plaintext highlighter-rouge">build.zig</code>:</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span>
+<span class="k">const</span> <span class="n">deps</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"deps.zig"</span><span class="p">);</span> <span class="c">// 👈</span>
+
+<span class="k">pub</span> <span class="k">fn</span> <span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="py">build</span><span class="p">.</span><span class="py">Builder</span><span class="p">)</span> <span class="k">void</span> <span class="p">{</span>
+    <span class="c">// ...</span>
+
+    <span class="k">const</span> <span class="n">exe</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="nf">addExecutable</span><span class="p">(</span><span class="s">"my-project"</span><span class="p">,</span> <span class="s">"src/main.zig"</span><span class="p">);</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">setTarget</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">setBuildMode</span><span class="p">(</span><span class="n">mode</span><span class="p">);</span>
+    <span class="n">deps</span><span class="p">.</span><span class="nf">addAllTo</span><span class="p">(</span><span class="n">exe</span><span class="p">);</span> <span class="c">// 👈</span>
+    <span class="n">exe</span><span class="p">.</span><span class="nf">install</span><span class="p">();</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+    </div>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<footer class="site-footer">
+  <p>&copy; 2022 Getty</p>
+</footer>
+
+
+  </body>
+
+</html>

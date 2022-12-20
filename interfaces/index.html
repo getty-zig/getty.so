@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<html>
+
+  <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0021D8">
+
+  <title>Interfaces</title>
+
+  <link rel="canonical" href="https://getty.so/interfaces/">
+  <link rel="alternate" type="application/rss+xml" title="Getty" href="https://getty.so/feed.xml" />
+
+  <link rel="stylesheet" href="/style.css">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+</head>
+
+
+  <body>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<header class="site-header">
+  <div class="wrapper" style="text-align: center;">
+    <a class="page-logo" href="/">
+      <img src="/assets/images/page-logo.svg" alt="getty">
+    </a>
+  </div>
+</header>
+
+
+    <div class="container">
+      <h1 id="interfaces">Interfaces</h1>
+
+<p>Whether you’re building a serializer or deserializer, you’ll eventually have to implement an interface.</p>
+
+<p>Interfaces in Zig are a userspace thing, so everyone has their own way of doing things. Naturally, that means that before you start writing any code, it’s important that you learn how Getty does interfaces.</p>
+
+<h2 id="what-is-a-getty-interface">What is a Getty Interface?</h2>
+
+<p>A <strong>Getty interface</strong> is just a function, and its constraints are specified as a parameter list. For instance, the following, example interface requires 3 associated types and 1 method from its implementations.</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="c">// 👋 Interface</span>
+<span class="k">fn</span> <span class="n">BoolSerializer</span><span class="p">(</span>
+    <span class="c">// 👋 Associated types</span>
+    <span class="k">comptime</span> <span class="n">Context</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">O</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">E</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+
+    <span class="c">// 👋 Required methods</span>
+    <span class="k">comptime</span> <span class="n">methods</span><span class="p">:</span> <span class="k">struct</span> <span class="p">{</span>
+        <span class="n">serializeBool</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="k">bool</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span> <span class="k">type</span></code></pre></figure>
+
+</pre></div>
+
+<p>The return value of a Getty interface is a <code class="language-plaintext highlighter-rouge">struct</code> namespace that contains two declarations: an <strong>interface type</strong> and an <strong>interface function</strong>. A value of the interface type is known as an <strong>interface value</strong>.</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">fn</span> <span class="n">BoolSerializer</span><span class="p">(</span>
+    <span class="k">comptime</span> <span class="n">Context</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">O</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">E</span><span class="p">:</span> <span class="k">type</span><span class="p">,</span>
+    <span class="k">comptime</span> <span class="n">methods</span><span class="p">:</span> <span class="k">struct</span> <span class="p">{</span>
+        <span class="n">serializeBool</span><span class="p">:</span> <span class="o">?</span><span class="k">fn</span> <span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="k">bool</span><span class="p">)</span> <span class="n">E</span><span class="o">!</span><span class="n">O</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span> <span class="k">type</span> <span class="p">{</span>
+    <span class="c">// 👋 Namespace</span>
+    <span class="k">return</span> <span class="k">struct</span> <span class="p">{</span>
+        <span class="c">// 👋 Interface type</span>
+        <span class="c">//</span>
+        <span class="c">//    Interface types generally have a single field to store an</span>
+        <span class="c">//    instance of an implementing type, a few declarations that may</span>
+        <span class="c">//    be useful to implementations, and wrapper methods that define the</span>
+        <span class="c">//    interface's behavior.</span>
+        <span class="k">pub</span> <span class="k">const</span> <span class="n">Interface</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+            <span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span>
+
+            <span class="k">pub</span> <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="n">O</span><span class="p">;</span>
+            <span class="k">pub</span> <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="n">E</span><span class="p">;</span>
+
+            <span class="k">pub</span> <span class="k">fn</span> <span class="n">serializeBool</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="k">bool</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">methods</span><span class="p">.</span><span class="py">serializeBool</span><span class="p">)</span> <span class="p">|</span><span class="n">f</span><span class="p">|</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="k">try</span> <span class="n">f</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="py">context</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+                <span class="p">}</span>
+
+                <span class="nb">@compileError</span><span class="p">(</span><span class="s">"serializeBool is unimplemented"</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+
+        <span class="c">// 👋 Interface function</span>
+        <span class="k">pub</span> <span class="k">fn</span> <span class="n">boolSerializer</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="n">Interface</span> <span class="p">{</span>
+            <span class="c">// 👋 Interface value</span>
+            <span class="k">return</span> <span class="o">.</span><span class="p">{</span> <span class="p">.</span><span class="py">context</span> <span class="o">=</span> <span class="n">self</span> <span class="p">};</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+<h2 id="how-to-implement-a-getty-interface">How to Implement a Getty Interface?</h2>
+
+<p>To implement a Getty interface, call the interface and apply <code class="language-plaintext highlighter-rouge">usingnamespace</code> to its return value. This will import an interface type and interface function into your implementation.</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">const</span> <span class="n">std</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"std"</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="n">UselessSerializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="c">// 👋 Implements BoolSerializer for UselessSerializer.</span>
+    <span class="k">usingnamespace</span> <span class="n">BoolSerializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="k">void</span><span class="p">,</span>
+        <span class="k">error</span><span class="p">{},</span>
+        <span class="o">.</span><span class="p">{},</span>
+    <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">const</span> <span class="n">OppositeSerializer</span> <span class="o">=</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="c">// 👋 Implements BoolSerializer for OppositeSerializer.</span>
+    <span class="k">usingnamespace</span> <span class="n">BoolSerializer</span><span class="p">(</span>
+        <span class="nb">@This</span><span class="p">(),</span>
+        <span class="n">Ok</span><span class="p">,</span>
+        <span class="n">Error</span><span class="p">,</span>
+        <span class="o">.</span><span class="p">{</span> <span class="p">.</span><span class="py">serializeBool</span> <span class="o">=</span> <span class="n">serializeBool</span> <span class="p">},</span>
+    <span class="p">);</span>
+
+    <span class="k">const</span> <span class="n">Ok</span> <span class="o">=</span> <span class="k">void</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">Error</span> <span class="o">=</span> <span class="k">error</span><span class="p">{};</span>
+
+    <span class="k">fn</span> <span class="n">serializeBool</span><span class="p">(</span><span class="mi">_</span><span class="p">:</span> <span class="nb">@This</span><span class="p">(),</span> <span class="n">value</span><span class="p">:</span> <span class="k">bool</span><span class="p">)</span> <span class="n">Error</span><span class="o">!</span><span class="n">Ok</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">.</span><span class="py">debug</span><span class="p">.</span><span class="nf">print</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span> <span class="o">.</span><span class="p">{</span><span class="o">!</span><span class="n">value</span><span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+</pre></div>
+
+<h2 id="how-to-use-a-getty-interface-implementation">How to Use a Getty Interface Implementation?</h2>
+
+<p>To use a value of, say <code class="language-plaintext highlighter-rouge">OppositeSerializer</code>, as an implementation of <code class="language-plaintext highlighter-rouge">BoolSerializer</code>:</p>
+
+<div class="code-block"><div class="language-tag">Zig code</div><pre class="code-block-inner">
+
+<figure class="highlight"><pre><code class="language-zig" data-lang="zig"><span class="k">pub</span> <span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="k">anyerror</span><span class="o">!</span><span class="k">void</span> <span class="p">{</span>
+    <span class="c">// 👋 Create a value of the implementing type.</span>
+    <span class="k">const</span> <span class="n">os</span> <span class="o">=</span> <span class="n">OppositeSerializer</span><span class="p">{};</span>
+
+    <span class="c">// 👋 Create an interface value from it.</span>
+    <span class="k">const</span> <span class="n">bs</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="nf">boolSerializer</span><span class="p">();</span>
+
+    <span class="c">// 👋 Use the interface value!</span>
+    <span class="k">try</span> <span class="n">bs</span><span class="p">.</span><span class="nf">serializeBool</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>  <span class="c">// output: false</span>
+    <span class="k">try</span> <span class="n">bs</span><span class="p">.</span><span class="nf">serializeBool</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span> <span class="c">// output: true</span>
+<span class="p">}</span></code></pre></figure>
+
+</pre></div>
+
+    </div>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<footer class="site-footer">
+  <p>&copy; 2022 Getty</p>
+</footer>
+
+
+  </body>
+
+</html>

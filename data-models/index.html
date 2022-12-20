@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<html>
+
+  <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0021D8">
+
+  <title>Data Models</title>
+
+  <link rel="canonical" href="https://getty.so/data-models/">
+  <link rel="alternate" type="application/rss+xml" title="Getty" href="https://getty.so/feed.xml" />
+
+  <link rel="stylesheet" href="/style.css">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+</head>
+
+
+  <body>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<header class="site-header">
+  <div class="wrapper" style="text-align: center;">
+    <a class="page-logo" href="/">
+      <img src="/assets/images/page-logo.svg" alt="getty">
+    </a>
+  </div>
+</header>
+
+
+    <div class="container">
+      <h1 id="data-models">Data Models</h1>
+
+<p>Getty defines two data models: one for serialization and one for deserialization.</p>
+
+<p>A <strong>data model</strong> represents the set of types supported by Getty. The types
+within Getty’s data models are purely conceptual; they aren’t actually Zig
+types. For example, there isn’t an <code class="language-plaintext highlighter-rouge">i32</code> or <code class="language-plaintext highlighter-rouge">u64</code> in either of Getty’s data
+models. Instead, <code class="language-plaintext highlighter-rouge">i32</code> and <code class="language-plaintext highlighter-rouge">u64</code> are both considered to the same type:
+<em>Integer</em>.</p>
+
+<p>By maintaining a data model, Getty establishes a generic baseline from which
+(de)serializers operate. This often simplifies the job of a (de)serializer
+significantly. For example, Zig considers <code class="language-plaintext highlighter-rouge">[]i32</code> and <code class="language-plaintext highlighter-rouge">std.ArrayList(i32)</code> to
+be different types, meaning that you’d need to write unique serialization logic
+for slices, <code class="language-plaintext highlighter-rouge">std.ArrayList</code>s, and integers. In contrast, Getty considers both
+types to be the same: they are both <em>Sequences</em>. This means that a Getty
+serializer only has to specify how to serialize two types: <em>Integers</em> and
+<em>Sequences</em>. By doing so, they’ll automatically be able to serialize <code class="language-plaintext highlighter-rouge">[]i32</code>
+and <code class="language-plaintext highlighter-rouge">std.ArrayList(i32)</code> values, as well as any other value whose type is
+supported by Getty and is considered a <em>Sequence</em>, including <code class="language-plaintext highlighter-rouge">[5]u128</code>,
+<code class="language-plaintext highlighter-rouge">std.BoundedArray</code>, <code class="language-plaintext highlighter-rouge">std.TailQueue</code>, and more!</p>
+
+<p>In other words, Getty’s data models act as an interface between data formats and Zig:</p>
+
+<ul>
+  <li>Serializers receive values from Getty’s data model and serialize them into a data format.</li>
+  <li>Deserializers receive values from a data format and deserialize them into Getty’s data model.</li>
+</ul>
+
+<p><img alt="Data Model" src="/assets/images/data-model.svg" class="figure-small" /></p>
+
+<h2 id="serialization-data-model">Serialization Data Model</h2>
+
+<p>Getty’s serialization data model consists of the following types:</p>
+
+<ul>
+  <li><strong>Boolean</strong></li>
+  <li><strong>Enum</strong></li>
+  <li><strong>Float</strong></li>
+  <li><strong>Integer</strong></li>
+  <li><strong>Map</strong></li>
+  <li><strong>Null</strong></li>
+  <li><strong>Sequence</strong></li>
+  <li><strong>Some</strong></li>
+  <li><strong>String</strong></li>
+  <li><strong>Structure</strong></li>
+  <li><strong>Void</strong></li>
+</ul>
+
+<h2 id="deserialization-data-model">Deserialization Data Model</h2>
+
+<p>Getty’s deserialization data model consists of the following types:</p>
+
+<ul>
+  <li><strong>Boolean</strong></li>
+  <li><strong>Enum</strong></li>
+  <li><strong>Float</strong></li>
+  <li><strong>Integer</strong></li>
+  <li><strong>Map</strong></li>
+  <li><strong>Optional</strong></li>
+  <li><strong>Sequence</strong></li>
+  <li><strong>String</strong></li>
+  <li><strong>Structure</strong></li>
+  <li><strong>Union</strong></li>
+  <li><strong>Void</strong></li>
+</ul>
+
+    </div>
+
+    <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
+
+<footer class="site-footer">
+  <p>&copy; 2022 Getty</p>
+</footer>
+
+
+  </body>
+
+</html>
