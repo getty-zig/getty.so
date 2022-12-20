@@ -190,7 +190,7 @@ const ab = struct {
 {% endlabel %}
 
 
-### Using Blocks
+### Usage
 
 Once you've defined a block, you can pass them along to Getty via the
 [`getty.Serializer`](https://docs.getty.so/#root;Serializer) and
@@ -270,5 +270,50 @@ pub fn main() anyerror!void {
         try getty.serialize(false, serializer); // output: 0
     }
 }
+{% endhighlight %}
+{% endlabel %}
+
+## Tuples
+
+Occassionally, you may want to pass multiple (de)serialization blocks to Getty. To do so, you can use __(de)serialization tuples__.
+
+A (de)serialization tuple is, well, a tuple of (de)serialization blocks. They
+can be used wherever a (de)serialization block can be used and allow you to do
+some pretty handy things. For example, suppose you had the following type:
+
+
+{% label Zig code %}
+{% highlight zig %}
+const Point = struct {
+    x: i32,
+    y: i32,
+};
+{% endhighlight %}
+{% endlabel %}
+
+If you just wanted to serialize `Point` values as sequences, you'd simply write
+a serialization block doing so and pass it along to Getty. However, what if you
+also wanted to serialize `i32` values as Booleans?
+
+One option is to stuff all of your custom serialization logic into a single
+block. But that gets messy real quick and inevitably becomes a pain in the butt
+to maintain.
+
+A much better solution is to break up your custom serialization behaviors into
+their own separate blocks. One for `Point` values and one for `i32` values.
+Then, you can just group them together as a serialization tuple and have Getty
+process both blocks!
+
+{% label Zig code %}
+{% highlight zig %}
+const point_sb = struct {
+    // ...
+};
+
+const i32_sb = struct {
+    // ...
+};
+
+const point_st = .{ point_sb, i32_sb };
 {% endhighlight %}
 {% endlabel %}
