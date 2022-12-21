@@ -2,7 +2,7 @@
 
 Getty is a framework that helps you build (de)serializers in Zig.
 
-If you've ever written a Zig (de)serializer before, you probably wrote a function that took a value, switched on its type, and (de)serialized based on the resulting type information. You might have even called it [`std.json`](https://ziglang.org/documentation/master/std/#root;json) too as that's exactly how the module works. Unfortunately, this approach is quite brittle, inflexible, and always ends up being a lot of unnecessary work.
+If you've ever written a Zig (de)serializer before, you probably wrote a function that took a value, switched on its type, and (de)serialized based on the resulting type information. You might have even called it [`std.json`](https://ziglang.org/documentation/master/std/#root;json) too as that's exactly how the module works. Unfortunately, this approach is quite brittle, inflexible, and usually ends up being a lot of unnecessary work.
 
 The goal of Getty is to help you avoid all of that and reduce the amount of code you need to write a (de)serializer that is customizable, performant, and able to support a wide variety of data types out of the box!
 
