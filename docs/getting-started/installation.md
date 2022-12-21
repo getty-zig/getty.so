@@ -4,7 +4,7 @@ To install Getty for your project, you can use any of the methods listed on this
 
 ??? info "Verification"
 
-    After you've installed Getty, you can check that everything is working by running the following program.
+    Once you've installed Getty, you can check that everything is working by running the following program.
 
     ```zig title="<code>src/main.zig</code>"
     const std = @import("std");
@@ -24,7 +24,7 @@ To install Getty for your project, you can use any of the methods listed on this
 
 !!! warning "Prerequisites"
 
-    For this section, you must have the latest version of [Zig](https://ziglang.org/download/) (`master`) installed.
+    These steps require that you have the `master` version of [Zig](https://ziglang.org/download/) installed.
 
 1. Add Getty to your project.
 
@@ -52,7 +52,7 @@ To install Getty for your project, you can use any of the methods listed on this
 
 !!! warning "Prerequisites"
 
-    For this section, you must have the latest version of [Zig](https://ziglang.org/download/) (`master`) and the [Gyro](https://github.com/mattnite/gyro#installation) package manager installed.
+    These steps require that you have the `master` version of [Zig](https://ziglang.org/download/) and the [Gyro](https://github.com/mattnite/gyro#installation) package manager installed.
 
 1. Add Getty to your project.
 
@@ -82,7 +82,7 @@ To install Getty for your project, you can use any of the methods listed on this
 
 !!! warning "Prerequisites"
 
-    For this section, you must have the latest version of [Zig](https://ziglang.org/download/) (`master`) and the [Zigmod](https://github.com/nektro/zigmod#download) package manager installed.
+    These steps require that you have the `master` version of [Zig](https://ziglang.org/download/) and the [Zigmod](https://github.com/nektro/zigmod#download) package manager installed.
 
 1. Make the following changes to `zigmod.yml`.
 
