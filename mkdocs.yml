@@ -18,6 +18,8 @@ copyright: © 2022 Getty
 
 theme:
   name: material
+  font:
+    text: Heebo
 
   icon:
     logo: material/circle-multiple
