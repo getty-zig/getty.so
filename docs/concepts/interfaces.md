@@ -28,7 +28,7 @@ fn BoolSerializer(
 
 ```
 
-1. This function is an interface similar to the ones you'll see in Getty.
+1. This function is an interface similar to the ones defined in Getty.
 
 1. These parameters are associated types that implementations of `BoolSerializer` must provide.
 
@@ -75,7 +75,7 @@ fn BoolSerializer(
 1. This function is an interface function. Its job is to return an interface value.
 
 1. This declaration is an interface type. They generally have:
-     - A single field to store an instance of an implementing type.
+     - A single field to store an instance of an implementation.
      - A few declarations that may be useful to implementations.
      - Wrapper methods that define the interface's behavior.
 
