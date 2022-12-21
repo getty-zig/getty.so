@@ -74,13 +74,10 @@ fn BoolSerializer(
 
 1. This function is an interface function. Its job is to return an interface value.
 
-1. This declaration is an interface type.
-    <br>
-    <br>
-    Interface types generally have:
-      - A single field to store an instance of an implementing type.
-      - A few declarations that may be useful to implementations.
-      - Wrapper methods that define the interface's behavior.
+1. This declaration is an interface type. They generally have:
+     - A single field to store an instance of an implementing type.
+     - A few declarations that may be useful to implementations.
+     - Wrapper methods that define the interface's behavior.
 
 <!--The above annotations need to be ordered like they are to avoid weirdness-->
 <!--with the second list element in the interface type annotation.-->

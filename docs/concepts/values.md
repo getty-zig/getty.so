@@ -8,17 +8,15 @@ how a serialization library is handling things before you start using it. As an
 example, here's how the [Getty JSON](https://github.com/getty-zig/json/)
 library does things:
 
-=== "Zig code"
-
-    ```zig
-    const a = {};                        // serialized as null
-    const b = "foobar";                  // serialized as "foobar"
-    const c = .foobar;                   // serialized as "foobar"
-    const d = .{ 1, 2, 3 };              // serialized as [1,2,3]
-    const e = .{ .x = 1, .y = 2 };       // serialized as {"x":1,"y":2}
-    const F = union(enum) { foo: i32 };
-    const f = U{ .foo = 1 };             // serialized as {"foo":1}
-    ```
+```zig title="Shell session"
+const a = {};                        // serialized as null
+const b = "foobar";                  // serialized as "foobar"
+const c = .foobar;                   // serialized as "foobar"
+const d = .{ 1, 2, 3 };              // serialized as [1,2,3]
+const e = .{ .x = 1, .y = 2 };       // serialized as {"x":1,"y":2}
+const F = union(enum) { foo: i32 };
+const f = U{ .foo = 1 };             // serialized as {"foo":1}
+```
  
 ## Deserialization
 
