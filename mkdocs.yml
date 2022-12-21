@@ -40,6 +40,9 @@ theme:
     # Enables blog.
     - blog
 
+    # Enables code annotations.
+    - content.code.annotate
+
     # Clicks on internal links won't fully reload the page.
     - navigation.instant
 
@@ -152,6 +155,7 @@ nav:
     - concepts/index.md
     - concepts/values.md
     - concepts/data-models.md
+    - concepts/interfaces.md
     - concepts/blocks-and-tuples.md
   - Contributing:
     - contributing.md
