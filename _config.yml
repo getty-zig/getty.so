@@ -1,9 +1,0 @@
-# SPDX-License-Identifier: LGPL-2.1-or-later
-
-title: Getty
-baseurl: ""
-url: "https://getty.so"
-
-permalink: /:title/
-
-markdown: kramdown
