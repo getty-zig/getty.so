@@ -113,18 +113,18 @@ operate.
 
 </figure>
 
-!!! info "Interactions"
+??? info "Interactions"
 
     Notice how the (de)serializers never interact directly with Zig.
 
     - Serializers receive values from Getty's data model and serialize them into a data format.
     - Deserializers receive values from a data format and deserialize them into Getty's data model.
 
-Each data model simplifies the job of a (de)serializer significantly. For
-example, suppose you wanted to serialize `#!zig []i32`, `#!zig [100]i32`, `#!zig
-std.ArrayList(i32)`, and `#!zig std.TailQueue(i32)` values. Since Zig considers
-all of these types to be different, you'd have to write unique serialization
-logic for all of them, as well as for integers!
+The data models simplify the job of a (de)serializer significantly. For
+example, suppose you wanted to serialize `#!zig []i32`, `#!zig [100]i32`,
+`#!zig std.ArrayList(i32)`, and `#!zig std.TailQueue(i32)` values. Since Zig
+considers all of these types to be different, you'd have to write unique
+serialization logic for all of them (and integers)!
 
 In Getty, you don't have to do so much work. Getty considers all of the
 aforementioned types to be the same: they are all _Sequences_. This means that
