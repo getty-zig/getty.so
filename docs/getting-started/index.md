@@ -2,17 +2,29 @@
 
 Getty is a framework that helps you build (de)serializers in Zig.
 
-Typically, Zig (de)serializers are written as functions that take a value, switch on its type, and (de)serialize based on the resulting type information. In fact, this is exactly what `std.json` does. Unfortunately, this approach is quite brittle, inflexible, and ends up being a lot of unnecessary work.
+If you've ever written a Zig (de)serializer before, you probably wrote a function that took a value, switched on its type, and (de)serialized based on the resulting type information. You might have even called it [`std.json`](https://ziglang.org/documentation/master/std/#root;json) too as that's exactly how the module works. Unfortunately, this approach is quite brittle, inflexible, and always ends up being a lot of unnecessary work.
 
 The goal of Getty is to help you avoid all of that and reduce the amount of code you need to write a (de)serializer that is customizable, performant, and able to support a wide variety of data types out of the box!
 
 ## Architecture
 
-At a high-level, Getty consists of two flows: a __serialization flow__ and a __deserialization flow__.
+At a high-level, Getty consists of two flows: one for serialization and another for deserialization.
 
-In the serialization flow, a Zig value is passed to Getty and, based on its type, a [Serialization Block](/blocks-and-tuples) is selected and executed by Getty, serializing the passed-in value into Getty's serialization [data model](/data-models). The resulting Getty value is then passed to a serializer, which serializes it into an output data format.
+!!! info ""
 
-In the deserialization flow, a Zig type is passed to Getty and, based on the type, a [Deserialization Block](/blocks-and-tuples) is selected and executed by Getty, prompting a deserializer to deserialize its input data into Getty's deserialization [data model](/data-models). The resulting Getty value is then passed to a Visitor, where it is converted into a Zig value of the initial type.
+    === "Serialization"
+
+        1. A Zig value is passed to Getty.
+        2. Based on the value's type, a [serialization block](/concepts/blocks-and-tuples) is selected and executed by Getty.
+        3. The block serializes the passed-in value into Getty's [data model](/concepts/data-models).
+        4. The resulting Getty value is passed to a [Serializer](https://docs.getty.so/#root;Serializer), which serializes it into an output data format.
+
+    === "Deserialization"
+
+        1. A Zig type is passed to Getty.
+        2. Based on the type, a [deserialization block](/concepts/blocks-and-tuples) is selected and executed by Getty.
+        3. The block prompts a [Deserializer](https://docs.getty.so/#root;Deserializer) to deserialize its input data into Getty's [data model](/concepts/data-models).
+        4. The resulting Getty value is passed to a [Visitor](https://docs.getty.so/#root;de.Visitor), which converts it into a Zig value of the initial type.
 
 <figure markdown>
 
