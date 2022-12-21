@@ -40,6 +40,9 @@ theme:
     # Enables blog.
     - blog
 
+    # Enables tooltips.
+    - content.tooltips
+
     # Enables code annotations.
     - content.code.annotate
 
