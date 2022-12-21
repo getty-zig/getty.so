@@ -141,10 +141,10 @@ markdown_extensions:
 nav:
   - Home:
     - index.md
-  - Introduction:
-    - overview.md
-    - installation.md
-    - guide.md
+  - Getting Started:
+    - getting-started/index.md
+    - getting-started/installation.md
+    - getting-started/guide.md
   - Concepts:
     - values.md
     - data-models.md
