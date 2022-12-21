@@ -1,6 +1,6 @@
 # Installation
 
-You can use any of the following methods to install Getty for your project.
+To install Getty for your project, you can use any of the following methods.
 
 ## Manually
 

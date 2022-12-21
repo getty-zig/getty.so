@@ -21,7 +21,7 @@ theme:
 
   icon:
     logo: material/circle-multiple
-  favicon: images/getty-favicon-solid-large.png
+  favicon: assets/images/getty-favicon-solid-large.png
 
   palette:
     - media: "(prefers-color-scheme: dark)"
@@ -134,6 +134,9 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
 
+  # Enables tables.
+  - tables
+
 ################################################################################
 # Documentation Layout
 ################################################################################
@@ -146,9 +149,10 @@ nav:
     - getting-started/installation.md
     - getting-started/guide.md
   - Concepts:
-    - values.md
-    - data-models.md
-    - blocks-and-tuples.md
+    - concepts/index.md
+    - concepts/values.md
+    - concepts/data-models.md
+    - concepts/blocks-and-tuples.md
   - Contributing:
     - contributing.md
     - style-guide.md
