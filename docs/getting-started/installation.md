@@ -55,7 +55,7 @@ To install Getty for your project, you can use any of the methods listed on this
         }
         ```
 
-## [Gyro](https://github.com/mattnite/gyro)
+## Gyro
 
 1. Add Getty to your project.
 
@@ -85,7 +85,7 @@ To install Getty for your project, you can use any of the methods listed on this
         }
         ```
 
-## [Zigmod](https://github.com/nektro/zigmod)
+## Zigmod
 
 1. Make the following changes to `zigmod.yml`.
 
