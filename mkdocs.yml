@@ -1,1 +1,158 @@
+###############################################################################
+# Project Information
+################################################################################
+
 site_name: Getty
+site_description: A (de)serialization framework for Zig
+site_url: https://getty.so/
+
+repo_name: getty-zig/getty
+repo_url: https://github.com/getty-zig/getty
+edit_uri: https://github.com/getty-zig/getty.so/edit/main/docs/
+
+copyright: © 2022 Getty
+
+################################################################################
+# Theme
+################################################################################
+
+theme:
+  name: material
+
+  icon:
+    logo: material/circle-multiple
+  favicon: images/getty-favicon-solid-large.png
+
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+  features:
+    # Enables blog.
+    - blog
+
+    # Clicks on internal links won't fully reload the page.
+    - navigation.instant
+
+    # Enables sections to have documents attached to them.
+    - navigation.indexes
+
+    # Enables sections in the navigation menu.
+    - navigation.sections
+
+    # Enables tabs in the top bar.
+    - navigation.tabs
+
+    # Back to Top button.
+    - navigation.top
+
+    # Automatically scroll ToC.
+    - toc.follow
+
+    # Enable search suggestions.
+    - search.suggest
+
+################################################################################
+# Extra
+################################################################################
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github 
+      link: https://github.com/ibokuri/
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/njDA67U5ph/
+
+################################################################################
+# Plugins
+################################################################################
+
+plugins:
+  # Enables front matter to be set per folder.
+  - meta
+
+  # Enables search.
+  - search
+
+  # Preserves HTML formatting in navigation and table of contents.
+  - typeset
+
+
+################################################################################
+# Extensions
+################################################################################
+
+markdown_extensions:
+  # Enables tooltips.
+  - abbr
+
+  # Enables call-outs.
+  - admonition
+
+  # Enables annotations.
+  - attr_list
+
+  # Enables definition lists.
+  - def_list
+
+  # Enables Markdown inside of HTML.
+  - md_in_html
+
+  # Eanbles call-outs to be collapsible.
+  - pymdownx.details
+
+  # Enables icons and Emojis.
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+  # Adds support for syntax highlighting.
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+  # Adds support for inline syntax highlighting.
+  - pymdownx.inlinehilite
+
+  # Enables arbitrary nesting of code and content blocks.
+  - pymdownx.superfences
+
+  # Enables content tabs.
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  # Enables task lists.
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+################################################################################
+# Documentation Layout
+################################################################################
+
+nav:
+  - Home:
+    - index.md
+  - Introduction:
+    - overview.md
+    - installation.md
+    - guide.md
+  - Concepts:
+    - values.md
+    - data-models.md
+    - blocks-and-tuples.md
+  - Contributing:
+    - contributing.md
+    - style-guide.md
+  - API Reference:
+    - https://docs.getty.so/
+  #- Blog:
+    #- blog/index.md
