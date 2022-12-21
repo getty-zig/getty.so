@@ -29,6 +29,10 @@ To install Getty for your project, you can use any of the methods listed on this
 
 ## Manual
 
+!!! warning "Prerequisites"
+
+    For this section, you must have the latest version of [Zig](https://ziglang.org/download/) (`master`) installed.
+
 1. Add Getty to your project.
 
     === "Shell session"
@@ -56,6 +60,10 @@ To install Getty for your project, you can use any of the methods listed on this
         ```
 
 ## Gyro
+
+!!! warning "Prerequisites"
+
+    For this section, you must have the latest version of [Zig](https://ziglang.org/download/) (`master`) and the [Gyro](https://github.com/mattnite/gyro#installation) package manager installed.
 
 1. Add Getty to your project.
 
@@ -86,6 +94,10 @@ To install Getty for your project, you can use any of the methods listed on this
         ```
 
 ## Zigmod
+
+!!! warning "Prerequisites"
+
+    For this section, you must have the latest version of [Zig](https://ziglang.org/download/) (`master`) and the [Zigmod](https://github.com/nektro/zigmod#download) package manager installed.
 
 1. Make the following changes to `zigmod.yml`.
 
