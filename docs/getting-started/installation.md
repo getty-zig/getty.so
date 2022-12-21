@@ -1,8 +1,33 @@
 # Installation
 
-To install Getty for your project, you can use any of the following methods.
+To install Getty for your project, you can use any of the methods listed on this page.
 
-## Manually
+??? info "Confirming the Installation"
+
+    Once you've installed Getty, you can check that everything works by running the following program.
+
+    === "`src/main.zig`"
+
+        ```zig
+        const std = @import("std");
+        const getty = @import("getty");
+
+        pub fn main() !void {
+            std.debug.print("{}\n", .{getty});
+        }
+        ```
+
+        <div class="result" markdown>
+
+        ```console
+        $ zig build run
+        getty
+        ```
+
+        </div>
+
+
+## Manual
 
 1. Add Getty to your project.
 
@@ -12,7 +37,7 @@ To install Getty for your project, you can use any of the following methods.
         git clone https://github.com/getty-zig/getty lib/getty
         ```
 
-2. Add the following line to `build.zig`.
+2. Make the following change in `build.zig`.
 
     === "`build.zig`"
 
@@ -30,7 +55,7 @@ To install Getty for your project, you can use any of the following methods.
         }
         ```
 
-## Gyro
+## [Gyro](https://github.com/mattnite/gyro)
 
 1. Add Getty to your project.
 
@@ -41,7 +66,7 @@ To install Getty for your project, you can use any of the following methods.
         gyro fetch
         ```
 
-2. Add the following lines to `build.zig`.
+2. Make the following changes to `build.zig`.
 
     === "`build.zig`"
 
@@ -60,9 +85,9 @@ To install Getty for your project, you can use any of the following methods.
         }
         ```
 
-## Zigmod
+## [Zigmod](https://github.com/nektro/zigmod)
 
-1. Add the following lines to `zigmod.yml`.
+1. Make the following changes to `zigmod.yml`.
 
     === "`zigmod.yml`"
 
@@ -81,7 +106,7 @@ To install Getty for your project, you can use any of the following methods.
         zigmod fetch
         ```
 
-3. Add the following lines to `build.zig`.
+3. Make the following changes in `build.zig`.
 
     === "`build.zig`"
 
