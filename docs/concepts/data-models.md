@@ -7,7 +7,7 @@ models. Instead, they are both considered to the same type: _Integer_.
 
 Getty maintains two data models: one for serialization and another for deserialization.
 
-??? info "Data Models"
+!!! info ""
 
     === "Serialization"
 
@@ -117,8 +117,8 @@ operate.
 
     Notice how the (de)serializers never interact directly with Zig.
 
-    - Serializers receive values from Getty's data model and serialize them into a data format.
-    - Deserializers receive values from a data format and deserialize them into Getty's data model.
+    - Serializers receive values from Getty's __data model__ and serialize them into a __data format__.
+    - Deserializers receive values from a __data format__ and deserialize them into Getty's __data model__.
 
 The data models simplify the job of a (de)serializer significantly. For
 example, suppose you wanted to serialize `#!zig []i32`, `#!zig [100]i32`,
