@@ -5,25 +5,32 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   build:
+    name: Deploy to docs branch
     runs-on: ubuntu-latest
-
-    concurrency: ci-${{ github.ref }}
-
+    if: github.event.repository.fork == false
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Cache
-        uses: actions/cache@v2
+      - name: Build
+        uses: actions/setup-python@v4
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: ${{ runner.os }}-gems-
+          python-version: 3.x
+        run:
+        - pip install git+https://${MKDOCS_INSIDERS_TOKEN}@github.com/ibokuri/mkdocs-material-insiders.git
+        - mkdocs build --site-dir public
 
       - name: Deploy
-        uses: helaili/jekyll-action@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target_branch: 'docs'
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: docs
+          FOLDER: public
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+env:
+  MKDOCS_INSIDERS_TOKEN: ${{ secrets.MKDOCS_INSIDERS_TOKEN }}
