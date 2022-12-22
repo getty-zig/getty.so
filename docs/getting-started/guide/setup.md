@@ -1,6 +1,6 @@
 # Setup
 
-Before we can start writing any code, there are a few things we need to do.
+First things first, we need to set up a new project to work in.
 
 1. Create a new Zig project called `getty-learn`:
 
