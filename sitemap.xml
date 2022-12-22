@@ -2,62 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://getty.so/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/blog/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/concepts/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/concepts/blocks-and-tuples/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/concepts/data-models/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/concepts/interfaces/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/concepts/values/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/contributing/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/contributing/style-guide/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/getting-started/</loc>
-         <lastmod>2022-12-21</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://getty.so/getting-started/guide/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://getty.so/getting-started/installation/</loc>
-         <lastmod>2022-12-21</lastmod>
+         <lastmod>2022-12-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/getting-started/guide/</loc>
+         <lastmod>2022-12-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/getting-started/guide/introduction/</loc>
+         <lastmod>2022-12-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/getting-started/guide/serializers/</loc>
+         <lastmod>2022-12-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/getting-started/guide/setup/</loc>
+         <lastmod>2022-12-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

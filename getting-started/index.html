@@ -514,9 +514,37 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="guide/" class="md-nav__link">
+    
+    
+      
         
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+        
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="guide/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     
@@ -529,7 +557,160 @@
   
   
 
+            </a>
+            
+              <label class="md-nav__link " for="__nav_2_3">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" aria-label="Guide" data-md-level="2">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guide/introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guide/setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guide/serializers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Serializers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guide/deserializers.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    None
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guide/customization.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    None
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -965,8 +1146,15 @@
 
 <h1 id="getting-started">Getting Started</h1>
 <p>Getty is a framework that helps you build (de)serializers in Zig.</p>
-<p>If you've ever written a Zig (de)serializer before, you probably wrote a function that took a value, switched on its type, and (de)serialized based on the resulting type information. You might have even called it <a href="https://ziglang.org/documentation/master/std/#root;json"><code>std.json</code></a> too as that's exactly how the module works. Unfortunately, this approach is quite brittle, inflexible, and usually ends up being a lot of unnecessary work.</p>
-<p>The goal of Getty is to help you avoid all of that and reduce the amount of code you need to write a (de)serializer that is customizable, performant, and able to support a wide variety of data types!</p>
+<p>If you've ever written a Zig (de)serializer before, you probably wrote a
+function that took a value, switched on its type, and (de)serialized based on
+the resulting type information. You might have even called it
+<a href="https://ziglang.org/documentation/master/std/#root;json"><code>std.json</code></a>, as
+that's exactly how the module works! Unfortunately, this approach is quite
+brittle, inflexible, and usually ends up being a lot of unnecessary work.</p>
+<p>The goal of Getty is to help you avoid all of that and reduce the amount of
+code you need to write a (de)serializer that is customizable, performant, and
+able to support a wide variety of data types!</p>
 <h2 id="architecture">Architecture</h2>
 <p>At a high-level, Getty consists of two flows: one for serialization and another for deserialization.</p>
 <div class="admonition info">
@@ -1096,7 +1284,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "../assets/javascripts/workers/search.939a4419.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "../assets/javascripts/workers/search.939a4419.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.af94fead.min.js"></script>
