@@ -54,9 +54,6 @@ theme:
     # Enables sections to have documents attached to them.
     - navigation.indexes
 
-    # Enables sections in the navigation menu.
-    - navigation.sections
-
     # Enables tabs in the top bar.
     - navigation.tabs
 
@@ -155,7 +152,13 @@ nav:
   - Getting Started:
     - getting-started/index.md
     - getting-started/installation.md
-    - getting-started/guide.md
+    - Guide:
+      - getting-started/guide/index.md
+      - getting-started/guide/introduction.md
+      - getting-started/guide/setup.md
+      - getting-started/guide/serializers.md
+      - getting-started/guide/deserializers.md
+      - getting-started/guide/customization.md
   - Concepts:
     - concepts/index.md
     - concepts/values.md
