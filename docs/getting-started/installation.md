@@ -2,24 +2,6 @@
 
 To install Getty for your project, you can use any of the methods listed on this page.
 
-??? info "Verification"
-
-    Once you've installed Getty, you can check that everything is working by running the following program.
-
-    ```zig title="<code>src/main.zig</code>"
-    const std = @import("std");
-    const getty = @import("getty");
-
-    pub fn main() !void {
-        std.debug.print("{}\n", .{getty});
-    }
-    ```
-
-    ```console title="Shell session"
-    $ zig build run
-    getty
-    ```
-
 ## Manual
 
 !!! warning "Prerequisites"
