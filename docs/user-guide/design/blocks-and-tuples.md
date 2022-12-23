@@ -4,9 +4,9 @@ __Blocks__ are the fundamental building blocks (pun intended) of Getty's
 (de)serialization process.
 
 They define how types should be serialized or deserialized into. For example,
-all of the ways a `#!zig bool` value can be serialized by Getty are specified
+all of the ways a `bool` value can be serialized by Getty are specified
 in the [`getty.ser.blocks.Bool`](https://github.com/getty-zig/getty/blob/main/src/ser/blocks/bool.zig)
-block, and all of the ways that you can deserialize into a `#!zig [5]i32` are defined in
+block, and all of the ways that you can deserialize into a `[5]i32` are defined in
 [`getty.de.blocks.Array`](https://github.com/getty-zig/getty/blob/main/src/de/blocks/array.zig).
 
 Internally, Getty uses blocks to form its core (de)serialization behavior.
@@ -16,7 +16,7 @@ customize the way Getty (de)serializes values, as we'll see later on.
 
 ## Blocks
 
-A block is nothing more than a `#!zig struct` namespace that specifies two
+A block is nothing more than a `struct` namespace that specifies two
 things:
 
 1. The type(s) that should be (de)serialized by the block.
@@ -51,12 +51,12 @@ const sb = struct {
 1.  `is` specifies which types can be serialized by the `sb` block.
     <br>
     <br>
-    In this case, the `sb` block applies only to `#!zig bool` values.
+    In this case, the `sb` block applies only to `bool` values.
 
 1.  `serialize` specifies how to serialize values relevant to the `sb` block into Getty's data model.
     <br>
     <br>
-    In this case, we're telling Getty to serialize `#!zig bool` values as _Integers_.
+    In this case, we're telling Getty to serialize `bool` values as _Integers_.
 
 ### Deserialization Blocks
 
@@ -104,7 +104,7 @@ const db = struct {
 1.  `is` specifies which types can be deserialized into by the `db` block.
     <br>
     <br>
-    In this case, the `db` block applies only to `#!zig bool` values.
+    In this case, the `db` block applies only to `bool` values.
 
 1.  `deserialize` specifies the hint that Getty should provide a deserializer
     about the type being deserialized into.
@@ -124,7 +124,7 @@ const db = struct {
     <br>
     Visitors are responsible for specifying how to deserialize values from
     Getty's data model into Zig. In this case, our visitor can deserialize
-    _Integers_ into `#!zig bool` values, which it does by simply returning
+    _Integers_ into `bool` values, which it does by simply returning
     whether or not the integer is 0.
 
 
@@ -136,11 +136,11 @@ away with the more convenient __attribute blocks__.
 
 !!! warning "Compatibility"
 
-    Attribute blocks may only be defined by `#!zig struct`, `#!zig enum`, and
-    `#!zig union` types.
+    Attribute blocks may only be defined by `struct`, `enum`, and
+    `union` types.
 
 With ABs, Getty's default (de)serialization processes are used. For
-example, `#!zig struct` values would be serialized using the default
+example, `struct` values would be serialized using the default
 `getty.ser.blocks.Struct` block and deserialized with the default
 `getty.de.blocks.Struct` block. However, based on the attributes that you
 specify, slight changes to these default processes will take effect.
@@ -192,12 +192,12 @@ const ab = struct {
     <br>
     <br>
     Each field name in `attributes` must match either a field or variant in
-    your `#!zig struct`, `#!zig enum`, or `#!zig union`, or the word
+    your `struct`, `enum`, or `union`, or the word
     `Container`. The former are known as __field/variant attributes__, while
     the latter are known as __container attributes__.
 
 3. Each field in `attributes` is also an anonymous struct literal. The
-   fields in these inner `#!zig struct` values depend on the kind of attribute
+   fields in these inner `struct` values depend on the kind of attribute
    you're specifying (i.e., field/variant or container).
 
 ### Type-Defined Blocks
@@ -206,14 +206,13 @@ The blocks we've discussed so far are known as _out-of-band blocks_. They're
 defined separately from the type(s) that they operate on. Out-of-band blocks have
 their place, such as when you want to customize a type that you didn't define
 (e.g., the types in `std`). However, there's a more convenient way to do
-things for `#!zig struct`, `#!zig enum`, and `#!zig union` types that you did
+things for `struct`, `enum`, and `union` types that you did
 define yourself.
 
-If you define a block _within_ a `#!zig struct`, `#!zig enum`, or `#!zig
-union`, Getty will automatically process it without you having to pass it to a
-(de)serializer. All you have to do is make sure the block is public and named
-`#!zig @"getty.sb"` (for serialization) or `#!zig @"getty.db"`
-(for deserialization).
+If you define a block _within_ a `struct`, `enum`, or `union`, Getty will
+automatically process it without you having to pass it to a (de)serializer. All
+you have to do is make sure the block is public and named `@"getty.sb"` (for
+serialization) or `@"getty.db"` (for deserialization).
 
 Type-defined blocks are defined exactly the same as attribute, serialization,
 and deserialization blocks are. The only difference is that you don't need an
@@ -337,12 +336,12 @@ const Point = struct {
 
 If all you wanted to do was serialize `Point` values as _Sequences_, you'd
 just write an SB and pass it along to Getty. However, what if you also wanted
-to serialize `#!zig i32` values as _Booleans_? One option is to stuff all of
+to serialize `i32` values as _Booleans_? One option is to stuff all of
 your custom serialization logic into a single block. But that gets messy really
 quick and inevitably becomes a pain to maintain.
 
 A much better solution is to break up your serialization logic into separate
-blocks. One for `Point` values and one for `#!zig i32` values. Then, you just
+blocks. One for `Point` values and one for `i32` values. Then, you just
 group them together as a serialization tuple!
 
 ```zig title="Zig code"

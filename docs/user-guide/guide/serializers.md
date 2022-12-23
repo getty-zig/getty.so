@@ -158,7 +158,7 @@ $ zig build run
 
 Oh no, a compile error!
 
-Looks like Getty can't serialize `#!zig bool` values for us unless the
+Looks like Getty can't serialize `bool` values for us unless the
 `serializeBool` method is implemented. So, let's implement it real quick.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="1 14-16 22-24 32"
@@ -303,7 +303,7 @@ bit of context!
 ??? tip "Type Validation"
 
     Even though the type of the `value` parameter for many of our methods is
-    `#!zig anytype`, we didn't perform any type validation. That's because
+    `anytype`, we didn't perform any type validation. That's because
     Getty ensures that an appropriate type will be passed to each function. For
     example, strings will be passed to `serializeString` and integers and
     floating-points will be passed to `serializeNumber`.

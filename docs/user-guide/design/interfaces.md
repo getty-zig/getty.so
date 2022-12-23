@@ -38,7 +38,7 @@ fn BoolSerializer(
     to decide what happens. Generally, a compile error is raised or an error is
     returned.
 
-The return value of a Getty interface is a `#!zig struct` namespace that
+The return value of a Getty interface is a `struct` namespace that
 contains two declarations: an __interface type__ and an __interface function__.
 A value of the interface type is an __interface value__.
 
@@ -91,7 +91,7 @@ fn BoolSerializer(
     - Interface types are always named after the interface's import path. For
       example, the interface type for the
       [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess)
-      interface is named `#!zig @"getty.de.SeqAccess"`.
+      interface is named `@"getty.de.SeqAccess"`.
 
     - Interface functions are always named after the interface (in
       `camelCase` format). For example, the interface type for the
@@ -100,9 +100,9 @@ fn BoolSerializer(
 
 ## Implementation
 
-To implement a Getty interface, call the interface and apply `#!zig
-usingnamespace` to its return value. This will import an interface type and
-interface function into your implementation.
+To implement a Getty interface, call the interface and apply `usingnamespace` to
+its return value. This will import an interface type and interface function into
+your implementation.
 
 ```zig title="Zig code"
 const std = @import("std");

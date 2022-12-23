@@ -35,14 +35,14 @@ To begin, we'll go over how deserialization works in Getty.
 
 ??? example
 
-    Here's how deserializing a `#!zig std.ArrayList(i32)` works:
+    Here's how deserializing a `std.ArrayList(i32)` works:
 
-    1. `#!zig std.ArrayList(i32)` is passed to Getty.
+    1. `std.ArrayList(i32)` is passed to Getty.
     2. Getty selects and executes the
        [`getty.de.blocks.ArrayList`](https://github.com/getty-zig/getty/blob/main/src/de/blocks/array_list.zig)
        deserialization block.
     3. The DB prompts a [Deserializer](https://docs.getty.so/#root;Deserializer) to deserialize its input data into a _Sequence_.
-    4. The resulting _Sequence_ is passed to a [Visitor](https://docs.getty.so/#root;de.Visitor), which converts it into a `#!zig std.ArrayList(i32)`.
+    4. The resulting _Sequence_ is passed to a [Visitor](https://docs.getty.so/#root;de.Visitor), which converts it into a `std.ArrayList(i32)`.
 
 !!! warning "TL;DR"
 
@@ -217,7 +217,7 @@ $ zig build run
 
 Oh no, a compile error!
 
-Looks like Getty can't deserialize into the `#!zig bool` type for us unless
+Looks like Getty can't deserialize into the `bool` type for us unless
 the `deserializeBool` method is implemented. So, let's implement it real quick.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="4 17 33-41"
@@ -516,9 +516,9 @@ Alright, now let's take a look at deserialization for aggregate types.
 
 The difference between scalar and aggregate deserialization is that the
 aggregate types in Getty's data model do not directly map to any particular Zig
-type (or set of Zig types). That is, while _Booleans_ are represented by `#!zig
-bool`s and _Integers_ are represented by any Zig integer type, there's no
-native data type in Zig that is able to generically represent _Sequences_ or _Maps_.
+type (or set of Zig types). That is, while _Booleans_ are represented by `bool`s
+and _Integers_ are represented by any Zig integer type, there's no native data
+type in Zig that is able to generically represent _Sequences_ or _Maps_.
 
 This is where the aggregate deserialization interfaces come in. They represent
 the aggregate types in Getty's data model. There are four of them in total:

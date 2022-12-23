@@ -9,7 +9,7 @@ Getty allows both users and (de)serializers to customize the (de)serialization
 process for types that you've defined yourself, as well as for types that you
 didn't define such as those in the standard library. Moreover, the
 customization enabled by Getty can be used in a local manner. That is, you can
-serialize a `#!zig bool` value as a _String_ in one function and as an
+serialize a `bool` value as a _String_ in one function and as an
 _Integer_ in another, all without having to convert the value to a new or
 intermediate type.
 
@@ -20,7 +20,7 @@ Getty via the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) or
 
 ### Out-of-Band Customization
 
-Here, we define a serialization block that serializes `#!zig bool` values as
+Here, we define a serialization block that serializes `bool` values as
 _Integers_.
 
 ```zig title="Zig code"
@@ -72,7 +72,7 @@ pub fn main() anyerror!void {
 
 1.  This serializer only knows how to serialize _Integers_.
 
-2.  With `block` being passed to Getty, `#!zig bool` values will now be
+2.  With `block` being passed to Getty, `bool` values will now be
     serialized into Getty's data model as _Integers_, which, of course, is a
     type that `Serializer` knows how to serialize.
 
@@ -80,7 +80,7 @@ pub fn main() anyerror!void {
 
 4.  `serialize` specifies how to serialize values relevant to `block`.
 
-    In this case, we serialize the incoming `#!zig bool` value as an _Integer_
+    In this case, we serialize the incoming `bool` value as an _Integer_
     before passing it on to the serializer.
 
 ```console title="Shell session"
@@ -179,13 +179,13 @@ $ zig build run
 
 Out-of-band customization has its uses, such as when you want to customize a
 type that you didn't define. However, there's a more convenient way to do
-things for `#!zig struct`, `#!zig enum`, and `#!zig union` types that you did
+things for `struct`, `enum`, and `union` types that you did
 define yourself.
 
-If you define a BT _within_ a `#!zig struct`, `#!zig enum`, or `#!zig union`,
+If you define a BT _within_ a `struct`, `enum`, or `union`,
 Getty will automatically process it without you having to pass it in directly
 through a (de)serializer. Just make sure the BT is public and named either
-`#!zig @"getty.sbt"` or `#!zig @"getty.dbt"` (`sbt` for serialization, `dbt`
+`@"getty.sbt"` or `@"getty.dbt"` (`sbt` for serialization, `dbt`
 for deserialization).
 
 ```zig title="<code>src/main.zig</code>"
