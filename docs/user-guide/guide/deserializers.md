@@ -5,7 +5,7 @@ Let's write a simple (albeit slightly naive) JSON deserializer.
 !!! warning "Prerequisites"
 
     This page assumes you understand how Getty interfaces work. If not, take a
-    few minutes to learn about them [here](/concepts/interfaces/).
+    few minutes to learn about them [here](/user-guide/concepts/interfaces/).
 
 ## Prologue
 
@@ -19,11 +19,11 @@ To begin, we'll go over how deserialization works in Getty.
 </figure>
 
 1. A Zig type is passed to Getty.
-2. Based on the type, a [deserialization block](/concepts/blocks-and-tuples) is
+2. Based on the type, a [deserialization block](/user-guide/concepts/blocks-and-tuples) is
    selected and executed by Getty.
 3. The DB prompts a [Deserializer](https://docs.getty.so/#root;Deserializer)
    to deserialize its input data into Getty's [data
-   model](/concepts/data-models).
+   model](/user-guide/concepts/data-models).
 
     - This is done by calling one of the deserializer's methods (e.g., `deserializeBool`).
 

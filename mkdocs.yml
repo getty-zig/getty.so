@@ -149,22 +149,22 @@ markdown_extensions:
 nav:
   - Home:
     - index.md
-  - Getting Started:
-    - getting-started/index.md
-    - getting-started/installation.md
+  - User Guide:
+    - user-guide/index.md
+    - user-guide/installation.md
     - Guide:
-      - getting-started/guide/index.md
-      - getting-started/guide/introduction.md
-      - getting-started/guide/setup.md
-      - getting-started/guide/serializers.md
-      - getting-started/guide/deserializers.md
-      - getting-started/guide/customization.md
-  - Concepts:
-    - concepts/index.md
-    - concepts/values.md
-    - concepts/data-models.md
-    - concepts/interfaces.md
-    - concepts/blocks-and-tuples.md
+      - user-guide/guide/index.md
+      - user-guide/guide/introduction.md
+      - user-guide/guide/setup.md
+      - user-guide/guide/serializers.md
+      - user-guide/guide/deserializers.md
+      - user-guide/guide/customization.md
+    - Concepts:
+      - user-guide/concepts/index.md
+      - user-guide/concepts/values.md
+      - user-guide/concepts/data-models.md
+      - user-guide/concepts/interfaces.md
+      - user-guide/concepts/blocks-and-tuples.md
   - Contributing:
     - contributing/index.md
     - contributing/style-guide.md
