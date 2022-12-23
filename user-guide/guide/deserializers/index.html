@@ -45,6 +45,8 @@
       
     
     
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1282,14 +1284,14 @@ few minutes to learn about them <a href="/user-guide/design/interfaces/">here</a
 </ol>
 <details class="example">
 <summary>Example</summary>
-<p>Here's how deserializing a <code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">ArrayList</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code> works:</p>
+<p>Here's how deserializing a <code>std.ArrayList(i32)</code> works:</p>
 <ol>
-<li><code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">ArrayList</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code> is passed to Getty.</li>
+<li><code>std.ArrayList(i32)</code> is passed to Getty.</li>
 <li>Getty selects and executes the
    <a href="https://github.com/getty-zig/getty/blob/main/src/de/blocks/array_list.zig"><code>getty.de.blocks.ArrayList</code></a>
    deserialization block.</li>
 <li>The <abbr title="Deserialization Block">DB</abbr> prompts a <a href="https://docs.getty.so/#root;Deserializer">Deserializer</a> to deserialize its input data into a <em>Sequence</em>.</li>
-<li>The resulting <em>Sequence</em> is passed to a <a href="https://docs.getty.so/#root;de.Visitor">Visitor</a>, which converts it into a <code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">ArrayList</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code>.</li>
+<li>The resulting <em>Sequence</em> is passed to a <a href="https://docs.getty.so/#root;de.Visitor">Visitor</a>, which converts it into a <code>std.ArrayList(i32)</code>.</li>
 </ol>
 </details>
 <div class="admonition warning">
@@ -1460,7 +1462,7 @@ value.</p>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">[...] error:  deserializeBool is not implemented by type: *main.Deserializer</span>
 </code></pre></div>
 <p>Oh no, a compile error!</p>
-<p>Looks like Getty can't deserialize into the <code class="highlight"><span class="kt">bool</span><span class="w"></span></code> type for us unless
+<p>Looks like Getty can't deserialize into the <code>bool</code> type for us unless
 the <code>deserializeBool</code> method is implemented. So, let's implement it real quick.</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span><span class="w"></span>
@@ -1887,8 +1889,9 @@ JSON numbers as well.</p>
 <p>Alright, now let's take a look at deserialization for aggregate types.</p>
 <p>The difference between scalar and aggregate deserialization is that the
 aggregate types in Getty's data model do not directly map to any particular Zig
-type (or set of Zig types). That is, while <em>Booleans</em> are represented by <code class="highlight"><span class="kt">bool</span><span class="w"></span></code>s and <em>Integers</em> are represented by any Zig integer type, there's no
-native data type in Zig that is able to generically represent <em>Sequences</em> or <em>Maps</em>.</p>
+type (or set of Zig types). That is, while <em>Booleans</em> are represented by <code>bool</code>s
+and <em>Integers</em> are represented by any Zig integer type, there's no native data
+type in Zig that is able to generically represent <em>Sequences</em> or <em>Maps</em>.</p>
 <p>This is where the aggregate deserialization interfaces come in. They represent
 the aggregate types in Getty's data model. There are four of them in total:</p>
 <div class="admonition info">

@@ -45,6 +45,8 @@
       
     
     
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1215,7 +1217,7 @@
 <h1 id="data-models">Data Models</h1>
 <p>A <strong>data model</strong> represents a set of types supported by Getty. The types within
 a data model are purely conceptual; they aren't actually Zig types. For
-example, there is no <code class="highlight"><span class="kt">i32</span><span class="w"></span></code> or <code class="highlight"><span class="kt">u64</span><span class="w"></span></code> in either of Getty's data
+example, there is no <code>i32</code> or <code>u64</code> in either of Getty's data
 models. Instead, they are both considered to the same type: <em>Integer</em>.</p>
 <h2 id="models">Models</h2>
 <p>Getty maintains two data models: one for serialization and another for deserialization.</p>
@@ -1226,19 +1228,19 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 <dl>
 <dt><strong>Boolean</strong></dt>
 <dd>
-<p>Represented by a <code class="highlight"><span class="kt">bool</span><span class="w"></span></code> value.</p>
+<p>Represented by a <code>bool</code> value.</p>
 </dd>
 <dt><strong>Enum</strong></dt>
 <dd>
-<p>Represented by any <code class="highlight"><span class="k">enum</span><span class="w"></span></code> value.</p>
+<p>Represented by any <code>enum</code> value.</p>
 </dd>
 <dt><strong>Float</strong></dt>
 <dd>
-<p>Represented by any floating-point value (<code class="highlight"><span class="kt">comptime_float</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f16</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f32</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f64</span><span class="w"></span></code>, <code class="highlight"><span class="n">f80</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f128</span><span class="w"></span></code>).</p>
+<p>Represented by any floating-point value (<code>comptime_float</code>, <code>f16</code>, <code>f32</code>, <code>f64</code>, <code>f80</code>, <code>f128</code>).</p>
 </dd>
 <dt><strong>Integer</strong></dt>
 <dd>
-<p>Represented by any integer value (<code class="highlight"><span class="kt">comptime_int</span><span class="w"></span></code>, <code class="highlight"><span class="kt">u0</span><span class="w"></span></code> – <code class="highlight"><span class="n">u65535</span><span class="w"></span></code>, <code class="highlight"><span class="kt">i0</span><span class="w"></span></code> – <code class="highlight"><span class="n">i65535</span><span class="w"></span></code>).</p>
+<p>Represented by any integer value (<code>comptime_int</code>, <code>u0</code> – <code>u65535</code>, <code>i0</code> – <code>i65535</code>).</p>
 </dd>
 <dt><strong>Map</strong></dt>
 <dd>
@@ -1246,7 +1248,7 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 </dd>
 <dt><strong>Null</strong></dt>
 <dd>
-<p>Represented by a <code class="highlight"><span class="kc">null</span><span class="w"></span></code> value.</p>
+<p>Represented by a <code>null</code> value.</p>
 </dd>
 <dt><strong>Seq</strong></dt>
 <dd>
@@ -1266,7 +1268,7 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 </dd>
 <dt><strong>Void</strong></dt>
 <dd>
-<p>Represented by a <code class="highlight"><span class="kt">void</span><span class="w"></span></code> value.</p>
+<p>Represented by a <code>void</code> value.</p>
 </dd>
 </dl>
 </div>
@@ -1274,19 +1276,19 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 <dl>
 <dt><strong>Boolean</strong></dt>
 <dd>
-<p>Represented by a <code class="highlight"><span class="kt">bool</span><span class="w"></span></code> value.</p>
+<p>Represented by a <code>bool</code> value.</p>
 </dd>
 <dt><strong>Enum</strong></dt>
 <dd>
-<p>Represented by any <code class="highlight"><span class="k">enum</span><span class="w"></span></code> value.</p>
+<p>Represented by any <code>enum</code> value.</p>
 </dd>
 <dt><strong>Float</strong></dt>
 <dd>
-<p>Represented by any floating-point value (<code class="highlight"><span class="kt">comptime_float</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f16</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f32</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f64</span><span class="w"></span></code>, <code class="highlight"><span class="n">f80</span><span class="w"></span></code>, <code class="highlight"><span class="kt">f128</span><span class="w"></span></code>).</p>
+<p>Represented by any floating-point value (<code>comptime_float</code>, <code>f16</code>, <code>f32</code>, <code>f64</code>, <code>f80</code>, <code>f128</code>).</p>
 </dd>
 <dt><strong>Integer</strong></dt>
 <dd>
-<p>Represented by any integer value (<code class="highlight"><span class="kt">comptime_int</span><span class="w"></span></code>, <code class="highlight"><span class="kt">u0</span><span class="w"></span></code> – <code class="highlight"><span class="n">u65535</span><span class="w"></span></code>, <code class="highlight"><span class="kt">i0</span><span class="w"></span></code> – <code class="highlight"><span class="n">i65535</span><span class="w"></span></code>).</p>
+<p>Represented by any integer value (<code>comptime_int</code>, <code>u0</code> – <code>u65535</code>, <code>i0</code> – <code>i65535</code>).</p>
 </dd>
 <dt><strong>Map</strong></dt>
 <dd>
@@ -1294,7 +1296,7 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 </dd>
 <dt><strong>Null</strong></dt>
 <dd>
-<p>Represented by a <code class="highlight"><span class="kc">null</span><span class="w"></span></code> value.</p>
+<p>Represented by a <code>null</code> value.</p>
 </dd>
 <dt><strong>Seq</strong></dt>
 <dd>
@@ -1314,7 +1316,7 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 </dd>
 <dt><strong>Void</strong></dt>
 <dd>
-<p>Represented by a <code class="highlight"><span class="kt">void</span><span class="w"></span></code> value.</p>
+<p>Represented by a <code>void</code> value.</p>
 </dd>
 </dl>
 </div>
@@ -1339,8 +1341,8 @@ operate.</p>
 </ul>
 </details>
 <p>This design often simplifies the job of a (de)serializer significantly. For
-example, suppose you wanted to serialize <code class="highlight"><span class="p">[]</span><span class="kt">i32</span><span class="w"></span></code>, <code class="highlight"><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="kt">i32</span><span class="w"></span></code>,
-<code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">ArrayList</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code>, and <code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">TailQueue</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code> values. Since Zig
+example, suppose you wanted to serialize <code>[]i32</code>, <code>[100]i32</code>,
+<code>std.ArrayList(i32)</code>, and <code>std.TailQueue(i32)</code> values. Since Zig
 considers all of these types to be different, you'd have to write unique
 serialization logic for all of them (plus integers)!</p>
 <p>In Getty, you don't have to do nearly as much work. Getty considers all of the

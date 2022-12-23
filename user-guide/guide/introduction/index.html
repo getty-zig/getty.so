@@ -45,6 +45,8 @@
       
     
     
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1128,9 +1130,8 @@
 <p>The goal of Getty is to make writing (de)serializers in Zig easier for you.</p>
 <p>You can see some of that in the JSON serializer below, which supports scalar
 and string values. At around 50 lines of code, <code>Serializer</code> is a fully
-functional serializer capable of converting values of type <code class="highlight"><span class="kt">bool</span><span class="w"></span></code>, <code class="highlight"><span class="kt">i32</span><span class="w"></span></code>, <code class="highlight"><span class="k">enum</span><span class="p">{</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="p">}</span><span class="w"></span></code>, <code class="highlight"><span class="p">[]</span><span class="kt">u8</span><span class="w"></span></code>, <code class="highlight"><span class="o">*</span><span class="kr">const</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">u8</span><span class="w"></span></code>, <code class="highlight"><span class="o">?</span><span class="kt">void</span><span class="w"></span></code>,
-and more into
-JSON!</p>
+functional serializer capable of converting values of type <code>bool</code>, <code>i32</code>,
+<code>enum{ foo }</code>, <code>[]u8</code>, <code>*const [5]u8</code>, <code>?void</code>, and more into JSON!</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1196,8 +1197,8 @@ JSON!</p>
 <p>In this guide, we'll slowly build up to the above <code>Serializer</code> implementation
 so that by the end of it all, you'll understand everything there is to know
 about serialization in Getty. We'll also be extending <code>Serializer</code> to
-support more complex types, such as <code class="highlight"><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span><span class="kt">i32</span><span class="w"></span></code>, <code class="highlight"><span class="k">struct</span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="p">}</span><span class="w"></span></code>
-and <code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">ArrayList</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code>. And to cap things off, we'll write a JSON
+support more complex types, such as <code>[5][5]i32</code>, <code>struct{ x: i32 }</code>
+and <code>std.ArrayList(i32)</code>. And to cap things off, we'll write a JSON
 deserializer and go over how custom (de)serialization works in Getty.</p>
 <p>Let's get started!</p>
 

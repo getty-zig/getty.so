@@ -45,6 +45,8 @@
       
     
     
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1226,7 +1228,7 @@ where Getty's customization features come in.</p>
 process for types that you've defined yourself, as well as for types that you
 didn't define such as those in the standard library. Moreover, the
 customization enabled by Getty can be used in a local manner. That is, you can
-serialize a <code class="highlight"><span class="kt">bool</span><span class="w"></span></code> value as a <em>String</em> in one function and as an
+serialize a <code>bool</code> value as a <em>String</em> in one function and as an
 <em>Integer</em> in another, all without having to convert the value to a new or
 intermediate type.</p>
 <p>Customization in Getty revolves around <a href="/user-guide/design/blocks-and-tuples">Blocks and
@@ -1234,7 +1236,7 @@ Tuples</a>, which can be passed to
 Getty via the <a href="https://docs.getty.so/#root;Serializer"><code>getty.Serializer</code></a> or
 <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interfaces.</p>
 <h3 id="out-of-band-customization">Out-of-Band Customization</h3>
-<p>Here, we define a serialization block that serializes <code class="highlight"><span class="kt">bool</span><span class="w"></span></code> values as
+<p>Here, we define a serialization block that serializes <code>bool</code> values as
 <em>Integers</em>.</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span><span class="w"></span>
@@ -1286,7 +1288,7 @@ Getty via the <a href="https://docs.getty.so/#root;Serializer"><code>getty.Seria
 <p>This serializer only knows how to serialize <em>Integers</em>.</p>
 </li>
 <li>
-<p>With <code>block</code> being passed to Getty, <code class="highlight"><span class="kt">bool</span><span class="w"></span></code> values will now be
+<p>With <code>block</code> being passed to Getty, <code>bool</code> values will now be
     serialized into Getty's data model as <em>Integers</em>, which, of course, is a
     type that <code>Serializer</code> knows how to serialize.</p>
 </li>
@@ -1295,7 +1297,7 @@ Getty via the <a href="https://docs.getty.so/#root;Serializer"><code>getty.Seria
 </li>
 <li>
 <p><code>serialize</code> specifies how to serialize values relevant to <code>block</code>.</p>
-<p>In this case, we serialize the incoming <code class="highlight"><span class="kt">bool</span><span class="w"></span></code> value as an <em>Integer</em>
+<p>In this case, we serialize the incoming <code>bool</code> value as an <em>Integer</em>
 before passing it on to the serializer.</p>
 </li>
 </ol>
@@ -1387,12 +1389,12 @@ easier for users.</p>
 <h3 id="in-band-customization">In-Band Customization</h3>
 <p>Out-of-band customization has its uses, such as when you want to customize a
 type that you didn't define. However, there's a more convenient way to do
-things for <code class="highlight"><span class="k">struct</span><span class="w"></span></code>, <code class="highlight"><span class="k">enum</span><span class="w"></span></code>, and <code class="highlight"><span class="k">union</span><span class="w"></span></code> types that you did
+things for <code>struct</code>, <code>enum</code>, and <code>union</code> types that you did
 define yourself.</p>
-<p>If you define a <abbr title="Block or Tuple">BT</abbr> <em>within</em> a <code class="highlight"><span class="k">struct</span><span class="w"></span></code>, <code class="highlight"><span class="k">enum</span><span class="w"></span></code>, or <code class="highlight"><span class="k">union</span><span class="w"></span></code>,
+<p>If you define a <abbr title="Block or Tuple">BT</abbr> <em>within</em> a <code>struct</code>, <code>enum</code>, or <code>union</code>,
 Getty will automatically process it without you having to pass it in directly
 through a (de)serializer. Just make sure the <abbr title="Block or Tuple">BT</abbr> is public and named either
-<code class="highlight"><span class="err">@</span><span class="s">&quot;getty.sbt&quot;</span><span class="w"></span></code> or <code class="highlight"><span class="err">@</span><span class="s">&quot;getty.dbt&quot;</span><span class="w"></span></code> (<code>sbt</code> for serialization, <code>dbt</code>
+<code>@"getty.sbt"</code> or <code>@"getty.dbt"</code> (<code>sbt</code> for serialization, <code>dbt</code>
 for deserialization).</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span><span class="w"></span>
