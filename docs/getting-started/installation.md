@@ -7,7 +7,7 @@ this page.
 
 !!! warning "Prerequisites"
 
-    These steps require that you have the `master` version of
+    These steps assume that you have the `master` version of
     [Zig](https://ziglang.org/download/) installed.
 
 1. Add Getty to your project.
@@ -36,7 +36,7 @@ this page.
 
 !!! warning "Prerequisites"
 
-    These steps require that you have the `master` version of
+    These steps assume that you have the `master` version of
     [Zig](https://ziglang.org/download/) and the
     [Gyro](https://github.com/mattnite/gyro#installation) package manager
     installed.
@@ -69,7 +69,7 @@ this page.
 
 !!! warning "Prerequisites"
 
-    These steps require that you have the `master` version of
+    These steps assume that you have the `master` version of
     [Zig](https://ziglang.org/download/) and the
     [Zigmod](https://github.com/nektro/zigmod#download) package manager
     installed.

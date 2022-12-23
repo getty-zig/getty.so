@@ -47,30 +47,30 @@ fn Serializer(
 ) type
 ```
 
-1. A [`getty.Serializer`](https://docs.getty.so/#root;Serializer) serializes
-   values from Getty's data model.
+1.  A [`getty.Serializer`](https://docs.getty.so/#root;Serializer) serializes
+    values from Getty's data model.
 
-2. `Context` is a namespace that owns the method implementations passed to the `methods` parameter.
+2.  `Context` is the namespace that owns the method implementations passed to
+    the `methods` parameter.
 
     Usually, this is the type implementing
     [`getty.Serializer`](https://docs.getty.so/#root;Serializer) or a pointer
     to it if mutability is required.
 
-3. `O` is the successful return type for most of
-   [`getty.Serializer`](https://docs.getty.so/#root;Serializer)'s methods.
+3.  `O` is the successful return type for most of
+    [`getty.Serializer`](https://docs.getty.so/#root;Serializer)'s methods.
 
-4. `E` is the error set returned by
-   [`getty.Serializer`](https://docs.getty.so/#root;Serializer)'s methods upon
-   failure.
+4.  `E` is the error set returned by
+    [`getty.Serializer`](https://docs.getty.so/#root;Serializer)'s methods upon
+    failure.
 
-5. `user_sbt` and `serializer_sbt` are user- and serializer-defined
-   serialization blocks or tuples, respectively.
+5.  `user_sbt` and `serializer_sbt` are optional user- and serializer-defined
+    serialization blocks or tuples, respectively.
 
-    SBTs define Getty's serialization behavior. If user- or serializer-
-    defined customization is not supported or needed by your serializer,
+    They allow users and serializers to customize Getty's serialization
+    behavior. If user- or serializer-defined customization isn't supported,
     you can pass in `null` for these parameters.
 
-    You can ignore these parameters for now.
 
 6.  `Map`, `Seq`, and `Structure` are types that implement Getty's aggregate
     serialization interfaces.
@@ -85,11 +85,11 @@ fn Serializer(
     simply haven't implemented it yet, you can pass in `null` for these
     parameters.
 
-7.  `methods` contains the methods that implementations of
-    [`getty.Serializer`](https://docs.getty.so/#root;Serializer) must or can
-    provide.
+7.  `methods` contains all of the methods that implementations of
+    [`getty.Serializer`](https://docs.getty.so/#root;Serializer) must provide
+    or can override.
 
-8.  These methods are responsible for serializing a type in Getty's data
+8.  These methods are responsible for serializing a value in Getty's data
     model into a data format.
 
 Quite the parameter list!
@@ -283,8 +283,8 @@ null
 null
 ```
 
-And there we have it! Our initial `Serializer` implementation, but now with
-context!
+And there we have it! Our initial `Serializer` implementation, but now with a
+bit of context!
 
 ??? tip "Method Reuse"
 
@@ -316,10 +316,10 @@ Alright, now let's take a look at serialization for aggregate types.
 If you'll recall, the
 [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface had the
 `Map`, `Seq`, and `Structure` parameters. So far, we've just been passing in
-`null` for these parameters. But now we need to update them.
+`null` for them. However, we'll start using them now.
 
-The reason we need these parameters is because aggregate types have all kinds
-of different access and iteration patterns, but Getty can't possibly know about
+The reason these parameters exist is because aggregate types have all kinds of
+different access and iteration patterns, but Getty can't possibly know about
 all of them. As such, serialization methods like `serializeMap` are only
 responsible for _starting_ the serialization process, before returning a value
 of either `Map`, `Seq`, or `Structure`. The returned value is then used by the

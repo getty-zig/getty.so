@@ -88,8 +88,8 @@ fn Deserializer(
 1.  A [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) deserializes
     values from a data format into Getty's data model.
 
-2.  `Context` is a namespace that owns the method implementations passed to the
-    `methods` parameter.
+2.  `Context` is the namespace that owns the method implementations passed to
+    the `methods` parameter.
 
     Usually, this is the type implementing
     [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) or a
@@ -103,18 +103,16 @@ fn Deserializer(
     [`getty.de.Error`](https://docs.getty.so/#root;de.Error), a base error set
     defined by Getty.
 
-4.  `user_dbt` and `deserializer_dbt` are user- and deserializer-defined
+4.  `user_dbt` and `deserializer_dbt` are optional user- and deserializer-defined
     derialization blocks or tuples, respectively.
 
-    DBTs define Getty's deserialization behavior. If user- or deserializer-
-    defined customization is not supported or needed by your deserializer, you
-    can pass in `null` for these parameters.
+    They allow users and deserializers to customize Getty's deserialization
+    behavior. If user- or deserializer-defined customization isn't supported,
+    `null` can be passed in for these parameters.
 
-    You can ignore these parameters for now.
-
-5.  `methods` contains the methods that implementations of
-    [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) must or
-    can provide.
+5.  `methods` contains all of the methods that implementations of
+    [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) must
+    provide or can override.
 
 6.  These methods are responsible for deserializing into a specific type in
     Getty's data model from a data format.

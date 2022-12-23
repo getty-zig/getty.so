@@ -88,13 +88,13 @@ fn BoolSerializer(
 
 !!! info "Naming Conventions"
 
-    - Interface types are named after the interface's import path. For example,
-      the interface type for the
-      [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface is
-      named `#!zig @"getty.Serializer"`.
+    - Interface types are always named after the interface's import path. For
+      example, the interface type for the
+      [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess)
+      interface is named `#!zig @"getty.de.SeqAccess"`.
 
-    - Interface functions have the same name as the interface, except in
-      `camelCase` format. For example, the interface type for the
+    - Interface functions are always named after the interface (in
+      `camelCase` format). For example, the interface type for the
       [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess)
       interface is named `seqAccess`.
 
