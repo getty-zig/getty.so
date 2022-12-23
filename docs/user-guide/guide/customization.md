@@ -14,7 +14,7 @@ _Integer_ in another, all without having to convert the value to a new or
 intermediate type.
 
 Customization in Getty revolves around [Blocks and
-Tuples](/user-guide/concepts/blocks-and-tuples), which can be passed to
+Tuples](/user-guide/design/blocks-and-tuples), which can be passed to
 Getty via the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) or
 [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interfaces.
 

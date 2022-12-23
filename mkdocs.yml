@@ -159,12 +159,12 @@ nav:
       - user-guide/guide/serializers.md
       - user-guide/guide/deserializers.md
       - user-guide/guide/customization.md
-    - Concepts:
-      - user-guide/concepts/index.md
-      - user-guide/concepts/values.md
-      - user-guide/concepts/data-models.md
-      - user-guide/concepts/interfaces.md
-      - user-guide/concepts/blocks-and-tuples.md
+    - Design:
+      - user-guide/design/index.md
+      - user-guide/design/values.md
+      - user-guide/design/data-models.md
+      - user-guide/design/interfaces.md
+      - user-guide/design/blocks-and-tuples.md
   - Contributing:
     - contributing/index.md
     - contributing/style-guide.md

@@ -5,7 +5,7 @@ Let's write a JSON serializer that serializes values by printing their JSON equi
 !!! warning "Prerequisites"
 
     This page assumes you understand how Getty interfaces work. If not, take a
-    few minutes to learn about them [here](/user-guide/concepts/interfaces/).
+    few minutes to learn about them [here](/user-guide/design/interfaces/).
 
 ## Scalar Serialization
 
