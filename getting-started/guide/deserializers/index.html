@@ -781,13 +781,15 @@
   
   
     <li class="md-nav__item">
-      <a href="../customization.md" class="md-nav__link">
+      <a href="../customization/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     
   
-    None
+    <span class="md-typeset">
+      Customization
+    </span>
   
 
     
@@ -1354,8 +1356,8 @@ shown below.</p>
     values from a data format into Getty's data model.</p>
 </li>
 <li>
-<p><code>Context</code> is a namespace that owns the method implementations passed to the
-    <code>methods</code> parameter.</p>
+<p><code>Context</code> is the namespace that owns the method implementations passed to
+    the <code>methods</code> parameter.</p>
 <p>Usually, this is the type implementing
 <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> or a
 pointer to it if mutability is required.</p>
@@ -1369,17 +1371,16 @@ pointer to it if mutability is required.</p>
 defined by Getty.</p>
 </li>
 <li>
-<p><code>user_dbt</code> and <code>deserializer_dbt</code> are user- and deserializer-defined
+<p><code>user_dbt</code> and <code>deserializer_dbt</code> are optional user- and deserializer-defined
     derialization blocks or tuples, respectively.</p>
-<p><abbr title="Deserialization Blocks or Tuples">DBTs</abbr> define Getty's deserialization behavior. If user- or deserializer-
-defined customization is not supported or needed by your deserializer, you
-can pass in <code>null</code> for these parameters.</p>
-<p>You can ignore these parameters for now.</p>
+<p>They allow users and deserializers to customize Getty's deserialization
+behavior. If user- or deserializer-defined customization isn't supported,
+<code>null</code> can be passed in for these parameters.</p>
 </li>
 <li>
-<p><code>methods</code> contains the methods that implementations of
-    <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> must or
-    can provide.</p>
+<p><code>methods</code> contains all of the methods that implementations of
+    <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> must
+    provide or can override.</p>
 </li>
 <li>
 <p>These methods are responsible for deserializing into a specific type in
@@ -2339,13 +2340,13 @@ returned. Otherwise, the deserialized element is.</p>
       
       
         
-        <a href="../../../concepts/" class="md-footer__link md-footer__link--next" aria-label="Next: Concepts" rel="next">
+        <a href="../customization/" class="md-footer__link md-footer__link--next" aria-label="Next: Customization" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Concepts
+              Customization
             </div>
           </div>
           <div class="md-footer__button md-icon">
