@@ -200,6 +200,39 @@ const ab = struct {
    fields in these inner `#!zig struct` values depend on the kind of attribute
    you're specifying (i.e., field/variant or container).
 
+### Type-Defined Blocks
+
+The blocks we've discussed so far are known as _out-of-band blocks_. They're
+defined separately from the type(s) that they operate on. Out-of-band blocks have
+their place, such as when you want to customize a type that you didn't define
+(e.g., the types in `std`). However, there's a more convenient way to do
+things for `#!zig struct`, `#!zig enum`, and `#!zig union` types that you did
+define yourself.
+
+If you define a block _within_ a `#!zig struct`, `#!zig enum`, or `#!zig
+union`, Getty will automatically process it without you having to pass it to a
+(de)serializer. All you have to do is make sure the block is public and named
+`#!zig @"getty.sb"` (for serialization) or `#!zig @"getty.db"`
+(for deserialization).
+
+Type-defined blocks are defined exactly the same as attribute, serialization,
+and deserialization blocks are. The only difference is that you don't need an
+`is` function in a type-defined block.
+
+```zig title="Zig code"
+const Point = struct {
+    x: i32,
+    y: i32,
+
+    pub const @"getty.sb" = struct {
+        pub const attributes = .{
+            .x = .{ .rename = "X" },
+            .y = .{ .skip = true },
+        };
+    };
+};
+```
+
 ### Usage
 
 Once you've defined a block, you can pass them along to Getty via the
@@ -209,7 +242,7 @@ They take optional (de)serialization blocks as arguments.
 
 For example, the following defines a serializer that can serialize _Booleans_
 and _Integers_ into JSON. It's generic over an SB, which it passes to Getty,
-allowing us to easily customize Getty's behavior.
+making it even easier for us to customize Getty's behavior.
 
 ```zig title="Zig code"
 const std = @import("std");
