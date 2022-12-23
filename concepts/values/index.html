@@ -660,13 +660,13 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/guide/deserializers.md" class="md-nav__link">
+      <a href="../../getting-started/guide/deserializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     
   
-    None
+    Deserializers
   
 
     
@@ -1246,10 +1246,10 @@ library does things:</p>
 </code></pre></div>
 <h2 id="deserialization">Deserialization</h2>
 <p>Similarly, it is up to a Getty deserializer to determine how values within a
-data format should be parsed and deserialized into Getty's data model. For
-instance, the <a href="https://github.com/getty-zig/json/">Getty JSON</a> library has no
-issues converting the JSON object <code class="highlight"><span class="p">{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span><span class="w"></span></code> into a tagged union. However,
-other deserializers may expect something different from their input data when
+data format should be parsed and deserialized. For instance, the <a href="https://github.com/getty-zig/json/">Getty
+JSON</a> library has no issues converting the
+JSON object <code class="highlight"><span class="p">{</span><span class="nt">&quot;foo&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span><span class="w"></span></code> into a tagged union. However, other
+deserializers may expect something different from their input data when
 deserializing into a union value.</p>
 
 

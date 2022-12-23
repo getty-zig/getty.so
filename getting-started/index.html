@@ -662,13 +662,13 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/deserializers.md" class="md-nav__link">
+      <a href="guide/deserializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     
   
-    None
+    Deserializers
   
 
     
@@ -1164,7 +1164,7 @@ able to support a wide variety of data types!</p>
 <li>A Zig value is passed to Getty.</li>
 <li>Based on the value's type, a <a href="/concepts/blocks-and-tuples">serialization block</a> is selected and executed by Getty.</li>
 <li>The block serializes the passed-in value into Getty's <a href="/concepts/data-models">data model</a>.</li>
-<li>The resulting Getty value is passed to a <a href="https://docs.getty.so/#root;Serializer">Serializer</a>, which serializes it into an output data format.</li>
+<li>The resulting value is passed to a <a href="https://docs.getty.so/#root;Serializer">Serializer</a>, which serializes it into an output data format.</li>
 </ol>
 </div>
 <div class="tabbed-block">
@@ -1172,7 +1172,7 @@ able to support a wide variety of data types!</p>
 <li>A Zig type is passed to Getty.</li>
 <li>Based on the type, a <a href="/concepts/blocks-and-tuples">deserialization block</a> is selected and executed by Getty.</li>
 <li>The block prompts a <a href="https://docs.getty.so/#root;Deserializer">Deserializer</a> to deserialize its input data into Getty's <a href="/concepts/data-models">data model</a>.</li>
-<li>The resulting Getty value is passed to a <a href="https://docs.getty.so/#root;de.Visitor">Visitor</a>, which converts it into a Zig value of the initial type.</li>
+<li>The resulting value is passed to a <a href="https://docs.getty.so/#root;de.Visitor">Visitor</a>, which converts it into a Zig value of the initial type.</li>
 </ol>
 </div>
 </div>

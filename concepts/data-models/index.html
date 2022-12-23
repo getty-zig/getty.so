@@ -660,13 +660,13 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/guide/deserializers.md" class="md-nav__link">
+      <a href="../../getting-started/guide/deserializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     
   
-    None
+    Deserializers
   
 
     
@@ -882,6 +882,19 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Models
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#motivation" class="md-nav__link">
@@ -1167,6 +1180,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Models
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#motivation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1204,6 +1230,7 @@
 a data model are purely conceptual; they aren't actually Zig types. For
 example, there is no <code class="highlight"><span class="kt">i32</span><span class="w"></span></code> or <code class="highlight"><span class="kt">u64</span><span class="w"></span></code> in either of Getty's data
 models. Instead, they are both considered to the same type: <em>Integer</em>.</p>
+<h2 id="models">Models</h2>
 <p>Getty maintains two data models: one for serialization and another for deserialization.</p>
 <div class="admonition info">
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Serialization</label><label for="__tabbed_1_2">Deserialization</label></div>
@@ -1318,22 +1345,24 @@ operate.</p>
 <summary>Interactions</summary>
 <p>Notice how the (de)serializers never interact directly with Zig.</p>
 <ul>
-<li>Serializers receive values from Getty's <strong>data model</strong> and serialize them into a <strong>data format</strong>.</li>
-<li>Deserializers receive values from a <strong>data format</strong> and deserialize them into Getty's <strong>data model</strong>.</li>
+<li>Serializers receive values from Getty's <strong>data model</strong> and serialize them
+  into a <strong>data format</strong>.</li>
+<li>Deserializers receive values from a <strong>data format</strong> and deserialize them
+  into Getty's <strong>data model</strong>.</li>
 </ul>
 </details>
-<p>The data models simplify the job of a (de)serializer significantly. For
+<p>This design often simplifies the job of a (de)serializer significantly. For
 example, suppose you wanted to serialize <code class="highlight"><span class="p">[]</span><span class="kt">i32</span><span class="w"></span></code>, <code class="highlight"><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="kt">i32</span><span class="w"></span></code>,
 <code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">ArrayList</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code>, and <code class="highlight"><span class="n">std</span><span class="p">.</span><span class="n">TailQueue</span><span class="p">(</span><span class="kt">i32</span><span class="p">)</span><span class="w"></span></code> values. Since Zig
 considers all of these types to be different, you'd have to write unique
-serialization logic for all of them (and integers)!</p>
-<p>In Getty, you don't have to do so much work. Getty considers all of the
+serialization logic for all of them (plus integers)!</p>
+<p>In Getty, you don't have to do nearly as much work. Getty considers all of the
 aforementioned types to be the same: they are all <em>Sequences</em>. This means that
 you only have to specify the serialization process for two types: <em>Integers</em>
 and <em>Sequences</em>. And by doing so, you'll automatically be able to serialize
 values of any of the aforementioned types, plus any other value whose type is
-supported by Getty and is considered a <em>Sequence</em>, such as <code>std.BoundedArray</code>
-and <code>std.SinglyLinkedList</code>.</p>
+supported by Getty and is considered a <em>Sequence</em>, such as <code>std.SinglyLinkedList</code>
+and <code>std.BoundedArray</code>.</p>
 
 
 

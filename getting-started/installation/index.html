@@ -751,13 +751,13 @@
   
   
     <li class="md-nav__item">
-      <a href="../guide/deserializers.md" class="md-nav__link">
+      <a href="../guide/deserializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     
   
-    None
+    Deserializers
   
 
     
@@ -1260,11 +1260,13 @@
 
 
 <h1 id="installation">Installation</h1>
-<p>To install Getty for your project, you can use any of the methods listed on this page.</p>
+<p>To install Getty for your project, you can use any of the methods listed on
+this page.</p>
 <h2 id="manual">Manual</h2>
 <div class="admonition warning">
 <p class="admonition-title">Prerequisites</p>
-<p>These steps require that you have the <code>master</code> version of <a href="https://ziglang.org/download/">Zig</a> installed.</p>
+<p>These steps require that you have the <code>master</code> version of
+<a href="https://ziglang.org/download/">Zig</a> installed.</p>
 </div>
 <ol>
 <li>
@@ -1291,7 +1293,10 @@
 <h2 id="gyro">Gyro</h2>
 <div class="admonition warning">
 <p class="admonition-title">Prerequisites</p>
-<p>These steps require that you have the <code>master</code> version of <a href="https://ziglang.org/download/">Zig</a> and the <a href="https://github.com/mattnite/gyro#installation">Gyro</a> package manager installed.</p>
+<p>These steps require that you have the <code>master</code> version of
+<a href="https://ziglang.org/download/">Zig</a> and the
+<a href="https://github.com/mattnite/gyro#installation">Gyro</a> package manager
+installed.</p>
 </div>
 <ol>
 <li>
@@ -1301,7 +1306,7 @@
 </code></pre></div>
 </li>
 <li>
-<p>Make the following changes to <code>build.zig</code>.</p>
+<p>Make the following changes in <code>build.zig</code>.</p>
 <div class="highlight"><span class="filename"><code>build.zig</code></span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="hll"><span class="kr">const</span><span class="w"> </span><span class="n">pkgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;deps.zig&quot;</span><span class="p">).</span><span class="n">pkgs</span><span class="p">;</span><span class="w"></span>
 </span><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
@@ -1320,11 +1325,14 @@
 <h2 id="zigmod">Zigmod</h2>
 <div class="admonition warning">
 <p class="admonition-title">Prerequisites</p>
-<p>These steps require that you have the <code>master</code> version of <a href="https://ziglang.org/download/">Zig</a> and the <a href="https://github.com/nektro/zigmod#download">Zigmod</a> package manager installed.</p>
+<p>These steps require that you have the <code>master</code> version of
+<a href="https://ziglang.org/download/">Zig</a> and the
+<a href="https://github.com/nektro/zigmod#download">Zigmod</a> package manager
+installed.</p>
 </div>
 <ol>
 <li>
-<p>Make the following changes to <code>zigmod.yml</code>.</p>
+<p>Make the following changes in <code>zigmod.yml</code>.</p>
 <div class="highlight"><span class="filename"><code>zigmod.yml</code></span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># ...</span><span class="w"></span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="hll"><span class="nt">root_dependencies</span><span class="p">:</span><span class="w"></span>

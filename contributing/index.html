@@ -660,13 +660,13 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/guide/deserializers.md" class="md-nav__link">
+      <a href="../getting-started/guide/deserializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     
   
-    None
+    Deserializers
   
 
     
@@ -1123,6 +1123,19 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Workflow
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#issues" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1141,19 +1154,6 @@
       
         <span class="md-typeset">
           Pull Requests
-        </span>
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <span class="md-typeset">
-          Workflow
         </span>
       
     </span>
@@ -1183,11 +1183,28 @@
 
 <h1 id="contributing">Contributing</h1>
 <p>Contributions to Getty are very welcome! 😄</p>
-<p>This document contains some information and a few guidelines to help get you
-started. If you have questions about contributing or Getty, feel free to reach out on the <a href="https://discord.gg/njDA67U5ph">Getty Discord</a>.</p>
+<p>This page contains some information and a few guidelines to help get you
+started. If you have any questions about contributing or Getty, feel free to
+reach out on the <a href="https://discord.gg/njDA67U5ph">Getty Discord</a>.</p>
 <h2 id="zig">Zig</h2>
 <ul>
 <li>Getty currently tracks the <code>master</code> release of Zig, so make sure your version is updated.</li>
+</ul>
+<h2 id="workflow">Workflow</h2>
+<p>Getty uses the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Git Flow</a> model for its development. Essentially, what that means is:</p>
+<ul>
+<li>
+<p>The <code>main</code> branch is strictly for releases. <strong>Do not work on or branch off of it.</strong></p>
+</li>
+<li>
+<p>The <code>develop</code> branch is an integration branch for features and fixes. <strong>Do not work on it.</strong></p>
+</li>
+<li>
+<p>Features are developed on <code>feature/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
+</li>
+<li>
+<p>Fixes are developed on <code>fix/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
+</li>
 </ul>
 <h2 id="issues">Issues</h2>
 <ul>
@@ -1216,22 +1233,6 @@ started. If you have questions about contributing or Getty, feel free to reach o
 <p>If you push a new version of a PR, please add a comment about the new
   version. Notifications aren't sent for commits, so it's easy to miss updates
   without an explicit comment.</p>
-</li>
-</ul>
-<h2 id="workflow">Workflow</h2>
-<p>Getty uses the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Git Flow</a> model for its development. Essentially, what that means is:</p>
-<ul>
-<li>
-<p>The <code>main</code> branch is strictly for releases. <strong>Do not work on or branch off of it.</strong></p>
-</li>
-<li>
-<p>The <code>develop</code> branch is an integration branch for features and fixes. <strong>Do not work on it.</strong></p>
-</li>
-<li>
-<p>Features are developed on <code>feature/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
-</li>
-<li>
-<p>Fixes are developed on <code>fix/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
 </li>
 </ul>
 

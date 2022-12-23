@@ -660,13 +660,13 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/guide/deserializers.md" class="md-nav__link">
+      <a href="../../getting-started/guide/deserializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     
   
-    None
+    Deserializers
   
 
     
@@ -1262,14 +1262,14 @@ own way of doing things. So, let's quickly go over how Getty implements interfac
 <p>A <strong>Getty interface</strong> is a function, and its constraints are specified as a
 parameter list. For instance, the following interface requires 3 associated
 types and 1 method from its implementations.</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// (1)</span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// (1)!</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">fn</span><span class="w"> </span><span class="n">BoolSerializer</span><span class="p">(</span><span class="w"></span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="c1">// (2)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="c1">// (2)!</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">Context</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span><span class="w"></span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">O</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span><span class="w"></span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">E</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span><span class="w"></span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="c1">// (3)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="c1">// (3)!</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">methods</span><span class="o">:</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="n">serializeBool</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">},</span><span class="w"></span>
@@ -1284,6 +1284,9 @@ types and 1 method from its implementations.</p>
 </li>
 <li>
 <p>This parameter contains the methods that implementations of <code>BoolSerializer</code> must or can provide.</p>
+<p>If a method is not provided by an implementation, it is up to the interface
+to decide what happens. Generally, a compile error is raised or an error is
+returned.</p>
 </li>
 </ol>
 <p>The return value of a Getty interface is a <code class="highlight"><span class="k">struct</span><span class="w"></span></code> namespace that
@@ -1298,7 +1301,7 @@ A value of the interface type is an <strong>interface value</strong>.</p>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">},</span><span class="w"></span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">)</span><span class="w"> </span><span class="kt">type</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="c1">// (2)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="c1">// (2)!</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="kr">pub</span><span class="w"> </span><span class="kr">const</span><span class="w"> </span><span class="n">Interface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">            </span><span class="n">context</span><span class="o">:</span><span class="w"> </span><span class="n">Context</span><span class="p">,</span><span class="w"></span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
@@ -1314,7 +1317,7 @@ A value of the interface type is an <strong>interface value</strong>.</p>
 <a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">            </span><span class="p">}</span><span class="w"></span>
 <a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">        </span><span class="p">};</span><span class="w"></span>
 <a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">        </span><span class="c1">// (1)</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">        </span><span class="c1">// (1)!</span>
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">        </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">boolSerializer</span><span class="p">(</span><span class="n">self</span><span class="o">:</span><span class="w"> </span><span class="n">Context</span><span class="p">)</span><span class="w"> </span><span class="n">Interface</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 <a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
@@ -1337,6 +1340,23 @@ A value of the interface type is an <strong>interface value</strong>.</p>
 <!--The above annotations need to be ordered like they are to avoid weirdness-->
 <!--with the second list element in the interface type annotation.-->
 
+<div class="admonition info">
+<p class="admonition-title">Naming Conventions</p>
+<ul>
+<li>
+<p>Interface types are named after the interface's import path. For example,
+  the interface type for the
+  <a href="https://docs.getty.so/#root;Serializer"><code>getty.Serializer</code></a> interface is
+  named <code class="highlight"><span class="err">@</span><span class="s">&quot;getty.Serializer&quot;</span><span class="w"></span></code>.</p>
+</li>
+<li>
+<p>Interface functions have the same name as the interface, except in
+  <code>camelCase</code> format. For example, the interface type for the
+  <a href="https://docs.getty.so/#root;de.SeqAccess"><code>getty.de.SeqAccess</code></a>
+  interface is named <code>seqAccess</code>.</p>
+</li>
+</ul>
+</div>
 <h2 id="implementation">Implementation</h2>
 <p>To implement a Getty interface, call the interface and apply <code class="highlight"><span class="k">usingnamespace</span><span class="w"></span></code> to its return value. This will import an interface type and
 interface function into your implementation.</p>
@@ -1371,10 +1391,10 @@ interface function into your implementation.</p>
 <h2 id="usage">Usage</h2>
 <p>To use a value of, say <code>OppositeSerializer</code>, as an implementation of <code>BoolSerializer</code>:</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OppositeSerializer</span><span class="p">{};</span><span class="w"> </span><span class="c1">// (1)</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">bs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">os</span><span class="p">.</span><span class="n">boolSerializer</span><span class="p">();</span><span class="w">  </span><span class="c1">// (2)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OppositeSerializer</span><span class="p">{};</span><span class="w"> </span><span class="c1">// (1)!</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">bs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">os</span><span class="p">.</span><span class="n">boolSerializer</span><span class="p">();</span><span class="w">  </span><span class="c1">// (2)!</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="c1">// (3)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="c1">// (3)!</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="n">bs</span><span class="p">.</span><span class="n">serializeBool</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="n">bs</span><span class="p">.</span><span class="n">serializeBool</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span><span class="w"></span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span><span class="w"></span>
