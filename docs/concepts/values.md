@@ -21,8 +21,8 @@ const f = U{ .foo = 1 };             // serialized as {"foo":1}
 ## Deserialization
 
 Similarly, it is up to a Getty deserializer to determine how values within a
-data format should be parsed and deserialized into Getty's data model. For
-instance, the [Getty JSON](https://github.com/getty-zig/json/) library has no
-issues converting the JSON object `#!json {"foo":1}` into a tagged union. However,
-other deserializers may expect something different from their input data when
+data format should be parsed and deserialized. For instance, the [Getty
+JSON](https://github.com/getty-zig/json/) library has no issues converting the
+JSON object `#!json {"foo":1}` into a tagged union. However, other
+deserializers may expect something different from their input data when
 deserializing into a union value.

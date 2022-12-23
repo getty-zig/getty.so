@@ -32,12 +32,12 @@ __serialization block__.
 
 ```zig title="Zig code"
 const sb = struct {
-    // (1)
+    // (1)!
     pub fn is(comptime T: type) bool {
         return T == bool;
     }
 
-    // (2)
+    // (2)!
     pub fn serialize(value: anytype, serializer: anytype) @TypeOf(serializer).Error!@TypeOf(serializer).Ok {
         // Convert bool value to a Getty Integer.
         const v: i32 = if (value) 1 else 0;
@@ -64,22 +64,22 @@ To manually define the deserialization process for a type, you can use a __deser
 
 ```zig title="Zig code"
 const db = struct {
-    // (1)
+    // (1)!
     pub fn is(comptime T: type) bool {
         return T == bool;
     }
 
-    // (2)
+    // (2)!
     pub fn deserialize(
         allocator: ?std.mem.Allocator,
-        comptime _: type, // (3)
+        comptime _: type, // (3)!
         deserializer: anytype,
         visitor: anytype,
     ) @TypeOf(deserializer).Error!@TypeOf(visitor).Value {
         return try deserializer.deserializeInt(allocator, visitor);
     }
 
-    // (4)
+    // (4)!
     pub fn Visitor(comptime Value: type) type {
         return struct {
             pub usingnamespace getty.de.Visitor(
@@ -165,9 +165,9 @@ const ab = struct {
         return T == Point;
     }
 
-    // (1)
-    pub const attributes = .{ // (2)
-        .x = .{ .rename = "X" }, // (3)
+    // (1)!
+    pub const attributes = .{ // (2)!
+        .x = .{ .rename = "X" }, // (3)!
         .y = .{ .skip = true },
     };
 };

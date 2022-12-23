@@ -5,6 +5,8 @@ a data model are purely conceptual; they aren't actually Zig types. For
 example, there is no `#!zig i32` or `#!zig u64` in either of Getty's data
 models. Instead, they are both considered to the same type: _Integer_.
 
+## Models
+
 Getty maintains two data models: one for serialization and another for deserialization.
 
 !!! info ""
@@ -117,19 +119,21 @@ operate.
 
     Notice how the (de)serializers never interact directly with Zig.
 
-    - Serializers receive values from Getty's __data model__ and serialize them into a __data format__.
-    - Deserializers receive values from a __data format__ and deserialize them into Getty's __data model__.
+    - Serializers receive values from Getty's __data model__ and serialize them
+      into a __data format__.
+    - Deserializers receive values from a __data format__ and deserialize them
+      into Getty's __data model__.
 
-The data models simplify the job of a (de)serializer significantly. For
+This design often simplifies the job of a (de)serializer significantly. For
 example, suppose you wanted to serialize `#!zig []i32`, `#!zig [100]i32`,
 `#!zig std.ArrayList(i32)`, and `#!zig std.TailQueue(i32)` values. Since Zig
 considers all of these types to be different, you'd have to write unique
-serialization logic for all of them (and integers)!
+serialization logic for all of them (plus integers)!
 
-In Getty, you don't have to do so much work. Getty considers all of the
+In Getty, you don't have to do nearly as much work. Getty considers all of the
 aforementioned types to be the same: they are all _Sequences_. This means that
 you only have to specify the serialization process for two types: _Integers_
 and _Sequences_. And by doing so, you'll automatically be able to serialize
 values of any of the aforementioned types, plus any other value whose type is
-supported by Getty and is considered a _Sequence_, such as `std.BoundedArray`
-and `std.SinglyLinkedList`.
+supported by Getty and is considered a _Sequence_, such as `std.SinglyLinkedList`
+and `std.BoundedArray`.

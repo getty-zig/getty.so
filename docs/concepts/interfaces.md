@@ -13,14 +13,14 @@ parameter list. For instance, the following interface requires 3 associated
 types and 1 method from its implementations.
 
 ```zig title="Zig code"
-// (1)
+// (1)!
 fn BoolSerializer(
-    // (2)
+    // (2)!
     comptime Context: type,
     comptime O: type,
     comptime E: type,
 
-    // (3)
+    // (3)!
     comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
     },
@@ -28,11 +28,15 @@ fn BoolSerializer(
 
 ```
 
-1. This function is an interface similar to the ones defined in Getty.
+1.  This function is an interface similar to the ones defined in Getty.
 
-1. These parameters are associated types that implementations of `BoolSerializer` must provide.
+1.  These parameters are associated types that implementations of `BoolSerializer` must provide.
 
-1. This parameter contains the methods that implementations of `BoolSerializer` must or can provide.
+1.  This parameter contains the methods that implementations of `BoolSerializer` must or can provide.
+
+    If a method is not provided by an implementation, it is up to the interface
+    to decide what happens. Generally, a compile error is raised or an error is
+    returned.
 
 The return value of a Getty interface is a `#!zig struct` namespace that
 contains two declarations: an __interface type__ and an __interface function__.
@@ -48,7 +52,7 @@ fn BoolSerializer(
     },
 ) type {
     return struct {
-        // (2)
+        // (2)!
         pub const Interface = struct {
             context: Context,
 
@@ -64,7 +68,7 @@ fn BoolSerializer(
             }
         };
 
-        // (1)
+        // (1)!
         pub fn boolSerializer(self: Context) Interface {
             return .{ .context = self };
         }
@@ -72,15 +76,27 @@ fn BoolSerializer(
 }
 ```
 
-1. This function is an interface function. Its job is to return an interface value.
+1.  This function is an interface function. Its job is to return an interface value.
 
-1. This declaration is an interface type. They generally have:
-     - A single field to store an instance of an implementation.
-     - A few declarations that may be useful to implementations.
-     - Wrapper methods that define the interface's behavior.
+1.  This declaration is an interface type. They generally have:
+      - A single field to store an instance of an implementation.
+      - A few declarations that may be useful to implementations.
+      - Wrapper methods that define the interface's behavior.
 
 <!--The above annotations need to be ordered like they are to avoid weirdness-->
 <!--with the second list element in the interface type annotation.-->
+
+!!! info "Naming Conventions"
+
+    - Interface types are named after the interface's import path. For example,
+      the interface type for the
+      [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface is
+      named `#!zig @"getty.Serializer"`.
+
+    - Interface functions have the same name as the interface, except in
+      `camelCase` format. For example, the interface type for the
+      [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess)
+      interface is named `seqAccess`.
 
 ## Implementation
 
@@ -124,10 +140,10 @@ To use a value of, say `OppositeSerializer`, as an implementation of `BoolSerial
 
 ```zig title="Zig code"
 pub fn main() anyerror!void {
-    const os = OppositeSerializer{}; // (1)
-    const bs = os.boolSerializer();  // (2)
+    const os = OppositeSerializer{}; // (1)!
+    const bs = os.boolSerializer();  // (2)!
 
-    // (3)
+    // (3)!
     try bs.serializeBool(true);
     try bs.serializeBool(false);
 }

@@ -1,12 +1,14 @@
 # Installation
 
-To install Getty for your project, you can use any of the methods listed on this page.
+To install Getty for your project, you can use any of the methods listed on
+this page.
 
 ## Manual
 
 !!! warning "Prerequisites"
 
-    These steps require that you have the `master` version of [Zig](https://ziglang.org/download/) installed.
+    These steps require that you have the `master` version of
+    [Zig](https://ziglang.org/download/) installed.
 
 1. Add Getty to your project.
 
@@ -34,7 +36,10 @@ To install Getty for your project, you can use any of the methods listed on this
 
 !!! warning "Prerequisites"
 
-    These steps require that you have the `master` version of [Zig](https://ziglang.org/download/) and the [Gyro](https://github.com/mattnite/gyro#installation) package manager installed.
+    These steps require that you have the `master` version of
+    [Zig](https://ziglang.org/download/) and the
+    [Gyro](https://github.com/mattnite/gyro#installation) package manager
+    installed.
 
 1. Add Getty to your project.
 
@@ -43,7 +48,7 @@ To install Getty for your project, you can use any of the methods listed on this
     gyro fetch
     ```
 
-2. Make the following changes to `build.zig`.
+2. Make the following changes in `build.zig`.
 
     ```zig title="<code>build.zig</code>" hl_lines="2 10"
     const std = @import("std");
@@ -64,9 +69,12 @@ To install Getty for your project, you can use any of the methods listed on this
 
 !!! warning "Prerequisites"
 
-    These steps require that you have the `master` version of [Zig](https://ziglang.org/download/) and the [Zigmod](https://github.com/nektro/zigmod#download) package manager installed.
+    These steps require that you have the `master` version of
+    [Zig](https://ziglang.org/download/) and the
+    [Zigmod](https://github.com/nektro/zigmod#download) package manager
+    installed.
 
-1. Make the following changes to `zigmod.yml`.
+1. Make the following changes in `zigmod.yml`.
 
     ```yaml title="<code>zigmod.yml</code>" hl_lines="3 4"
     # ...

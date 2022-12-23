@@ -14,24 +14,24 @@ Every Getty serializer must implement the
 below.
 
 ```zig title="Zig code"
-// (1)
+// (1)!
 fn Serializer(
-    comptime Context: type, // (2)
-    comptime O: type, // (3)
-    comptime E: type, // (4)
+    comptime Context: type, // (2)!
+    comptime O: type, // (3)!
+    comptime E: type, // (4)!
 
-    // (5)
+    // (5)!
     comptime user_sbt: anytype,
     comptime serializer_sbt: anytype,
 
-    // (6)
+    // (6)!
     comptime Map: ?type,
     comptime Seq: ?type,
     comptime Structure: ?type,
 
-    // (7)
+    // (7)!
     comptime methods: struct {
-        // (8)
+        // (8)!
         serializeBool: ?fn (Context, bool) E!O = null,
         serializeEnum: ?fn (Context, anytype) E!O = null,
         serializeFloat: ?fn (Context, anytype) E!O = null,
@@ -63,14 +63,14 @@ fn Serializer(
    [`getty.Serializer`](https://docs.getty.so/#root;Serializer)'s methods upon
    failure.
 
-5. `user_sbt` and `serializer_sbt` are user- and serializer- defined
-   serialization blocks or tuples (SBT), respectively.
+5. `user_sbt` and `serializer_sbt` are user- and serializer-defined
+   serialization blocks or tuples, respectively.
 
     SBTs define Getty's serialization behavior. If user- or serializer-
     defined customization is not supported or needed by your serializer,
     you can pass in `null` for these parameters.
 
-    You can ignore these parameters for now. We'll come back to them later.
+    You can ignore these parameters for now.
 
 6.  `Map`, `Seq`, and `Structure` are types that implement Getty's aggregate
     serialization interfaces.
@@ -89,12 +89,8 @@ fn Serializer(
     [`getty.Serializer`](https://docs.getty.so/#root;Serializer) must or can
     provide.
 
-    For this guide, we'll be implementing all of these methods. However, if you
-    don't want to implement a specific method, you can simply omit its
-    corresponding field.
-
-8.  Each of these `serializeX` methods is responsible for serializing `X` from
-    Getty's data model into a data format.
+8.  These methods are responsible for serializing a type in Getty's data
+    model into a data format.
 
 Quite the parameter list!
 
@@ -162,8 +158,8 @@ $ zig build run
 
 Oh no, a compile error!
 
-Looks like Getty can't serialize `#!zig bool` values for us unless
-the `serializeBool` method is implemented. Easy enough.
+Looks like Getty can't serialize `#!zig bool` values for us unless the
+`serializeBool` method is implemented. So, let's implement it real quick.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="1 14-16 22-24 32"
 const std = @import("std");
@@ -208,7 +204,7 @@ true
 
 Success!
 
-Now let's do the exact same thing for `serializeEnum`, `serializeFloat`,
+Now let's do the same thing for `serializeEnum`, `serializeFloat`,
 `serializeInt`, `serializeNull`, `serializeSome`, `serializeString`, and
 `serializeVoid`.
 
@@ -290,21 +286,21 @@ null
 And there we have it! Our initial `Serializer` implementation, but now with
 context!
 
-!!! tip "Method Reuse"
+??? tip "Method Reuse"
 
     Since the signatures of the `serializeFloat` and `serializeInt` methods are
     the same, we were able to implement both of them using one function:
     `serializeNumber`. We were also able to do the same thing for
     `serializeNull` and `serializeVoid`.
 
-!!! tip "Private Methods"
+??? tip "Private Methods"
 
     By keeping all of our method implementations private, we avoid polluting
     the public API of `Serializer` with interface-related code. Additionally,
     we ensure that users cannot mistakenly use a `Serializer` value instead of
     an interface value to perform serialization.
 
-!!! tip "Type Validation"
+??? tip "Type Validation"
 
     Even though the type of the `value` parameter for many of our methods is
     `#!zig anytype`, we didn't perform any type validation. That's because
@@ -336,11 +332,11 @@ method, which returns a value of type `Seq`, which is expected to implement the
 ??? info "getty.ser.Seq"
 
     ```zig title="Zig code"
-    // (1)
+    // (1)!
     fn Seq(
         comptime Context: type,
 
-        // (2)
+        // (2)!
         comptime O: type,
         comptime E: type,
 
@@ -486,11 +482,11 @@ respectively.
 ??? info "getty.ser.Map"
 
     ```zig title="Zig code"
-    // (1)
+    // (1)!
     fn Map(
         comptime Context: type,
 
-        // (2)
+        // (2)!
         comptime O: type,
         comptime E: type,
 
@@ -514,11 +510,11 @@ respectively.
 ??? info "getty.ser.Structure"
 
     ```zig title="Zig code"
-    // (1)
+    // (1)!
     fn Structure(
         comptime Context: type,
 
-        // (2)
+        // (2)!
         comptime O: type,
         comptime E: type,
 
@@ -713,3 +709,6 @@ $ zig build run
 ```
 
 And there we go! Our JSON serializer is now complete!
+
+*[SBTs]: Serialization Blocks or Tuples
+
