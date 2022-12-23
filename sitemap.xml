@@ -11,31 +11,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/concepts/</loc>
-         <lastmod>2022-12-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://getty.so/concepts/blocks-and-tuples/</loc>
-         <lastmod>2022-12-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://getty.so/concepts/data-models/</loc>
-         <lastmod>2022-12-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://getty.so/concepts/interfaces/</loc>
-         <lastmod>2022-12-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://getty.so/concepts/values/</loc>
-         <lastmod>2022-12-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://getty.so/contributing/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
@@ -46,42 +21,67 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/</loc>
+         <loc>https://getty.so/user-guide/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/installation/</loc>
+         <loc>https://getty.so/user-guide/installation/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/guide/</loc>
+         <loc>https://getty.so/user-guide/concepts/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/guide/customization/</loc>
+         <loc>https://getty.so/user-guide/concepts/blocks-and-tuples/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/guide/deserializers/</loc>
+         <loc>https://getty.so/user-guide/concepts/data-models/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/guide/introduction/</loc>
+         <loc>https://getty.so/user-guide/concepts/interfaces/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/guide/serializers/</loc>
+         <loc>https://getty.so/user-guide/concepts/values/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://getty.so/getting-started/guide/setup/</loc>
+         <loc>https://getty.so/user-guide/guide/</loc>
+         <lastmod>2022-12-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/user-guide/guide/customization/</loc>
+         <lastmod>2022-12-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/user-guide/guide/deserializers/</loc>
+         <lastmod>2022-12-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/user-guide/guide/introduction/</loc>
+         <lastmod>2022-12-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/user-guide/guide/serializers/</loc>
+         <lastmod>2022-12-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://getty.so/user-guide/guide/setup/</loc>
          <lastmod>2022-12-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
