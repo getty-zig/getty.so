@@ -17,10 +17,8 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 ## Quick Start
 
-!!! info ""
-
-    The following example uses the [Getty
-    JSON](https://github.com/getty-zig/json) library for (de)serialization.
+The following example uses the [Getty JSON](https://github.com/getty-zig/json)
+library to demonstrate how (de)serialization works.
 
 ```zig title="Zig code"
 const std = @import("std");

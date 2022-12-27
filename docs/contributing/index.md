@@ -10,18 +10,6 @@ reach out on the [Getty Discord](https://discord.gg/njDA67U5ph).
 
 - Getty currently tracks the `master` release of Zig, so make sure your version is updated.
 
-## Workflow
-
-Getty uses the [Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) model for its development. Essentially, what that means is:
-
-- The `main` branch is strictly for releases. __Do not work on or branch off of it.__
-
-- The `develop` branch is an integration branch for features and fixes. __Do not work on it.__
-
-- Features are developed on `feature/<name>` branches, which branch off of `develop`.
-
-- Fixes are developed on `fix/<name>` branches, which branch off of `develop`.
-
 ## Issues
 
 - [GitHub Issues](https://github.com/getty-zig/getty/issues) are used exclusively for tracking bugs and feature requests for Getty.
@@ -41,3 +29,22 @@ Getty uses the [Git Flow](https://www.atlassian.com/git/tutorials/comparing-work
 - If you push a new version of a PR, please add a comment about the new
   version. Notifications aren't sent for commits, so it's easy to miss updates
   without an explicit comment.
+
+## Workflow
+
+Getty uses the [Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) model for its development. Essentially, what that means is:
+
+- The `main` branch is strictly for _releases_ and _hotfixes_. __Do not work on it.__
+
+    - Releases are developed on `release/<name>` branches, which branch off of `develop`.
+
+    - Hotfixes are developed on `hotfix/<name>` branches, which branch off of `main`.
+
+- The `develop` branch is an integration branch for _features_ and _fixes_. __Do not work on it.__
+
+    - Features are developed on `feature/<name>` branches, which branch off of `develop`.
+
+    - Fixes are developed on `fix/<name>` branches, which branch off of `develop`.
+
+![Release Workflow](https://wac-cdn.atlassian.com/dam/jcr:cc0b526e-adb7-4d45-874e-9bcea9898b4a/04%20Hotfix%20branches.svg?cdnVersion=690)
+
