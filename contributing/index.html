@@ -1169,11 +1169,19 @@ reach out on the <a href="https://discord.gg/njDA67U5ph">Getty Discord</a>.</p>
 <p>Getty uses the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Git Flow</a> model for its development. Essentially, what that means is:</p>
 <ul>
 <li>
-<p>The <code>main</code> branch is strictly for releases. <strong>Do not work on or branch off of it.</strong></p>
+<p>The <code>main</code> branch is strictly for <em>releases</em> and <em>hotfixes</em>. <strong>Do not work on it.</strong></p>
+<ul>
+<li>
+<p>Releases are developed on <code>release/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
 </li>
 <li>
-<p>The <code>develop</code> branch is an integration branch for features and fixes. <strong>Do not work on it.</strong></p>
+<p>Hotfixes are developed on <code>hotfix/&lt;name&gt;</code> branches, which branch off of <code>main</code>.</p>
 </li>
+</ul>
+</li>
+<li>
+<p>The <code>develop</code> branch is an integration branch for <em>features</em> and <em>fixes</em>. <strong>Do not work on it.</strong></p>
+<ul>
 <li>
 <p>Features are developed on <code>feature/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
 </li>
@@ -1181,6 +1189,9 @@ reach out on the <a href="https://discord.gg/njDA67U5ph">Getty Discord</a>.</p>
 <p>Fixes are developed on <code>fix/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
 </li>
 </ul>
+</li>
+</ul>
+<p><img alt="Release Workflow" src="https://wac-cdn.atlassian.com/dam/jcr:cc0b526e-adb7-4d45-874e-9bcea9898b4a/04%20Hotfix%20branches.svg?cdnVersion=690" /></p>
 <h2 id="issues">Issues</h2>
 <ul>
 <li>
