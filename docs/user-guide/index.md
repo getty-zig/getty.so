@@ -15,13 +15,6 @@ able to support a wide variety of data types!
 
 At a high-level, Getty consists of two flows: one for serialization and another for deserialization.
 
-<figure markdown>
-
-![Architecture](/assets/images/architecture-light.svg#only-light)
-![Architecture](/assets/images/architecture-dark.svg#only-dark)
-
-</figure>
-
 === "Serialization"
 
     1. A Zig value is passed to Getty.
@@ -36,3 +29,9 @@ At a high-level, Getty consists of two flows: one for serialization and another 
     3. The block prompts a [Deserializer](https://docs.getty.so/#root;Deserializer) to deserialize its input data into Getty's [data model](/user-guide/design/data-models).
     4. The resulting value is passed to a [Visitor](https://docs.getty.so/#root;de.Visitor), which converts it into a Zig value of the initial type.
 
+<figure markdown>
+
+![Architecture](/assets/images/architecture-light.svg#only-light)
+![Architecture](/assets/images/architecture-dark.svg#only-dark)
+
+</figure>
