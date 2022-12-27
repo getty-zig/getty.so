@@ -2,8 +2,8 @@
 
 The goal of Getty is to make writing (de)serializers in Zig easier for you.
 
-You can see some of that in the JSON serializer below, which supports scalar
-and string values. At around 50 lines of code, `Serializer` is a fully
+As an example, the following code defines a JSON serializer that supports
+scalar and string values. At around 50 lines, `Serializer` is a fully
 functional serializer capable of converting values of type `bool`, `i32`,
 `enum{ foo }`, `[]u8`, `*const [5]u8`, `?void`, and more into JSON!
 
@@ -74,11 +74,11 @@ $ zig build run
 "Getty"
 ```
 
-In this guide, we'll slowly build up to the above `Serializer` implementation
-so that by the end of it all, you'll understand everything there is to know
-about serialization in Getty. We'll also be extending `Serializer` to
-support more complex types, such as `[5][5]i32`, `struct{ x: i32 }`
-and `std.ArrayList(i32)`. And to cap things off, we'll write a JSON
-deserializer and go over how custom (de)serialization works in Getty.
+In this guide, we'll slowly build up to `Serializer` so that by the end of it
+all you'll understand everything there is to know about it. We'll also be
+extending the serializer to support non-scalar types, such as `[5][5]i32`,
+`struct{ x: i32 }` and `std.ArrayList(i32)`. And, to cap things off, we'll
+write ourselves a JSON deserializer and cover how custom (de)serialization
+works in Getty.
 
 Let's get started!
