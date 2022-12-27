@@ -32,7 +32,7 @@ First things first, we need to set up a new project to work in.
     }
     ```
 
-4. Create and run the following program to check that everything is working.
+4. Replace the contents of `src/main.zig` with the following.
 
     ```zig title="<code>src/main.zig</code>"
     const std = @import("std");
@@ -42,6 +42,8 @@ First things first, we need to set up a new project to work in.
         std.debug.print("{}\n", .{getty});
     }
     ```
+
+5. Run the application to make sure everything is working correctly.
 
     ```sh title="Shell session"
     $ zig build run
