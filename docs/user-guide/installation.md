@@ -16,7 +16,7 @@ this page.
     git clone https://github.com/getty-zig/getty lib/getty
     ```
 
-2. Make the following change in `build.zig`.
+2. Make the following change in `build.zig`:
 
     ```zig title="<code>build.zig</code>" hl_lines="9"
     const std = @import("std");
@@ -48,7 +48,7 @@ this page.
     gyro fetch
     ```
 
-2. Make the following changes in `build.zig`.
+2. Make the following changes in `build.zig`:
 
     ```zig title="<code>build.zig</code>" hl_lines="2 10"
     const std = @import("std");
@@ -74,7 +74,7 @@ this page.
     [Zigmod](https://github.com/nektro/zigmod#download) package manager
     installed.
 
-1. Make the following changes in `zigmod.yml`.
+1. Make the following changes in `zigmod.yml`:
 
     ```yaml title="<code>zigmod.yml</code>" hl_lines="3 4"
     # ...
@@ -89,7 +89,7 @@ this page.
     zigmod fetch
     ```
 
-3. Make the following changes in `build.zig`.
+3. Make the following changes in `build.zig`:
 
     ```zig title="<code>build.zig</code>" hl_lines="2 10"
     const std = @import("std");

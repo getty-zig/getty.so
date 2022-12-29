@@ -155,15 +155,15 @@ nav:
   - User Guide:
     - user-guide/index.md
     - user-guide/installation.md
-    - Guide:
-      - user-guide/guide/index.md
-      - user-guide/guide/introduction.md
-      - user-guide/guide/setup.md
-      - user-guide/guide/serializers.md
-      - user-guide/guide/deserializers.md
-      - user-guide/guide/customization.md
+    - Tutorial:
+      - user-guide/tutorial/index.md
+      - user-guide/tutorial/setup.md
+      - user-guide/tutorial/serializers.md
+      - user-guide/tutorial/deserializers.md
+      - user-guide/tutorial/customization.md
     - Design:
       - user-guide/design/index.md
+      - user-guide/design/architecture.md
       - user-guide/design/values.md
       - user-guide/design/data-models.md
       - user-guide/design/interfaces.md

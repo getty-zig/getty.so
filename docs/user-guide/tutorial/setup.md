@@ -32,7 +32,7 @@ First things first, we need to set up a new project to work in.
     }
     ```
 
-4. Replace the contents of `src/main.zig` with the following.
+4. Replace the contents of `src/main.zig` with the following:
 
     ```zig title="<code>src/main.zig</code>"
     const std = @import("std");
