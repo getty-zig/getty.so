@@ -13,7 +13,8 @@ able to support a wide variety of data types!
 
 ## Architecture
 
-At a high-level, Getty consists of two flows: one for serialization and another for deserialization.
+At a high-level, Getty consists of two flows: one for serialization and another
+for deserialization.
 
 === "Serialization"
 
