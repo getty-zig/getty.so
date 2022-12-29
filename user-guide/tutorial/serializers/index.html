@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://getty.so/user-guide/guide/serializers/">
+        <link rel="canonical" href="https://getty.so/user-guide/tutorial/serializers/">
       
       
         
@@ -515,8 +515,6 @@
       
         
       
-        
-      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
@@ -535,7 +533,7 @@
   <span class="md-ellipsis">
     
   
-    Guide
+    Tutorial
   
 
     
@@ -551,45 +549,17 @@
             
           </div>
         
-        <nav class="md-nav" aria-label="Guide" data-md-level="2">
+        <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guide
+    Tutorial
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../introduction/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    <span class="md-typeset">
-      Introduction
-    </span>
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -804,6 +774,8 @@
       
         
       
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -849,6 +821,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Architecture
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1220,19 +1220,19 @@
                 
                   
 
-  <a href="https://github.com/getty-zig/getty.so/edit/main/docs/user-guide/guide/serializers.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/getty-zig/getty.so/edit/main/docs/user-guide/tutorial/serializers.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 <h1 id="serializers">Serializers</h1>
-<p>Let's write a JSON serializer that serializes values by printing their JSON equivalent to <code>STDERR</code>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Prerequisites</p>
 <p>This page assumes you understand how Getty interfaces work. If not, take a
 few minutes to learn about them <a href="/user-guide/design/interfaces/">here</a>.</p>
 </div>
+<p>Let's write a JSON serializer that serializes values by printing their JSON equivalent to <code>STDERR</code>.</p>
 <h2 id="scalar-serialization">Scalar Serialization</h2>
 <p>Every Getty serializer must implement the
 <a href="https://docs.getty.so/#root;Serializer"><code>getty.Serializer</code></a> interface, shown
@@ -1516,14 +1516,19 @@ floating-points will be passed to <code>serializeNumber</code>.</p>
 <h2 id="aggregate-serialization">Aggregate Serialization</h2>
 <p>Alright, now let's take a look at serialization for aggregate types.</p>
 <p>If you'll recall, the
-<a href="https://docs.getty.so/#root;Serializer"><code>getty.Serializer</code></a> interface had the
-<code>Map</code>, <code>Seq</code>, and <code>Structure</code> parameters. So far, we've just been passing in
-<code>null</code> for them. However, we'll start using them now.</p>
-<p>The reason these parameters exist is because aggregate types have all kinds of
-different access and iteration patterns, but Getty can't possibly know about
-all of them. As such, serialization methods like <code>serializeMap</code> are only
-responsible for <em>starting</em> the serialization process, before returning a value
-of either <code>Map</code>, <code>Seq</code>, or <code>Structure</code>. The returned value is then used by the
+<a href="https://docs.getty.so/#root;Serializer"><code>getty.Serializer</code></a> interface requires
+three associated types from its impleentations: <code>Seq</code>, <code>Map</code>, and <code>Structure</code>.
+These are optional types that impelement the
+<a href="https://docs.getty.so/#root;ser.Seq"><code>getty.ser.Seq</code></a>,
+<a href="https://docs.getty.so/#root;ser.Map"><code>getty.ser.Map</code></a> and
+<a href="https://docs.getty.so/#root;ser.Structure"><code>getty.ser.Structure</code></a> interfaces,
+respectively.</p>
+<p>Why do we need these parameters to create a serializer? Well, because aggregate
+types have all kinds of different access and iteration patterns, but Getty
+can't possibly know about all of them. As such, aggregate serialization methods
+like <code>serializeMap</code> are only responsible for <em>starting</em> the serialization
+process, before returning a value of either <code>Map</code>, <code>Seq</code>, or <code>Structure</code>
+(depending on which method was called). The returned value is then used by the
 caller to finish off serialization.</p>
 <p>To give you an example of what I mean, let's implement the <code>serializeSeq</code>
 method, which returns a value of type <code>Seq</code>, which is expected to implement the

@@ -511,8 +511,6 @@
       
         
       
-        
-      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -525,13 +523,13 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="guide/" class="md-nav__link ">
+            <a href="tutorial/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
     
   
-    Guide
+    Tutorial
   
 
     
@@ -547,12 +545,12 @@
             
           </div>
         
-        <nav class="md-nav" aria-label="Guide" data-md-level="2">
+        <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guide
+    Tutorial
   
 
           </label>
@@ -566,33 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/introduction/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    Introduction
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guide/setup/" class="md-nav__link">
+      <a href="tutorial/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -618,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/serializers/" class="md-nav__link">
+      <a href="tutorial/serializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -644,7 +616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/deserializers/" class="md-nav__link">
+      <a href="tutorial/deserializers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -670,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guide/customization/" class="md-nav__link">
+      <a href="tutorial/customization/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -708,6 +680,8 @@
       
         
           
+        
+      
         
       
         
@@ -763,6 +737,32 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="design/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1080,27 +1080,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <span class="md-typeset">
-          Architecture
-        </span>
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1120,41 +1099,11 @@
 
 
 <h1 id="user-guide">User Guide</h1>
-<p>If you've ever written a Zig (de)serializer before, you probably wrote a
-function that took a value, switched on its type, and (de)serialized based on
-the resulting type information. You might have even called it
-<a href="https://ziglang.org/documentation/master/std/#root;json"><code>std.json</code></a>, as
-that's exactly how the module works! Unfortunately, this approach is quite
-brittle, inflexible, and usually ends up being a lot of unnecessary work.</p>
-<p>The goal of Getty is to help you avoid all of that and reduce the amount of
-code you need to write a (de)serializer that is customizable, performant, and
-able to support a wide variety of data types!</p>
-<h2 id="architecture">Architecture</h2>
-<p>At a high-level, Getty consists of two flows: one for serialization and another for deserialization.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Serialization</label><label for="__tabbed_1_2">Deserialization</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<ol>
-<li>A Zig value is passed to Getty.</li>
-<li>Based on the value's type, a <a href="/user-guide/design/blocks-and-tuples">serialization block</a> is selected and executed by Getty.</li>
-<li>The block serializes the passed-in value into Getty's <a href="/user-guide/design/data-models">data model</a>.</li>
-<li>The resulting value is passed to a <a href="https://docs.getty.so/#root;Serializer">Serializer</a>, which serializes it into an output data format.</li>
-</ol>
-</div>
-<div class="tabbed-block">
-<ol>
-<li>A Zig type is passed to Getty.</li>
-<li>Based on the type, a <a href="/user-guide/design/blocks-and-tuples">deserialization block</a> is selected and executed by Getty.</li>
-<li>The block prompts a <a href="https://docs.getty.so/#root;Deserializer">Deserializer</a> to deserialize its input data into Getty's <a href="/user-guide/design/data-models">data model</a>.</li>
-<li>The resulting value is passed to a <a href="https://docs.getty.so/#root;de.Visitor">Visitor</a>, which converts it into a Zig value of the initial type.</li>
-</ol>
-</div>
-</div>
-</div>
-<figure>
-<p><img alt="Architecture" src="/assets/images/architecture-light.svg#only-light" />
-<img alt="Architecture" src="/assets/images/architecture-dark.svg#only-dark" /></p>
-</figure>
+<p>This is the official guide for the Getty framework, and is designed to serve as both:</p>
+<ul>
+<li>An introduction to writing serializers and deserializers with Getty.</li>
+<li>A reference for more experienced Getty developers.</li>
+</ul>
 
 
 

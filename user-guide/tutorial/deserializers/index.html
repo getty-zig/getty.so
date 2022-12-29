@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://getty.so/user-guide/guide/deserializers/">
+        <link rel="canonical" href="https://getty.so/user-guide/tutorial/deserializers/">
       
       
         
@@ -515,8 +515,6 @@
       
         
       
-        
-      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
@@ -535,7 +533,7 @@
   <span class="md-ellipsis">
     
   
-    Guide
+    Tutorial
   
 
     
@@ -551,43 +549,17 @@
             
           </div>
         
-        <nav class="md-nav" aria-label="Guide" data-md-level="2">
+        <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guide
+    Tutorial
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../introduction/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    Introduction
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -813,6 +785,8 @@
       
         
       
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -858,6 +832,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Architecture
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1242,19 +1244,19 @@
                 
                   
 
-  <a href="https://github.com/getty-zig/getty.so/edit/main/docs/user-guide/guide/deserializers.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/getty-zig/getty.so/edit/main/docs/user-guide/tutorial/deserializers.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 <h1 id="deserializers">Deserializers</h1>
-<p>Let's write a simple (albeit slightly naive) JSON deserializer.</p>
 <div class="admonition warning">
 <p class="admonition-title">Prerequisites</p>
 <p>This page assumes you understand how Getty interfaces work. If not, take a
 few minutes to learn about them <a href="/user-guide/design/interfaces/">here</a>.</p>
 </div>
+<p>Let's write a simple (albeit slightly naive) JSON deserializer.</p>
 <h2 id="prologue">Prologue</h2>
 <p>To begin, we'll go over how deserialization works in Getty.</p>
 <figure>
