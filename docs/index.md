@@ -1,6 +1,7 @@
 # Getty
 
-Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)serializers in Zig.
+Getty is a framework for building __robust__, __optimal__, and __reusable__
+(de)serializers in Zig.
 
 ## Goals
 
@@ -12,8 +13,9 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 - Compile-time (de)serialization.
 - Out-of-the-box support for a wide variety of standard library types.
-- Local customization of (de)serialization logic for both existing and remote types.
-- Data model abstractions that serve as simple and generic baselines for (de)serializers.
+- Customization of (de)serialization logic for both existing and remote types.
+- Data model abstractions that serve as simple and generic baselines for
+  (de)serializers.
 
 ## Quick Start
 
@@ -32,7 +34,9 @@ const Point = struct {
 };
 
 pub fn main() anyerror!void {
-    const serialized = try json.toSlice(allocator, Point{ .x = 1, .y = 2 });
+    const value = Point{ .x = 1, .y = 2 };
+
+    const serialized = try json.toSlice(allocator, value);
     defer allocator.free(serialized);
 
     const deserialized = try json.fromSlice(null, Point, serialized);
