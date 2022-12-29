@@ -1,11 +1,11 @@
 # Deserializers
 
-Let's write a simple (albeit slightly naive) JSON deserializer.
-
 !!! warning "Prerequisites"
 
     This page assumes you understand how Getty interfaces work. If not, take a
     few minutes to learn about them [here](/user-guide/design/interfaces/).
+
+Let's write a simple (albeit slightly naive) JSON deserializer.
 
 ## Prologue
 

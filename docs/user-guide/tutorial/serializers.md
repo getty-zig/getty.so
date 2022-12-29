@@ -1,11 +1,12 @@
 # Serializers
 
-Let's write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
-
 !!! warning "Prerequisites"
 
     This page assumes you understand how Getty interfaces work. If not, take a
     few minutes to learn about them [here](/user-guide/design/interfaces/).
+
+
+Let's write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
 
 ## Scalar Serialization
 
@@ -314,15 +315,20 @@ bit of context!
 Alright, now let's take a look at serialization for aggregate types.
 
 If you'll recall, the
-[`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface had the
-`Map`, `Seq`, and `Structure` parameters. So far, we've just been passing in
-`null` for them. However, we'll start using them now.
+[`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface requires
+three associated types from its impleentations: `Seq`, `Map`, and `Structure`.
+These are optional types that impelement the
+[`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq),
+[`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) and
+[`getty.ser.Structure`](https://docs.getty.so/#root;ser.Structure) interfaces,
+respectively.
 
-The reason these parameters exist is because aggregate types have all kinds of
-different access and iteration patterns, but Getty can't possibly know about
-all of them. As such, serialization methods like `serializeMap` are only
-responsible for _starting_ the serialization process, before returning a value
-of either `Map`, `Seq`, or `Structure`. The returned value is then used by the
+Why do we need these parameters to create a serializer? Well, because aggregate
+types have all kinds of different access and iteration patterns, but Getty
+can't possibly know about all of them. As such, aggregate serialization methods
+like `serializeMap` are only responsible for _starting_ the serialization
+process, before returning a value of either `Map`, `Seq`, or `Structure`
+(depending on which method was called). The returned value is then used by the
 caller to finish off serialization.
 
 To give you an example of what I mean, let's implement the `serializeSeq`
