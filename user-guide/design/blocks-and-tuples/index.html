@@ -1494,11 +1494,6 @@ example, <code>struct</code> values would be serialized using the default
 <code>getty.ser.blocks.Struct</code> block and deserialized with the default
 <code>getty.de.blocks.Struct</code> block. However, based on the attributes that you
 specify, slight changes to these default processes will take effect.</p>
-<div class="admonition info">
-<p class="admonition-title">Support</p>
-<p>For a complete list of the attributes supported by Getty, see
-<a href="https://github.com/getty-zig/getty/blob/develop/src/attributes.zig">here</a>.</p>
-</div>
 <p>Regardless of whether you're serializing or deserializing, <abbr title="Attribute Blocks">ABs</abbr> are always
 defined like so:</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
@@ -1550,6 +1545,11 @@ defined like so:</p>
    you're specifying (i.e., field/variant or container).</p>
 </li>
 </ol>
+<div class="admonition info">
+<p class="admonition-title">Supported Attributes</p>
+<p>For a complete list of the attributes supported by Getty, see
+<a href="https://github.com/getty-zig/getty/blob/develop/src/attributes.zig">here</a>.</p>
+</div>
 <h3 id="type-defined-blocks">Type-Defined Blocks</h3>
 <p>The blocks we've discussed so far are known as <em>out-of-band blocks</em>. They're
 defined separately from the type(s) that they operate on. Out-of-band blocks have
