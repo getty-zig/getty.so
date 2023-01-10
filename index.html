@@ -13,11 +13,15 @@
         <link rel="canonical" href="https://getty.so/">
       
       
+      
+        <link rel="next" href="user-guide/">
+      
+      
         
       
       
       <link rel="icon" href="assets/images/getty-favicon-solid-large.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.11+insiders-4.27.0">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2+insiders-4.27.0">
     
     
       
@@ -25,11 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.b2225816.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.801e1816.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -116,8 +119,6 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          
-          
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
@@ -125,8 +126,6 @@
             </label>
           
         
-          
-          
           
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
           
@@ -1137,15 +1136,18 @@
                 
                   
 
-  <a href="https://github.com/getty-zig/getty.so/edit/main/docs/index.md" title="Edit this page" class="md-content__button md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+  
+  
+
 
 
 <h1 id="getty">Getty</h1>
 <p>Getty is a framework for building <strong>robust</strong>, <strong>optimal</strong>, and <strong>reusable</strong>
 (de)serializers in Zig.</p>
+<p><br></p>
+<figure>
+<p><img alt="Getty" src="/assets/images/getty-solid.svg" width="370" /></p>
+</figure>
 <h2 id="goals">Goals</h2>
 <ul>
 <li>Minimize the amount of code required for (de)serializer implementations.</li>
@@ -1163,29 +1165,29 @@
 <h2 id="quick-start">Quick Start</h2>
 <p>The following example uses the <a href="https://github.com/getty-zig/json">Getty JSON</a>
 library to demonstrate how (de)serialization works.</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;json&quot;</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;json&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kr">const</span><span class="w"> </span><span class="n">allocator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="p">.</span><span class="n">heap</span><span class="p">.</span><span class="n">page_allocator</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kr">const</span><span class="w"> </span><span class="n">allocator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="p">.</span><span class="n">heap</span><span class="p">.</span><span class="n">page_allocator</span><span class="p">;</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">};</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">};</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">serialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">json</span><span class="p">.</span><span class="n">toSlice</span><span class="p">(</span><span class="n">allocator</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="n">allocator</span><span class="p">.</span><span class="n">free</span><span class="p">(</span><span class="n">serialized</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">serialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">json</span><span class="p">.</span><span class="n">toSlice</span><span class="p">(</span><span class="n">allocator</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="n">allocator</span><span class="p">.</span><span class="n">free</span><span class="p">(</span><span class="n">serialized</span><span class="p">);</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">deserialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">json</span><span class="p">.</span><span class="n">fromSlice</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">Point</span><span class="p">,</span><span class="w"> </span><span class="n">serialized</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">deserialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">json</span><span class="p">.</span><span class="n">fromSlice</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">Point</span><span class="p">,</span><span class="w"> </span><span class="n">serialized</span><span class="p">);</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{s}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">serialized</span><span class="p">});</span><span class="w"></span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">deserialized</span><span class="p">});</span><span class="w"></span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{s}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">serialized</span><span class="p">});</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">deserialized</span><span class="p">});</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>zig build run
+<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build<span class="w"> </span>run
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="go">{&quot;x&quot;:1,&quot;y&quot;:2}</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="go">main.Point{ .x = 1, .y = 2 }</span>
 </code></pre></div>
@@ -1211,27 +1213,6 @@ library to demonstrate how (de)serialization works.</p>
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-      
-        
-        <a href="user-guide/" class="md-footer__link md-footer__link--next" aria-label="Next: User Guide" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              User Guide
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1275,12 +1256,11 @@ library to demonstrate how (de)serialization works.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "assets/javascripts/workers/search.939a4419.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "assets/javascripts/workers/search.94e452fd.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.af94fead.min.js"></script>
+      <script src="assets/javascripts/bundle.931207ad.min.js"></script>
       
-    
     
   </body>
 </html>

@@ -13,11 +13,17 @@
         <link rel="canonical" href="https://getty.so/user-guide/design/blocks-and-tuples/">
       
       
+        <link rel="prev" href="../interfaces/">
+      
+      
+        <link rel="next" href="../../../contributing/">
+      
+      
         
       
       
       <link rel="icon" href="../../../assets/images/getty-favicon-solid-large.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.11+insiders-4.27.0">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2+insiders-4.27.0">
     
     
       
@@ -25,11 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.b2225816.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.801e1816.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -116,8 +121,6 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          
-          
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
@@ -125,8 +128,6 @@
             </label>
           
         
-          
-          
           
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
           
@@ -1350,10 +1351,9 @@
                 
                   
 
-  <a href="https://github.com/getty-zig/getty.so/edit/main/docs/user-guide/design/blocks-and-tuples.md" title="Edit this page" class="md-content__button md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+  
+  
+
 
 
 <h1 id="blocks-and-tuples">Blocks and Tuples</h1>
@@ -1380,21 +1380,21 @@ over them now.</p>
 <h3 id="serialization-blocks">Serialization Blocks</h3>
 <p>To manually define the serialization process for a type, you can use a
 <strong>serialization block</strong>.</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="c1">// (1)!</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">bool</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">bool</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="c1">// (2)!</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">serialize</span><span class="p">(</span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">serializer</span><span class="p">).</span><span class="n">Error</span><span class="o">!</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">serializer</span><span class="p">).</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">serialize</span><span class="p">(</span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">serializer</span><span class="p">).</span><span class="n">Error</span><span class="o">!</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">serializer</span><span class="p">).</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="c1">// Convert bool value to a Getty Integer.</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">v</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">v</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="c1">// Pass the Getty Integer value to the serializer.</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">serializer</span><span class="p">.</span><span class="n">serializeInt</span><span class="p">(</span><span class="n">v</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">serializer</span><span class="p">.</span><span class="n">serializeInt</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">};</span>
 </code></pre></div>
 <ol>
 <li>
@@ -1412,42 +1412,42 @@ over them now.</p>
 </ol>
 <h3 id="deserialization-blocks">Deserialization Blocks</h3>
 <p>To manually define the deserialization process for a type, you can use a <strong>deserialization block</strong>.</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="c1">// (1)!</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">bool</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">bool</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="c1">// (2)!</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">deserialize</span><span class="p">(</span><span class="w"></span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="n">allocator</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="n">std</span><span class="p">.</span><span class="n">mem</span><span class="p">.</span><span class="n">Allocator</span><span class="p">,</span><span class="w"></span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">deserialize</span><span class="p">(</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="n">allocator</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="n">std</span><span class="p">.</span><span class="n">mem</span><span class="p">.</span><span class="n">Allocator</span><span class="p">,</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="kr">comptime</span><span class="w"> </span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span><span class="w"> </span><span class="c1">// (3)!</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="n">deserializer</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="n">visitor</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">deserializer</span><span class="p">).</span><span class="n">Error</span><span class="o">!</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">visitor</span><span class="p">).</span><span class="n">Value</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">deserializer</span><span class="p">.</span><span class="n">deserializeInt</span><span class="p">(</span><span class="n">allocator</span><span class="p">,</span><span class="w"> </span><span class="n">visitor</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="n">deserializer</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="n">visitor</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">deserializer</span><span class="p">).</span><span class="n">Error</span><span class="o">!</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">visitor</span><span class="p">).</span><span class="n">Value</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">deserializer</span><span class="p">.</span><span class="n">deserializeInt</span><span class="p">(</span><span class="n">allocator</span><span class="p">,</span><span class="w"> </span><span class="n">visitor</span><span class="p">);</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="c1">// (4)!</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">Visitor</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">Value</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">type</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">            </span><span class="kr">pub</span><span class="w"> </span><span class="k">usingnamespace</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">de</span><span class="p">.</span><span class="n">Visitor</span><span class="p">(</span><span class="w"></span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">                </span><span class="nb">@This</span><span class="p">(),</span><span class="w"></span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">                </span><span class="n">Value</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">                </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">visitInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visitInt</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">            </span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">Visitor</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">Value</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">type</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">            </span><span class="kr">pub</span><span class="w"> </span><span class="k">usingnamespace</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">de</span><span class="p">.</span><span class="n">Visitor</span><span class="p">(</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">                </span><span class="nb">@This</span><span class="p">(),</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">                </span><span class="n">Value</span><span class="p">,</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">                </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">visitInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">visitInt</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">            </span><span class="p">);</span>
 <a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">            </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">visitInt</span><span class="p">(</span><span class="w"></span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">                </span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="nb">@This</span><span class="p">(),</span><span class="w"></span>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">                </span><span class="n">allocator</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="n">std</span><span class="p">.</span><span class="n">mem</span><span class="p">.</span><span class="n">Allocator</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">                </span><span class="kr">comptime</span><span class="w"> </span><span class="n">Deserializer</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">                </span><span class="n">input</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="n">Deserializer</span><span class="p">.</span><span class="n">Error</span><span class="o">!</span><span class="n">Value</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">            </span><span class="p">}</span><span class="w"></span>
-<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">        </span><span class="p">};</span><span class="w"></span>
-<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
-<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">            </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">visitInt</span><span class="p">(</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">                </span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="nb">@This</span><span class="p">(),</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">                </span><span class="n">allocator</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="n">std</span><span class="p">.</span><span class="n">mem</span><span class="p">.</span><span class="n">Allocator</span><span class="p">,</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">                </span><span class="kr">comptime</span><span class="w"> </span><span class="n">Deserializer</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">                </span><span class="n">input</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="n">Deserializer</span><span class="p">.</span><span class="n">Error</span><span class="o">!</span><span class="n">Value</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="p">};</span>
 </code></pre></div>
 <ol>
 <li>
@@ -1487,8 +1487,7 @@ over them now.</p>
 away with the more convenient <strong>attribute blocks</strong>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Compatibility</p>
-<p>Attribute blocks may only be defined by <code>struct</code>, <code>enum</code>, and
-<code>union</code> types.</p>
+<p>Attribute blocks may only be defined by <code>struct</code> and <code>union</code> types.</p>
 </div>
 <p>With <abbr title="Attribute Blocks">ABs</abbr>, Getty's default (de)serialization processes are used. For
 example, <code>struct</code> values would be serialized using the default
@@ -1502,22 +1501,22 @@ specify, slight changes to these default processes will take effect.</p>
 </div>
 <p>Regardless of whether you're serializing or deserializing, <abbr title="Attribute Blocks">ABs</abbr> are always
 defined like so:</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">};</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">};</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kr">const</span><span class="w"> </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Point</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kr">const</span><span class="w"> </span><span class="n">ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Point</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="c1">// (1)!</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="kr">const</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="c1">// (2)!</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">rename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="c1">// (3)!</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="p">};</span><span class="w"></span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">};</span>
 </code></pre></div>
 <ol>
 <li>
@@ -1541,9 +1540,9 @@ defined like so:</p>
     <br>
     <br>
     Each field name in <code>attributes</code> must match either a field or variant in
-    your <code>struct</code>, <code>enum</code>, or <code>union</code>, or the word
-    <code>Container</code>. The former are known as <strong>field/variant attributes</strong>, while
-    the latter are known as <strong>container attributes</strong>.</p>
+    your <code>struct</code> or <code>union</code>, or the word <code>Container</code>. The former are known as
+    <strong>field/variant attributes</strong>, while the latter are known as <strong>container
+    attributes</strong>.</p>
 </li>
 <li>
 <p>Each field in <code>attributes</code> is also an anonymous struct literal. The
@@ -1556,26 +1555,25 @@ defined like so:</p>
 defined separately from the type(s) that they operate on. Out-of-band blocks have
 their place, such as when you want to customize a type that you didn't define
 (e.g., the types in <code>std</code>). However, there's a more convenient way to do
-things for <code>struct</code>, <code>enum</code>, and <code>union</code> types that you did
-define yourself.</p>
-<p>If you define a block <em>within</em> a <code>struct</code>, <code>enum</code>, or <code>union</code>, Getty will
-automatically process it without you having to pass it to a (de)serializer. All
-you have to do is make sure the block is public and named <code>@"getty.sb"</code> (for
-serialization) or <code>@"getty.db"</code> (for deserialization).</p>
+things for <code>struct</code> and <code>union</code> types that you did define yourself.</p>
+<p>If you define a block <em>within</em> a <code>struct</code> or <code>union</code>, Getty will automatically
+process it without you having to pass it to a (de)serializer. All you have to
+do is make sure the block is public and named <code>@"getty.sb"</code> (for serialization)
+or <code>@"getty.db"</code> (for deserialization).</p>
 <p>Type-defined blocks are defined exactly the same as attribute, serialization,
 and deserialization blocks are. The only difference is that you don't need an
 <code>is</code> function in a type-defined block.</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="kr">const</span><span class="w"> </span><span class="err">@</span><span class="s">&quot;getty.sb&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="kr">pub</span><span class="w"> </span><span class="kr">const</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"></span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">            </span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">rename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">            </span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="p">};</span><span class="w"></span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">};</span><span class="w"></span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="kr">const</span><span class="w"> </span><span class="err">@</span><span class="s">&quot;getty.sb&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="kr">pub</span><span class="w"> </span><span class="kr">const</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">            </span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">rename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">            </span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">};</span>
 </code></pre></div>
 <h3 id="usage">Usage</h3>
 <p>Once you've defined a block, you can pass them along to Getty via the
@@ -1585,71 +1583,71 @@ They take optional (de)serialization blocks as arguments.</p>
 <p>For example, the following defines a serializer that can serialize <em>Booleans</em>
 and <em>Integers</em> into JSON. It's generic over an <abbr title="Serialization Block">SB</abbr>, which it passes to Getty,
 making it even easier for us to customize Getty's behavior.</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">fn</span><span class="w"> </span><span class="n">Serializer</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">user_sb</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">type</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="kr">pub</span><span class="w"> </span><span class="k">usingnamespace</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">Serializer</span><span class="p">(</span><span class="w"></span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">            </span><span class="nb">@This</span><span class="p">(),</span><span class="w"></span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">            </span><span class="n">Ok</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">            </span><span class="n">Error</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">            </span><span class="n">user_sb</span><span class="w"> </span><span class="k">orelse</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">            </span><span class="p">.{</span><span class="w"></span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">                </span><span class="p">.</span><span class="n">serializeBool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serializeBool</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">                </span><span class="p">.</span><span class="n">serializeInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serializeInt</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">            </span><span class="p">},</span><span class="w"></span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">fn</span><span class="w"> </span><span class="n">Serializer</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">user_sb</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">type</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="kr">pub</span><span class="w"> </span><span class="k">usingnamespace</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">Serializer</span><span class="p">(</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">            </span><span class="nb">@This</span><span class="p">(),</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">            </span><span class="n">Ok</span><span class="p">,</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">            </span><span class="n">Error</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">            </span><span class="n">user_sb</span><span class="w"> </span><span class="k">orelse</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">            </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">            </span><span class="p">.{</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">                </span><span class="p">.</span><span class="n">serializeBool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serializeBool</span><span class="p">,</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">                </span><span class="p">.</span><span class="n">serializeInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serializeInt</span><span class="p">,</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">            </span><span class="p">},</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="p">);</span>
 <a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">Ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">error</span><span class="p">{};</span><span class="w"></span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">Ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="p">;</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">error</span><span class="p">{};</span>
 <a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="k">fn</span><span class="w"> </span><span class="n">serializeBool</span><span class="p">(</span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="nb">@This</span><span class="p">(),</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="n">Error</span><span class="o">!</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">            </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">value</span><span class="p">});</span><span class="w"></span>
-<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="k">fn</span><span class="w"> </span><span class="n">serializeBool</span><span class="p">(</span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="nb">@This</span><span class="p">(),</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="n">Error</span><span class="o">!</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">            </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">value</span><span class="p">});</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
-<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">        </span><span class="k">fn</span><span class="w"> </span><span class="n">serializeInt</span><span class="p">(</span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="nb">@This</span><span class="p">(),</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="n">Error</span><span class="o">!</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">            </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">value</span><span class="p">});</span><span class="w"></span>
-<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
-<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="p">};</span><span class="w"></span>
-<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">        </span><span class="k">fn</span><span class="w"> </span><span class="n">serializeInt</span><span class="p">(</span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="nb">@This</span><span class="p">(),</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="n">Error</span><span class="o">!</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">            </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">value</span><span class="p">});</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="p">}</span>
 <a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
-<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="kr">const</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">bool</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="kr">const</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">is</span><span class="p">(</span><span class="kr">comptime</span><span class="w"> </span><span class="n">T</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">bool</span><span class="p">;</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>
-<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">serialize</span><span class="p">(</span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="o">!</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">serializer</span><span class="p">).</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">v</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">serializer</span><span class="p">.</span><span class="n">serializeInt</span><span class="p">(</span><span class="n">v</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
-<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="w">    </span><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">serialize</span><span class="p">(</span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="o">:</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="o">!</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">serializer</span><span class="p">).</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">v</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">serializer</span><span class="p">.</span><span class="n">serializeInt</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="p">};</span>
 <a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>
-<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="w">    </span><span class="c1">// Normal</span>
-<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a><span class="w">    </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="w">        </span><span class="kr">var</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serializer</span><span class="p">(</span><span class="kc">null</span><span class="p">){};</span><span class="w"></span>
-<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">serializer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">serializer</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="w">        </span><span class="kr">var</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serializer</span><span class="p">(</span><span class="kc">null</span><span class="p">){};</span>
+<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">serializer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">serializer</span><span class="p">();</span>
 <a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>
-<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span>
+<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span>
+<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>
 <a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="w">    </span><span class="c1">// Custom</span>
-<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="w">    </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="w">        </span><span class="kr">var</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serializer</span><span class="p">(</span><span class="n">sb</span><span class="p">){};</span><span class="w"></span>
-<a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">serializer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">serializer</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="w">        </span><span class="kr">var</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serializer</span><span class="p">(</span><span class="n">sb</span><span class="p">){};</span>
+<a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a><span class="w">        </span><span class="kr">const</span><span class="w"> </span><span class="n">serializer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">serializer</span><span class="p">();</span>
 <a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>
-<a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
-<a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span>
+<a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">serializer</span><span class="p">);</span>
+<a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">$ </span>zig build run
+<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build<span class="w"> </span>run
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go">true</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="go">false</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="go">1</span>
@@ -1661,10 +1659,10 @@ making it even easier for us to customize Getty's behavior.</p>
 <p>A (de)serialization tuple is, well, a tuple of (de)serialization blocks. They
 can be used wherever a (de)serialization block can be used and allow you to do
 some pretty cool things. For example, suppose you had the following type:</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">};</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">};</span>
 </code></pre></div>
 <p>If all you wanted to do was serialize <code>Point</code> values as <em>Sequences</em>, you'd
 just write an <abbr title="Serialization Block">SB</abbr> and pass it along to Getty. However, what if you also wanted
@@ -1674,10 +1672,10 @@ quick and inevitably becomes a pain to maintain.</p>
 <p>A much better solution is to break up your serialization logic into separate
 blocks. One for <code>Point</code> values and one for <code>i32</code> values. Then, you just
 group them together as a serialization tuple!</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">point_sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">i32_sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">point_sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">i32_sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kr">const</span><span class="w"> </span><span class="n">point_st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="n">point_sb</span><span class="p">,</span><span class="w"> </span><span class="n">i32_sb</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kr">const</span><span class="w"> </span><span class="n">point_st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="n">point_sb</span><span class="p">,</span><span class="w"> </span><span class="n">i32_sb</span><span class="w"> </span><span class="p">};</span>
 </code></pre></div>
 
 
@@ -1701,42 +1699,6 @@ group them together as a serialization tuple!</p>
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../interfaces/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Interfaces" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Interfaces
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../../../contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Contributing
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1780,12 +1742,11 @@ group them together as a serialization tuple!</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "../../../assets/javascripts/workers/search.939a4419.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "../../../assets/javascripts/workers/search.94e452fd.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.af94fead.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.931207ad.min.js"></script>
       
-    
     
   </body>
 </html>

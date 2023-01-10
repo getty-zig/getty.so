@@ -13,11 +13,17 @@
         <link rel="canonical" href="https://getty.so/user-guide/tutorial/setup/">
       
       
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../serializers/">
+      
+      
         
       
       
       <link rel="icon" href="../../../assets/images/getty-favicon-solid-large.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.11+insiders-4.27.0">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2+insiders-4.27.0">
     
     
       
@@ -25,11 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.b2225816.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.801e1816.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
-        
       
       
 
@@ -116,8 +121,6 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          
-          
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
@@ -125,8 +128,6 @@
             </label>
           
         
-          
-          
           
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
           
@@ -1124,55 +1125,54 @@
                 
                   
 
-  <a href="https://github.com/getty-zig/getty.so/edit/main/docs/user-guide/tutorial/setup.md" title="Edit this page" class="md-content__button md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+  
+  
+
 
 
 <h1 id="setup">Setup</h1>
-<p>First things first, we need to set up a new project to work in.</p>
+<p>To begin, we need to set up a new project to work in.</p>
 <ol>
 <li>
-<p>Create a new Zig project called <code>getty-learn</code>:</p>
-<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir getty-learn
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span> getty-learn
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>zig init-exe
+<p>Create a Zig project called <code>getty-learn</code>:</p>
+<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>getty-learn
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>getty-learn
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>zig<span class="w"> </span>init-exe
 </code></pre></div>
 </li>
 <li>
 <p>Install Getty into the <code>lib/getty</code> directory within <code>getty-learn</code>:</p>
-<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git clone https://github.com/getty-zig/getty lib/getty
+<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/getty-zig/getty<span class="w"> </span>lib/getty
 </code></pre></div>
 </li>
 <li>
 <p>Make <code>getty-learn</code> aware of Getty by calling <code>addPackagePath</code> in <code>build.zig</code>:</p>
-<div class="highlight"><span class="filename"><code>build.zig</code></span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><span class="filename"><code>build.zig</code></span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="o">:</span><span class="w"> </span><span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">Builder</span><span class="p">)</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="o">:</span><span class="w"> </span><span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">Builder</span><span class="p">)</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="c1">// ...</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">exe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">addExecutable</span><span class="p">(</span><span class="s">&quot;getty-learn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;src/main.zig&quot;</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setTarget</span><span class="p">(</span><span class="n">target</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setBuildMode</span><span class="p">(</span><span class="n">mode</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addPackagePath</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lib/getty/src/getty.zig&quot;</span><span class="p">);</span><span class="w"></span>
-</span><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">install</span><span class="p">();</span><span class="w"></span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">exe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">addExecutable</span><span class="p">(</span><span class="s">&quot;getty-learn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;src/main.zig&quot;</span><span class="p">);</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setTarget</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setBuildMode</span><span class="p">(</span><span class="n">mode</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addPackagePath</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lib/getty/src/getty.zig&quot;</span><span class="p">);</span>
+</span><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">install</span><span class="p">();</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
 </code></pre></div>
 </li>
 <li>
 <p>Replace the contents of <code>src/main.zig</code> with the following:</p>
-<div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">getty</span><span class="p">});</span><span class="w"></span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">getty</span><span class="p">});</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
 </code></pre></div>
 </li>
 <li>
-<p>Run the application to make sure everything is working correctly.</p>
-<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ zig build run
+<p>Run the application to make sure everything is working correctly:</p>
+<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>zig<span class="w"> </span>build<span class="w"> </span>run
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>getty
 </code></pre></div>
 </li>
@@ -1199,42 +1199,6 @@
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Tutorial" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Tutorial
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../serializers/" class="md-footer__link md-footer__link--next" aria-label="Next: Serializers" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Serializers
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1278,12 +1242,11 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "../../../assets/javascripts/workers/search.939a4419.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["blog", "content.tooltips", "content.code.annotate", "navigation.instant", "navigation.indexes", "navigation.tabs", "navigation.top", "toc.follow", "search.suggest"], "search": "../../../assets/javascripts/workers/search.94e452fd.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.af94fead.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.931207ad.min.js"></script>
       
-    
     
   </body>
 </html>
