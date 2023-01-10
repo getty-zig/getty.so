@@ -1,8 +1,8 @@
 # Setup
 
-First things first, we need to set up a new project to work in.
+To begin, we need to set up a new project to work in.
 
-1. Create a new Zig project called `getty-learn`:
+1. Create a Zig project called `getty-learn`:
 
     ```sh title="Shell session"
     mkdir getty-learn
@@ -43,7 +43,7 @@ First things first, we need to set up a new project to work in.
     }
     ```
 
-5. Run the application to make sure everything is working correctly.
+5. Run the application to make sure everything is working correctly:
 
     ```sh title="Shell session"
     $ zig build run

@@ -1,12 +1,11 @@
 # Serializers
 
+Now that we're all set up, let's write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
+
 !!! warning "Prerequisites"
 
-    This page assumes you understand how Getty interfaces work. If not, take a
-    few minutes to learn about them [here](/user-guide/design/interfaces/).
-
-
-Let's write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
+    This page assumes you understand what __Getty Interfaces__ are and how they
+    work. If not, see [here](/user-guide/design/interfaces/) before continuing.
 
 ## Scalar Serialization
 
@@ -119,8 +118,9 @@ const Serializer = struct {
 };
 ```
 
-Bit of a useless serializer, but let's try serializing a value with it anyways.
-We can do so by calling
+Bit of a useless serializer...
+
+Oh well, let's try serializing a value with it anyways! We can do so by calling
 [`getty.serialize`](https://docs.getty.so/#root;serialize), which takes a value
 to serialize and a [`getty.Serializer`](https://docs.getty.so/#root;Serializer)
 interface value.
@@ -159,8 +159,7 @@ $ zig build run
 
 Oh no, a compile error!
 
-Looks like Getty can't serialize `bool` values for us unless the
-`serializeBool` method is implemented. So, let's implement it real quick.
+Looks like Getty can't serialize `bool` values unless `serializeBool` is implemented.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="1 14-16 22-24 32"
 const std = @import("std");
@@ -316,7 +315,7 @@ Alright, now let's take a look at serialization for aggregate types.
 
 If you'll recall, the
 [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface requires
-three associated types from its impleentations: `Seq`, `Map`, and `Structure`.
+three associated types from its implementations: `Seq`, `Map`, and `Structure`.
 These are optional types that impelement the
 [`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq),
 [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) and
@@ -362,7 +361,7 @@ method, which returns a value of type `Seq`, which is expected to implement the
         [`getty.Serializer`](https://docs.getty.so/#root;Serializer)
         implementation.
 
-```zig title="<code>src/main.zig</code>" hl_lines="12 20 46-50 61-89 94-100"
+```zig title="<code>src/main.zig</code>" hl_lines="12 20 46-51 62-90 95-101"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -408,6 +407,7 @@ const Serializer = struct {
         std.debug.print("{}", .{value});
     }
 
+    // (1)!
     fn serializeSeq(_: @This(), _: ?usize) Error!Seq {
         std.debug.print("[", .{});
 
@@ -468,12 +468,15 @@ pub fn main() anyerror!void {
 }
 ```
 
+1. The 2^nd^ parameter of `serializeSeq` is an optional length for the
+   _Sequence_ being serialized.
+
 ```console title="Shell session"
 $ zig build run
 [1, 2, 3]
 ```
 
-:tada:
+Hooray!
 
 If you'll notice, we didn't have to write any iteration- or access-related code
 specific to the `std.ArrayList` type. All we had to do was specify how sequence
@@ -540,7 +543,7 @@ respectively.
         [`getty.Serializer`](https://docs.getty.so/#root;Serializer)
         implementation.
 
-```zig title="<code>src/main.zig</code>" hl_lines="11 13 19 24 40-44 68-70 103-153 158-163"
+```zig title="<code>src/main.zig</code>" hl_lines="11 13 19 24 40-45 69-72 105-155 160-165"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -580,6 +583,7 @@ const Serializer = struct {
         try s.serializeString(@tagName(value));
     }
 
+    // (1)!
     fn serializeMap(_: @This(), _: ?usize) Error!Map {
         std.debug.print("{{", .{});
 
@@ -608,6 +612,7 @@ const Serializer = struct {
         std.debug.print("\"{s}\"", .{value});
     }
 
+    // (2)!
     fn serializeStruct(self: @This(), comptime _: []const u8, len: usize) Error!Map {
         return try self.serializeMap(len);
     }
@@ -709,12 +714,15 @@ pub fn main() anyerror!void {
 }
 ```
 
+1. The 2^nd^ parameter of `serializeMap` is an optional length for the
+   _Map_ being serialized.
+
+1. The 2^nd^ parameter of `serializeStruct` is the name that should be used
+   for the _Structure_ being serialized.
+
 ```console title="Shell session"
 $ zig build run
 {"x": 1, "y": 2}
 ```
 
 And there we go! Our JSON serializer is now complete!
-
-*[SBTs]: Serialization Blocks or Tuples
-

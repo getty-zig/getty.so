@@ -11,8 +11,8 @@ block, and all of the ways that you can deserialize into a `[5]i32` are defined 
 
 Internally, Getty uses blocks to form its core (de)serialization behavior.
 However, they are also the main mechanism for customization in Getty.
-Both users and (de)serializers can take advantage of blocks in order to
-customize the way Getty (de)serializes values, as we'll see later on.
+Users and (de)serializers can take advantage of blocks in order to customize
+the way Getty (de)serializes values, as we'll see later on.
 
 ## Blocks
 
@@ -136,20 +136,13 @@ away with the more convenient __attribute blocks__.
 
 !!! warning "Compatibility"
 
-    Attribute blocks may only be defined by `struct`, `enum`, and
-    `union` types.
+    Attribute blocks may only be defined by `struct` and `union` types.
 
 With ABs, Getty's default (de)serialization processes are used. For
 example, `struct` values would be serialized using the default
 `getty.ser.blocks.Struct` block and deserialized with the default
 `getty.de.blocks.Struct` block. However, based on the attributes that you
 specify, slight changes to these default processes will take effect.
-
-!!! info "Support"
-
-    For a complete list of the attributes supported by Getty, see
-    [here](https://github.com/getty-zig/getty/blob/develop/src/attributes.zig).
-
 
 Regardless of whether you're serializing or deserializing, ABs are always
 defined like so:
@@ -192,13 +185,18 @@ const ab = struct {
     <br>
     <br>
     Each field name in `attributes` must match either a field or variant in
-    your `struct`, `enum`, or `union`, or the word
-    `Container`. The former are known as __field/variant attributes__, while
-    the latter are known as __container attributes__.
+    your `struct` or `union`, or the word `Container`. The former are known as
+    __field/variant attributes__, while the latter are known as __container
+    attributes__.
 
 3. Each field in `attributes` is also an anonymous struct literal. The
    fields in these inner `struct` values depend on the kind of attribute
    you're specifying (i.e., field/variant or container).
+
+!!! info "Supported Attributes"
+
+    For a complete list of the attributes supported by Getty, see
+    [here](https://github.com/getty-zig/getty/blob/develop/src/attributes.zig).
 
 ### Type-Defined Blocks
 
@@ -206,13 +204,12 @@ The blocks we've discussed so far are known as _out-of-band blocks_. They're
 defined separately from the type(s) that they operate on. Out-of-band blocks have
 their place, such as when you want to customize a type that you didn't define
 (e.g., the types in `std`). However, there's a more convenient way to do
-things for `struct`, `enum`, and `union` types that you did
-define yourself.
+things for `struct` and `union` types that you did define yourself.
 
-If you define a block _within_ a `struct`, `enum`, or `union`, Getty will
-automatically process it without you having to pass it to a (de)serializer. All
-you have to do is make sure the block is public and named `@"getty.sb"` (for
-serialization) or `@"getty.db"` (for deserialization).
+If you define a block _within_ a `struct` or `union`, Getty will automatically
+process it without you having to pass it to a (de)serializer. All you have to
+do is make sure the block is public and named `@"getty.sb"` (for serialization)
+or `@"getty.db"` (for deserialization).
 
 Type-defined blocks are defined exactly the same as attribute, serialization,
 and deserialization blocks are. The only difference is that you don't need an
@@ -350,8 +347,3 @@ const i32_sb = struct { ... };
 
 const point_st = .{ point_sb, i32_sb };
 ```
-
-*[SB]: Serialization Block
-*[SBs]: Serialization Blocks
-*[DBs]: Deserialization Blocks
-*[ABs]: Attribute Blocks

@@ -4,9 +4,8 @@ If you've ever written a Zig (de)serializer before, you probably wrote a
 function that took a value, switched on its type, and (de)serialized based on
 the resulting type information. You might have even called it
 [`std.json`](https://ziglang.org/documentation/master/std/#root;json), as
-that's exactly how the module works! Unfortunately, this approach is
-actually quite brittle, inflexible, and usually ends up being a lot of
-unnecessary work.
+that's exactly how the module works! Unfortunately, this approach is quite
+brittle, inflexible, and usually ends up being a lot of unnecessary work.
 
 The goal of Getty is to help you avoid all of that and reduce the amount of
 code you need to write a (de)serializer that is customizable, performant, and
@@ -84,11 +83,11 @@ $ zig build run
 "Getty"
 ```
 
-In this tutorial, we'll slowly build up to `Serializer` so that by the end of it
+In this tutorial, we'll slowly build up to `Serializer` and by the end of it
 all you'll understand everything there is to know about it. We'll also be
-extending the serializer to support non-scalar types, such as `[5][5]i32`,
-`struct{ x: i32 }` and `std.ArrayList(i32)`. And to cap things off, we'll
-write ourselves a JSON deserializer and cover how custom (de)serialization
-works in Getty.
+extending `Serializer` to support non-scalar types, such as `[5][5]i32`,
+`struct{ x: i32 }` and `std.ArrayList(i32)`. And to cap things off, we'll write
+ourselves a JSON deserializer and cover how custom (de)serialization works in
+Getty.
 
 Let's get started!

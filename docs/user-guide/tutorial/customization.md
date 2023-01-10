@@ -15,7 +15,8 @@ intermediate type.
 
 Customization in Getty revolves around [Blocks and
 Tuples](/user-guide/design/blocks-and-tuples), which can be passed to
-Getty via the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) or
+Getty via the `*_sbt` and `*_dbt` parameters of the
+[`getty.Serializer`](https://docs.getty.so/#root;Serializer) or
 [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interfaces.
 
 ### Out-of-Band Customization
@@ -179,14 +180,12 @@ $ zig build run
 
 Out-of-band customization has its uses, such as when you want to customize a
 type that you didn't define. However, there's a more convenient way to do
-things for `struct`, `enum`, and `union` types that you did
-define yourself.
+things for `struct` and `union` types that you did define yourself.
 
-If you define a BT _within_ a `struct`, `enum`, or `union`,
-Getty will automatically process it without you having to pass it in directly
-through a (de)serializer. Just make sure the BT is public and named either
-`@"getty.sbt"` or `@"getty.dbt"` (`sbt` for serialization, `dbt`
-for deserialization).
+If you define a BT _within_ a `struct` or `union`, Getty will automatically
+process it without you having to pass it in directly through a (de)serializer.
+Just make sure the BT is public and named either `@"getty.sb"` or `@"getty.db"`
+(`sb` for serialization, `db` for deserialization).
 
 ```zig title="<code>src/main.zig</code>"
 const std = @import("std");
@@ -285,5 +284,3 @@ pub fn main() anyerror!void {
 $ zig build run
 {"X": 1}
 ```
-
-*[BT]: Block or Tuple

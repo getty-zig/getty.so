@@ -116,6 +116,9 @@ markdown_extensions:
   # Enables Markdown inside of HTML.
   - md_in_html
 
+  # Enables superscripts.
+  - pymdownx.caret
+
   # Eanbles call-outs to be collapsible.
   - pymdownx.details
 
@@ -131,8 +134,19 @@ markdown_extensions:
   # Adds support for inline syntax highlighting.
   - pymdownx.inlinehilite
 
+  # Enables text hightlighting.
+  - pymdownx.mark
+
+  # Enables snippets.
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
+
   # Enables arbitrary nesting of code and content blocks.
   - pymdownx.superfences
+
+  # Enables subscripts.
+  - pymdownx.tilde
 
   # Enables content tabs.
   - pymdownx.tabbed:

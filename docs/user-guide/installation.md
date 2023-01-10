@@ -13,7 +13,7 @@ this page.
 1. Add Getty to your project.
 
     ```sh title="Shell session"
-    git clone https://github.com/getty-zig/getty lib/getty
+    git clone https://github.com/getty-zig/getty libs/getty
     ```
 
 2. Make the following change in `build.zig`:
@@ -27,7 +27,7 @@ this page.
         const exe = b.addExecutable("getty-learn", "src/main.zig");
         exe.setTarget(target);
         exe.setBuildMode(mode);
-        exe.addPackagePath("getty", "lib/getty/src/getty.zig");
+        exe.addPackagePath("getty", "libs/getty/src/getty.zig");
         exe.install();
     }
     ```

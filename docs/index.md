@@ -3,6 +3,12 @@
 Getty is a framework for building __robust__, __optimal__, and __reusable__
 (de)serializers in Zig.
 
+<br>
+
+<figure markdown>
+  ![Getty](/assets/images/getty-solid.svg){ width=370 }
+</figure>
+
 ## Goals
 
 - Minimize the amount of code required for (de)serializer implementations.
