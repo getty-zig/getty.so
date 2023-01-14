@@ -45,6 +45,3 @@ Getty uses the [Git Flow](https://www.atlassian.com/git/tutorials/comparing-work
     - Features are developed on `feature/<name>` branches, which branch off of `develop`.
 
     - Fixes are developed on `fix/<name>` branches, which branch off of `develop`.
-
-![Release Workflow](https://wac-cdn.atlassian.com/dam/jcr:cc0b526e-adb7-4d45-874e-9bcea9898b4a/04%20Hotfix%20branches.svg?cdnVersion=690)
-
