@@ -48,6 +48,12 @@ theme:
     # Enables code annotations.
     - content.code.annotate
 
+    # Enables code copying.
+    - content.code.copy
+
+    # Enables navigation footer.
+    - navigation.footer
+
     # Clicks on internal links won't fully reload the page.
     - navigation.instant
 

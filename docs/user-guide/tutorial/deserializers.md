@@ -46,8 +46,8 @@ fn Deserializer(
 1.  A [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) deserializes
     values from a __data format__ into Getty's __data model__.
 
-2.  `Context` is the namespace that owns the method implementations passed to
-    the `methods` parameter.
+2.  `Context` is a namespace that owns the method implementations passed to the
+    `methods` parameter.
 
     Usually, this is the type implementing
     [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) or a

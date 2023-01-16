@@ -43,7 +43,7 @@ const Serializer = struct {
     );
 
     const Ok = void;
-    const Error = error{};
+    const Error = getty.ser.Error;
 
     fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}\n", .{value});
@@ -83,11 +83,10 @@ $ zig build run
 "Getty"
 ```
 
-In this tutorial, we'll slowly build up to `Serializer` and by the end of it
-all you'll understand everything there is to know about it. We'll also be
-extending `Serializer` to support non-scalar types, such as `[5][5]i32`,
-`struct{ x: i32 }` and `std.ArrayList(i32)`. And to cap things off, we'll write
-ourselves a JSON deserializer and cover how custom (de)serialization works in
-Getty.
+In this tutorial, we'll slowly build up to above implementation and by the end
+of it all you'll understand everything there is to know about it. We'll also be
+extending `Serializer` to support non-scalar types, such as `struct{ x: i32 }`
+and `std.ArrayList(i32)`. And to cap things off, we'll write ourselves a JSON
+deserializer and cover how custom (de)serialization works in Getty.
 
 Let's get started!

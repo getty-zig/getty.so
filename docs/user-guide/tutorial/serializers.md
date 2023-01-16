@@ -50,8 +50,8 @@ fn Serializer(
 1.  A [`getty.Serializer`](https://docs.getty.so/#root;Serializer) serializes
     values from Getty's data model.
 
-2.  `Context` is the namespace that owns the method implementations passed to
-    the `methods` parameter.
+2.  `Context` is a namespace that owns the method implementations passed to the
+    `methods` parameter.
 
     Usually, this is the type implementing
     [`getty.Serializer`](https://docs.getty.so/#root;Serializer) or a pointer
@@ -64,6 +64,10 @@ fn Serializer(
     [`getty.Serializer`](https://docs.getty.so/#root;Serializer)'s methods upon
     failure.
 
+    The value of `E` must contain
+    [`getty.ser.Error`](https://docs.getty.so/#root;ser.Error), a base error
+    set defined by Getty.
+
 5.  `user_sbt` and `serializer_sbt` are optional user- and serializer-defined
     serialization blocks or tuples, respectively.
 
@@ -72,8 +76,8 @@ fn Serializer(
     you can pass in `null` for these parameters.
 
 
-6.  `Map`, `Seq`, and `Structure` are types that implement Getty's aggregate
-    serialization interfaces.
+6.  `Map`, `Seq`, and `Structure` are optional types that implement Getty's
+    aggregate serialization interfaces.
 
     The aggregate serialization interfaces are
     [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map),
@@ -114,7 +118,7 @@ const Serializer = struct {
     );
 
     const Ok = void;
-    const Error = error{};
+    const Error = getty.ser.Error;
 };
 ```
 
@@ -142,7 +146,7 @@ const Serializer = struct {
     );
 
     const Ok = void;
-    const Error = error{};
+    const Error = getty.ser.Error;
 };
 
 pub fn main() anyerror!void {
@@ -181,7 +185,7 @@ const Serializer = struct {
     );
 
     const Ok = void;
-    const Error = error{};
+    const Error = getty.ser.Error;
 
     fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}", .{value});
@@ -235,7 +239,7 @@ const Serializer = struct {
     );
 
     const Ok = void;
-    const Error = error{};
+    const Error = getty.ser.Error;
 
     fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}", .{value});
@@ -389,7 +393,7 @@ const Serializer = struct {
     );
 
     const Ok = void;
-    const Error = error{};
+    const Error = getty.ser.Error;
 
     fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}", .{value});
@@ -573,7 +577,7 @@ const Serializer = struct {
     );
 
     const Ok = void;
-    const Error = error{};
+    const Error = getty.ser.Error;
 
     fn serializeBool(_: @This(), value: bool) Error!Ok {
         std.debug.print("{}", .{value});
