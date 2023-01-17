@@ -470,34 +470,6 @@
                 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    <span class="md-typeset">
-      Installation
-    </span>
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -522,7 +494,7 @@
       
         
         
-          <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
+          <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
         
         
           
@@ -544,14 +516,14 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_2_3">
+              <label class="md-nav__link " for="__nav_2_2">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
-          <label class="md-nav__title" for="__nav_2_3">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -748,6 +720,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Installation
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1343,8 +1343,8 @@ start with the following:</p>
 <p>A convenient alias for our <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface type.</p>
 </li>
 </ol>
-<p>Bit of a useless deserializer...</p>
-<p>Oh well, let's try deserializing a value with it anyways! We can do so by calling
+<p>Kind of a useless deserializer...</p>
+<p>But let's try deserializing a value with it anyways! We can do so by calling
 <a href="https://docs.getty.so/#root;deserialize"><code>getty.deserialize</code></a>, which takes an
 optional allocator, a type to deserialize into, and a
 <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface
@@ -1630,8 +1630,8 @@ deserializing an actual payload value.</p>
 <p>To deserialize pointer values, Getty requires an allocator.</p>
 </li>
 <li>
-<p>This is a convenience function provided by Getty that lets you to easily
-    free values that were deserialized by Getty.</p>
+<p>This is a convenience function that lets you to easily free values that
+    were deserialized by Getty.</p>
 </li>
 </ol>
 <div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build<span class="w"> </span>run
