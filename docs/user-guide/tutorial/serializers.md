@@ -1,6 +1,6 @@
 # Serializers
 
-Now that we're all set up, let's write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
+We'll write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
 
 !!! warning "Prerequisites"
 
@@ -122,9 +122,9 @@ const Serializer = struct {
 };
 ```
 
-Bit of a useless serializer...
+Kind of a useless serializer...
 
-Oh well, let's try serializing a value with it anyways! We can do so by calling
+But let's try serializing a value with it anyways! We can do so by calling
 [`getty.serialize`](https://docs.getty.so/#root;serialize), which takes a value
 to serialize and a [`getty.Serializer`](https://docs.getty.so/#root;Serializer)
 interface value.
@@ -446,7 +446,7 @@ const Seq = struct {
     fn serializeElement(s: *@This(), value: anytype) Error!void {
         switch (s.first) {
             true => s.first = false,
-            false => std.debug.print(", ", .{}),
+            false => std.debug.print(",", .{}),
         }
 
         try getty.serialize(value, (Serializer{}).serializer());
@@ -477,7 +477,7 @@ pub fn main() anyerror!void {
 
 ```console title="Shell session"
 $ zig build run
-[1, 2, 3]
+[1,2,3]
 ```
 
 Hooray!
@@ -641,7 +641,7 @@ const Seq = struct {
     fn serializeElement(self: *@This(), value: anytype) Error!void {
         switch (self.first) {
             true => self.first = false,
-            false => std.debug.print(", ", .{}),
+            false => std.debug.print(",", .{}),
         }
 
         try getty.serialize(value, (Serializer{}).serializer());
@@ -682,14 +682,14 @@ const Map = struct {
     fn serializeKey(self: *@This(), value: anytype) Error!void {
         switch (self.first) {
             true => self.first = false,
-            false => std.debug.print(", ", .{}),
+            false => std.debug.print(",", .{}),
         }
 
         try getty.serialize(value, (Serializer{}).serializer());
     }
 
     fn serializeValue(_: *@This(), value: anytype) Error!void {
-        std.debug.print(": ", .{});
+        std.debug.print(":", .{});
 
         try getty.serialize(value, (Serializer{}).serializer());
     }
@@ -726,7 +726,7 @@ pub fn main() anyerror!void {
 
 ```console title="Shell session"
 $ zig build run
-{"x": 1, "y": 2}
+{"x":1,"y":2}
 ```
 
 And there we go! Our JSON serializer is now complete!

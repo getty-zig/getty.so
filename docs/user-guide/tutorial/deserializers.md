@@ -120,9 +120,9 @@ const Deserializer = struct {
 
 2.  A convenient alias for our [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interface type.
 
-Bit of a useless deserializer...
+Kind of a useless deserializer...
 
-Oh well, let's try deserializing a value with it anyways! We can do so by calling
+But let's try deserializing a value with it anyways! We can do so by calling
 [`getty.deserialize`](https://docs.getty.so/#root;deserialize), which takes an
 optional allocator, a type to deserialize into, and a
 [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interface
@@ -417,8 +417,8 @@ pub fn main() anyerror!void {
 
 3.  To deserialize pointer values, Getty requires an allocator.
 
-4.  This is a convenience function provided by Getty that lets you to easily
-    free values that were deserialized by Getty.
+4.  This is a convenience function that lets you to easily free values that
+    were deserialized by Getty.
 
 ```console title="Shell session"
 $ zig build run

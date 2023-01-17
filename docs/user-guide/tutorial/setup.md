@@ -1,6 +1,6 @@
 # Setup
 
-To begin, we need to set up a new project to work in.
+To begin, we need to set up a new project:
 
 1. Create a Zig project called `getty-learn`:
 
@@ -49,3 +49,5 @@ To begin, we need to set up a new project to work in.
     $ zig build run
     getty
     ```
+
+And that's it! Now we can start writing our serializer.
