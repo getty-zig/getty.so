@@ -1,11 +1,11 @@
 # Serializers
 
-We'll write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
-
 !!! warning "Prerequisites"
 
-    This page assumes you understand what __Getty Interfaces__ are and how they
-    work. If not, see [here](/user-guide/design/interfaces/) before continuing.
+    This page assumes you know what __Getty Interfaces__ are and how they work.
+    If not, see [here](/user-guide/design/interfaces/) before continuing.
+
+We'll write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
 
 ## Scalar Serialization
 
