@@ -38,10 +38,9 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
-  features:
-    # Enables blog.
-    - blog
+  custom_dir: docs/overrides
 
+  features:
     # Enables tooltips.
     - content.tooltips
 
@@ -92,6 +91,13 @@ extra_css:
 ################################################################################
 
 plugins:
+  # Enables blog
+  - blog:
+      blog_dir: blog/
+      post_readtime: false
+      archive: false
+      categories: false
+
   # Enables front matter to be set per folder.
   - meta
 
@@ -188,10 +194,10 @@ nav:
       - user-guide/design/data-models.md
       - user-guide/design/interfaces.md
       - user-guide/design/blocks-and-tuples.md
+  - Blog:
+    - blog/index.md
   - Contributing:
     - contributing/index.md
     - contributing/style-guide.md
   - API Reference:
     - https://docs.getty.so/
-  #- Blog:
-    #- blog/index.md
