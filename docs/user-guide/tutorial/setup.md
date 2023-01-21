@@ -1,20 +1,22 @@
 # Setup
 
-To begin, we need to set up a new project:
+To begin, we need to set up a new project.
 
-1. Create a Zig project called `getty-learn`:
+1. Create a Zig application called `getty-learn`:
 
     ```sh title="Shell session"
     mkdir getty-learn
     cd getty-learn
     zig init-exe
     ```
+&nbsp;
 
 2. Install Getty into the `lib/getty` directory within `getty-learn`:
 
     ```sh title="Shell session"
     git clone https://github.com/getty-zig/getty lib/getty
     ```
+&nbsp;
 
 3. Make `getty-learn` aware of Getty by calling `addPackagePath` in `build.zig`:
 
@@ -31,6 +33,7 @@ To begin, we need to set up a new project:
         exe.install();
     }
     ```
+&nbsp;
 
 4. Replace the contents of `src/main.zig` with the following:
 
@@ -42,6 +45,7 @@ To begin, we need to set up a new project:
         std.debug.print("{}\n", .{getty});
     }
     ```
+&nbsp;
 
 5. Run the application to make sure everything is working correctly:
 
