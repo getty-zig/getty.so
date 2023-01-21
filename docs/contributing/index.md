@@ -1,14 +1,12 @@
 # Contributing
 
-Contributions to Getty are very welcome! 😄
+Contributions to Getty are very welcome!
 
-This page contains some information and a few guidelines to help get you
-started. If you have any questions about contributing or Getty, feel free to
-reach out on the [Getty Discord](https://discord.gg/njDA67U5ph).
+This page provides some information and a few guidelines to help get you started on your contributing journey. If you have any questions, feel free to reach out on the [Getty Discord](https://discord.gg/njDA67U5ph).
 
 ## Zig
 
-- Getty currently tracks the `master` release of Zig, so make sure your version is updated.
+- Getty currently tracks the [`master` release of Zig](https://ziglang.org/download/), so make sure your version is updated.
 
 ## Issues
 
@@ -26,9 +24,7 @@ reach out on the [Getty Discord](https://discord.gg/njDA67U5ph).
 
 - When submitting a PR, please have it be relative to a recent Git tip.
 
-- If you push a new version of a PR, please add a comment about the new
-  version. Notifications aren't sent for commits, so it's easy to miss updates
-  without an explicit comment.
+- If you push a new version of a PR, please add a comment about the new version. Notifications aren't sent for commits, so it's easy to miss updates without an explicit comment.
 
 ## Workflow
 
