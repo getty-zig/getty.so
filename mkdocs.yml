@@ -91,6 +91,9 @@ extra_css:
 ################################################################################
 
 plugins:
+  # Enables front matter to be set per folder.
+  - meta
+
   # Enables blog
   - blog:
       blog_dir: blog/
@@ -99,8 +102,9 @@ plugins:
       categories: false
       post_url_format: "{slug}"
 
-  # Enables front matter to be set per folder.
-  - meta
+      # For some reasion, 'paginate: false' doesn't work, so we'll just set the
+      # pagination to a ridiculous number.
+      pagination_per_page: 999
 
   # Enables search.
   - search
