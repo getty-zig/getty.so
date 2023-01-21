@@ -97,6 +97,7 @@ plugins:
       post_readtime: false
       archive: false
       categories: false
+      post_url_format: "{slug}"
 
   # Enables front matter to be set per folder.
   - meta
