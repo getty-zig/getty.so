@@ -51,8 +51,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Heebo:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Heebo";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Fira Sans";--md-code-font:"Roboto Mono"}</style>
       
     
     
@@ -1262,16 +1262,15 @@
 
 <p>I am happy to announce the initial version of Getty, 0.1.0. <img alt="🎉" class="twemoji" src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f389.svg" title=":tada:" /></p>
 <p>Getty is a framework for building <strong>robust</strong>, <strong>optimal</strong>, and <strong>reusable</strong>
-serializers &amp; deserializers in Zig. To install Getty for a project, follow the
+serializers/deserializers in Zig. To install Getty for your project, follow the
 instructions listed on the
 <a href="http://localhost:8000/user-guide/installation/">Installation</a> page.</p>
 <h2 id="whats-in-010">What's in 0.1.0</h2>
-<h2 id="serialization">Serialization</h2>
-<p>Getty wouldn't be much of a (de)serialization framework if you couldn't
-serialize anything. So, the initial release brings with it some core
-serialization capabilities. Specifically, serialization support was added for
-the following types:</p>
-<h3 id="native">Native</h3>
+<h3 id="core-deserialization">Core (de)serialization</h3>
+<p>Getty wouldn't be much of a (de)serialization framework if you couldn't (de)serialize anything. So, the initial release brings with it some core (de)serialization capabilities. Specifically, support was added for the following types:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Serialization</label><label for="__tabbed_1_2">Deserialization</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <ul>
 <li>Array</li>
 <li>Bool</li>
@@ -1287,9 +1286,6 @@ the following types:</p>
 <li>Union</li>
 <li>Vector</li>
 <li>Void</li>
-</ul>
-<h3 id="standard-library">Standard Library</h3>
-<ul>
 <li><a href="https://ziglang.org/documentation/master/std/#root;ArrayList"><code>std.ArrayListAligned</code></a></li>
 <li><a href="https://ziglang.org/documentation/master/std/#root;ArrayListAlignedUnmanaged"><code>std.ArrayListAlignedUnmanaged</code></a></li>
 <li><a href="https://ziglang.org/documentation/master/std/#root;HashMap"><code>std.HashMap</code></a></li>
@@ -1297,11 +1293,8 @@ the following types:</p>
 <li><a href="https://ziglang.org/documentation/master/std/#root;SinglyLinkedList"><code>std.SinglyLinkedList</code></a></li>
 <li><a href="https://ziglang.org/documentation/master/std/#root;TailQueue"><code>std.TailQueue</code></a></li>
 </ul>
-<h2 id="deserialization">Deserialization</h2>
-<p>Of course, this release also includes the other half of things:
-deserialization. Currently, the following types are able to be deserialized by
-Getty:</p>
-<h3 id="native_1">Native</h3>
+</div>
+<div class="tabbed-block">
 <ul>
 <li>Array</li>
 <li>Bool</li>
@@ -1314,9 +1307,6 @@ Getty:</p>
 <li>Tuple</li>
 <li>Union</li>
 <li>Void</li>
-</ul>
-<h3 id="standard-library_1">Standard Library</h3>
-<ul>
 <li><a href="https://ziglang.org/documentation/master/std/#root;ArrayList"><code>std.ArrayListAligned</code></a></li>
 <li><a href="https://ziglang.org/documentation/master/std/#root;ArrayListAlignedUnmanaged"><code>std.ArrayListAlignedUnmanaged</code></a></li>
 <li><a href="https://ziglang.org/documentation/master/std/#root;HashMap"><code>std.HashMap</code></a></li>
@@ -1324,7 +1314,10 @@ Getty:</p>
 <li><a href="https://ziglang.org/documentation/master/std/#root;SinglyLinkedList"><code>std.SinglyLinkedList</code></a></li>
 <li><a href="https://ziglang.org/documentation/master/std/#root;TailQueue"><code>std.TailQueue</code></a></li>
 </ul>
-<h2 id="customization">Customization</h2>
+</div>
+</div>
+</div>
+<h3 id="customization">Customization</h3>
 <p>In addition to the core (de)serialization functionality, this release of Getty
 also introduces customization blocks, which can be used to define or modify the
 (de)serialization process.</p>
