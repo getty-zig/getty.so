@@ -19,7 +19,7 @@ copyright: © 2022 Getty
 theme:
   name: material
   font:
-    text: Heebo
+    text: Fira Sans
 
   icon:
     logo: material/circle-multiple
