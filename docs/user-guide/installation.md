@@ -15,6 +15,7 @@ this page.
     ```sh title="Shell session"
     git clone https://github.com/getty-zig/getty libs/getty
     ```
+&nbsp;
 
 2. Make the following change in `build.zig`:
 
@@ -47,6 +48,7 @@ this page.
     gyro add -s github getty-zig/getty
     gyro fetch
     ```
+&nbsp;
 
 2. Make the following changes in `build.zig`:
 
@@ -82,12 +84,14 @@ this page.
     root_dependencies:
       - src: git https://gitub.com/getty-zig/getty
     ```
+&nbsp;
 
 2. Add Getty to your project.
 
     ```sh title="Shell session"
     zigmod fetch
     ```
+&nbsp;
 
 3. Make the following changes in `build.zig`:
 
