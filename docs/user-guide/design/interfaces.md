@@ -9,7 +9,7 @@ own way of doing things. So, let's quickly go over how Getty implements interfac
 ## Definition
 
 A __Getty interface__ is a function, and its constraints are specified as a
-parameter list. For instance, the following interface requires 3 associated
+parameter list. For example, the following interface requires 3 associated
 types and 1 method from its implementations.
 
 ```zig title="Zig code"

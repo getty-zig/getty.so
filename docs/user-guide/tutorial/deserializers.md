@@ -521,7 +521,7 @@ Let's start by implementing `deserializeSeq`, which uses the
 
         By default, Getty passes in
         [`getty.de.DefaultSeed`](https://docs.getty.so/#root;de.DefaultSeed)
-        for the `seed` parameter. The default seed just calls
+        `seed`. The default seed just calls
         [`getty.deserialize`](https://docs.getty.so/#root;deserialize) and can
         therefore be used for stateless deserialization.
 

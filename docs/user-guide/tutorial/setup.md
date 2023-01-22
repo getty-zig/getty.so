@@ -53,5 +53,3 @@ To begin, we need to set up a new project.
     $ zig build run
     getty
     ```
-
-And that's it! Now we can start writing our serializer.

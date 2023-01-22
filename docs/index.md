@@ -1,7 +1,6 @@
 # Getty
 
-Getty is a framework for building __robust__, __optimal__, and __reusable__
-(de)serializers in Zig.
+Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)serializers in Zig.
 
 <br>
 
@@ -19,14 +18,12 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__
 
 - Compile-time (de)serialization.
 - Out-of-the-box support for a wide variety of standard library types.
-- Customization of (de)serialization logic for both existing and remote types.
-- Data model abstractions that serve as simple and generic baselines for
-  (de)serializers.
+- Local customization of (de)serialization logic for both existing and remote types.
+- Data model abstractions that serve as simple and generic baselines for (de)serializers.
 
 ## Quick Start
 
-The following example uses the [Getty JSON](https://github.com/getty-zig/json)
-library to demonstrate how (de)serialization works.
+The following example uses the [Getty JSON](https://github.com/getty-zig/json) library to demonstrate how (de)serialization works.
 
 ```zig title="Zig code"
 const std = @import("std");

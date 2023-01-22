@@ -12,7 +12,7 @@ code you need to write a (de)serializer that is customizable, performant, and
 able to support a wide variety of data types!
 
 As an example, the following code defines a JSON serializer that supports
-scalar and string values. At around 50 lines, `Serializer` is a fully
+scalar and string values. At around 60 lines, `Serializer` is a fully
 functional serializer capable of converting values of type `bool`, `i32`,
 `enum{ foo }`, `[]u8`, `*const [5]u8`, `?void`, and more into JSON!
 
@@ -87,6 +87,6 @@ In this tutorial, we'll slowly build up to above implementation so that by the
 end of it all you'll understand everything there is to know about it. We'll
 also be extending `Serializer` to support non-scalar types, such as `struct{ x:
 i32 }` and `std.ArrayList(i32)`. And to cap things off, we'll write ourselves a
-JSON deserializer and cover how custom (de)serialization works in Getty.
+JSON deserializer and go over how custom (de)serialization works in Getty.
 
 Let's get started!
