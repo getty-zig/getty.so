@@ -32,13 +32,13 @@ const Serializer = struct {
         null,
         .{
             .serializeBool = serializeBool,
-            .serializeEnum = serializeEnum,
             .serializeFloat = serializeNumber,
             .serializeInt = serializeNumber,
-            .serializeNull = serializeNull,
-            .serializeSome = serializeSome,
+            .serializeNull = serializeNothing,
             .serializeString = serializeString,
-            .serializeVoid = serializeNull,
+            .serializeVoid = serializeNothing,
+            .serializeEnum = serializeEnum,
+            .serializeSome = serializeSome,
         },
     );
 
@@ -49,24 +49,24 @@ const Serializer = struct {
         std.debug.print("{}\n", .{value});
     }
 
-    fn serializeEnum(s: @This(), value: anytype) Error!Ok {
-        try s.serializeString(@tagName(value));
-    }
-
-    fn serializeNull(_: @This()) Error!Ok {
-        std.debug.print("null\n", .{});
-    }
-
     fn serializeNumber(_: @This(), value: anytype) Error!Ok {
         std.debug.print("{}\n", .{value});
     }
 
-    fn serializeSome(s: @This(), value: anytype) Error!Ok {
-        try getty.serialize(value, s.serializer());
+    fn serializeNothing(_: @This()) Error!Ok {
+        std.debug.print("null\n", .{});
     }
 
     fn serializeString(_: @This(), value: anytype) Error!Ok {
         std.debug.print("\"{s}\"\n", .{value});
+    }
+
+    fn serializeEnum(s: @This(), value: anytype) Error!Ok {
+        try s.serializeString(@tagName(value));
+    }
+
+    fn serializeSome(s: @This(), value: anytype) Error!Ok {
+        try getty.serialize(value, s.serializer());
     }
 };
 

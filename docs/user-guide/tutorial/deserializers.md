@@ -5,13 +5,11 @@
     This page assumes you know what __Getty Interfaces__ are and how they work.
     If not, see [here](/user-guide/design/interfaces/) before continuing.
 
-Now that we have a serializer, let's write a simple (albeit slightly naive) JSON deserializer.
+Let's write a simple (albeit slightly naive) JSON deserializer.
 
 ## Scalar Deserialization
 
-Every Getty deserializer must implement the
-[`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interface,
-shown below.
+Every Getty deserializer implements the [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interface, shown below.
 
 ```zig title="Zig code"
 // (1)!
