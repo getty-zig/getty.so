@@ -1317,11 +1317,9 @@
 <p>This page assumes you know what <strong>Getty Interfaces</strong> are and how they work.
 If not, see <a href="/user-guide/design/interfaces/">here</a> before continuing.</p>
 </div>
-<p>Now that we have a serializer, let's write a simple (albeit slightly naive) JSON deserializer.</p>
+<p>Let's write a simple (albeit slightly naive) JSON deserializer.</p>
 <h2 id="scalar-deserialization">Scalar Deserialization</h2>
-<p>Every Getty deserializer must implement the
-<a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface,
-shown below.</p>
+<p>Every Getty deserializer implements the <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface, shown below.</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// (1)!</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">fn</span><span class="w"> </span><span class="n">Deserializer</span><span class="p">(</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">Context</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span><span class="w"> </span><span class="c1">// (2)!</span>
