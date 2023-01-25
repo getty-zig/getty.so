@@ -1,14 +1,14 @@
 # Tutorial
 
-If you've ever written a Zig (de)serializer before, you probably wrote a
-function that took a value, switched on its type, and (de)serialized based on
-the resulting type information. You might have even called it
-[`std.json`](https://ziglang.org/documentation/master/std/#root;json), as
-that's exactly how the module works! Unfortunately, this approach is quite
-brittle, inflexible, and usually ends up being a lot of unnecessary work.
+Most Zig (de)serializers are functions that take a value, switch on its type,
+and (de)serialize based on the resulting type information.
+[`std.json`](https://ziglang.org/documentation/master/std/#root;json) works
+like this, and it's generally a nice way to show off the capabilities of Zig as
+a programming language. Unfortunately, it's also quite brittle, inflexible, and
+usually ends up being a lot of unnecessary work.
 
 The goal of Getty is to help you avoid all of that and reduce the amount of
-code you need to write a (de)serializer that is customizable, performant, and
+code you need to make a (de)serializer that is customizable, performant, and
 able to support a wide variety of data types!
 
 As an example, the following code defines a JSON serializer that supports

@@ -402,7 +402,7 @@ const Seq = struct {
             false => std.debug.print(",", .{}),
         }
 
-        // Serialize value.
+        // Serialize element.
         try getty.serialize(value, (Serializer{}).serializer());
     }
 
@@ -437,9 +437,9 @@ $ zig build run
 [1,2,3]
 ```
 
-Success!
+It worked!
 
-Notice how we didn't have to write any code specific to the
+And notice how we didn't have to write any code specific to the
 [`std.ArrayList`](https://ziglang.org/documentation/master/std/#root;ArrayList)
 type in `Serializer`. We simply specified how sequence serialization should start, how elements
 should be serialized, and how serialization should end. And Getty took care of
