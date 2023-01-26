@@ -1,11 +1,25 @@
 <!--
-  Customize blog posts.
+  Copyright (c) 2016-2023 Martin Donath <martin.donath@squidfunk.com>
 
-  Basically, this is a modified version of the blog-post.html template.
-  The only differences are that we hid the ToC (but keep its margins).
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
 -->
 
-<!--UNMODIFIED-->
 
 <!doctype html>
 <html lang="en" class="no-js">
@@ -322,19 +336,14 @@
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
           
-
-  
-    
-  
-  <div
-    class="md-sidebar md-sidebar--primary"
-    data-md-component="sidebar"
-    data-md-type="navigation"
-    hidden
-  >
-    <div class="md-sidebar__scrollwrap">
-      <div class="md-sidebar__inner">
-        
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
 
 
   
@@ -1180,24 +1189,137 @@
     
   </ul>
 </nav>
-      </div>
-    </div>
-  </div>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
 
-
-
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
   
     
   
-  <div
-    class="md-sidebar md-sidebar--secondary"
-    data-md-component="sidebar"
-    data-md-type="toc"
-    
-  >
-  </div>
-
-
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#whats-in-020" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          What's in 0.2.0
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What's in 0.2.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revamped-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Revamped Interfaces
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simpler-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Simpler Customization
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#union-serialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Union Serialization
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ignoring-deserialized-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Ignoring Deserialized Data
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Support
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Other Changes
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
           
   <div class="md-content md-content--post" data-md-component="content">
 
@@ -1210,6 +1332,19 @@
       <div class="md-sidebar__scrollwrap">
         <div class="md-sidebar__inner md-post">
           <nav class="md-nav">
+
+            <!-- Back to overview link -->
+
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class=" md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
 
             <!-- Page authors -->
             
@@ -1345,7 +1480,7 @@ with that approach.</p>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="n">std</span><span class="p">.</span><span class="n">debug</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;{s}</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.{</span><span class="n">slice</span><span class="p">});</span><span class="w"> </span><span class="c1">// {&quot;foo&quot;:123}</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="deserializeignored"><code>deserializeIgnored</code></h3>
+<h3 id="ignoring-deserialized-data">Ignoring Deserialized Data</h3>
 <p>A new method has been added to the
 <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface:
 <code>deserializeIgnored</code>. This method is intended to be used whenever the input
@@ -1354,22 +1489,20 @@ attribute is set for a <code>struct</code>, <code>deserializeIgnored</code> can 
 ignore a key and/or value in the deserializer's input data.</p>
 <h3 id="support">Support</h3>
 <p>Some new types are now supported by Getty!</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Serialization</label><label for="__tabbed_1_2">Deserialization</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
+<details class="success" open="open">
+<summary>Serialization</summary>
 <ul>
 <li><a href="https://ziglang.org/documentation/master/std/#root;BoundedArray"><code>std.BoundedArray</code></a></li>
 </ul>
-</div>
-<div class="tabbed-block">
+</details>
+<details class="success" open="open">
+<summary>Deserialization</summary>
 <ul>
 <li>Union (tagged)</li>
 <li>Union (untagged)</li>
 <li>Sentinel-terminated slice</li>
 </ul>
-</div>
-</div>
-</div>
+</details>
 <h2 id="other-changes">Other Changes</h2>
 <p>There are other changes in the Getty 0.2.0 release. You can see the full changelog <a href="https://github.com/getty-zig/getty/compare/0.1.0...0.2.0">here</a>.</p>
 
