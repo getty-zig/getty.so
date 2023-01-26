@@ -24,16 +24,7 @@
 <article class="md-post md-post--excerpt">
   <header class="md-post__header">
 
-    <!-- Post authors -->
-    {% if post.authors %}
-      <nav class="md-post__authors md-typeset">
-        {% for author in post.authors %}
-          <span class="md-author">
-            <img src="{{ author.avatar }}" alt="{{ author.name }}" />
-          </span>
-        {% endfor %}
-      </nav>
-    {% endif %}
+    <!-- Post authors (REMOVED) -->
 
     <!-- Post metadata -->
     <div class="md-post__meta md-meta">
@@ -47,33 +38,9 @@
           {#- Collapse whitespace -#}
         </li>
 
-        <!-- Post categories -->
-        {% if post.categories %}
-          <li class="md-meta__item">
-            {{ lang.t("blog.categories.in") }}
-            {% for category in post.categories %}
-              <a
-                href="{{ category.url | url }}"
-                class="md-meta__link"
-              >
-                {{- category.title -}}
-              </a>
-              {%- if loop.revindex > 1 %}, {% endif -%}
-            {% endfor -%}
-          </li>
-        {% endif %}
+        <!-- Post categories (REMOVED) -->
 
-        <!-- Post readtime -->
-        {% if post.meta.readtime %}
-          {% set time = post.meta.readtime %}
-          <li class="md-meta__item">
-            {% if time == 1 %}
-              {{ lang.t("readtime.one") }}
-            {% else %}
-              {{ lang.t("readtime.other") | replace("#", time) }}
-            {% endif %}
-          </li>
-        {% endif %}
+        <!-- Post readtime (REMOVED) -->
       </ul>
 
       <!-- Draft marker -->
@@ -89,9 +56,6 @@
   <div class="md-post__content md-typeset">
     {{ post.content }}
 
-
-    <!--
-        Removed "Continue reading" link.
-    -->
+    <!-- Continue reading link (REMOVED) -->
   </div>
 </article>
