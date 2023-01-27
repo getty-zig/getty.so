@@ -90,12 +90,12 @@ fn BoolSerializer(
 
     - Interface types are always named after the interface's import path. For
       example, the interface type for the
-      [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess)
+      [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
       interface is named `@"getty.de.SeqAccess"`.
 
     - Interface functions are always named after the interface (in
       `camelCase` format). For example, the interface type for the
-      [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess)
+      [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
       interface is named `seqAccess`.
 
 ## Implementation

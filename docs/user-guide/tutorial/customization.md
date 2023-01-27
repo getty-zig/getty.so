@@ -16,8 +16,8 @@ intermediate type.
 Customization in Getty revolves around [Blocks and
 Tuples](/user-guide/design/blocks-and-tuples), which can be passed to
 Getty via the `*_sbt` and `*_dbt` parameters of the
-[`getty.Serializer`](https://docs.getty.so/#root;Serializer) or
-[`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interfaces.
+[`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) or
+[`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interfaces.
 
 ### Out-of-Band Customization
 

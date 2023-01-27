@@ -9,7 +9,7 @@ Let's write a simple (albeit slightly naive) JSON deserializer.
 
 ## Scalar Deserialization
 
-Every Getty deserializer implements the [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interface, shown below.
+Every Getty deserializer implements the [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interface, shown below.
 
 ```zig title="Zig code"
 // (1)!
@@ -41,22 +41,22 @@ fn Deserializer(
 ) type
 ```
 
-1.  A [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) deserializes
+1.  A [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) deserializes
     values from a __data format__ into Getty's __data model__.
 
 2.  `Context` is a namespace that owns the method implementations passed to the
     `methods` parameter.
 
     Usually, this is the type implementing
-    [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) or a
+    [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) or a
     pointer to it if mutability is required.
 
 3.  `E` is the error set returned by
-    [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer)'s methods upon
+    [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer)'s methods upon
     failure.
 
     The value of `E` must contain
-    [`getty.de.Error`](https://docs.getty.so/#root;de.Error), a base error set
+    [`getty.de.Error`](https://docs.getty.so/#A;std:de.Error), a base error set
     defined by Getty.
 
 4.  `user_dbt` and `deserializer_dbt` are optional user- and deserializer-defined
@@ -67,14 +67,14 @@ fn Deserializer(
     `null` can be passed in for these parameters.
 
 5.  `methods` contains all of the methods that implementations of
-    [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) must
+    [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) must
     provide or can override.
 
 6.  These methods are responsible for deserializing into a specific type in
     Getty's data model from a data format.
 
     The `v` parameter in these methods is a
-    [`getty.de.Visitor`](https://docs.getty.so/#root;de.Visitor) interface value.
+    [`getty.de.Visitor`](https://docs.getty.so/#A;std:de.Visitor) interface value.
 
     The `deserializeAny` and `deserializeIgnored` methods are pretty niche, so
     we can ignore them for this tutorial.
@@ -116,14 +116,14 @@ const Deserializer = struct {
 
 1.  A JSON parser provided by the standard library.
 
-2.  A convenient alias for our [`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interface type.
+2.  A convenient alias for our [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interface type.
 
 Kind of a useless deserializer...
 
 But let's try deserializing a value with it anyways! We can do so by calling
-[`getty.deserialize`](https://docs.getty.so/#root;deserialize), which takes an
+[`getty.deserialize`](https://docs.getty.so/#A;std:deserialize), which takes an
 optional allocator, a type to deserialize into, and a
-[`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interface
+[`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interface
 value.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="29-38"
@@ -483,20 +483,20 @@ perspective). There are four of them:
 
 !!! info ""
 
-    [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess)
+    [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
 
     :  Represents a _Sequence_.
 
-    [`getty.de.MapAccess`](https://docs.getty.so/#root;de.MapAccess)
+    [`getty.de.MapAccess`](https://docs.getty.so/#A;std:de.MapAccess)
 
     :  Represents a _Map_.
 
-    [`getty.de.UnionAccess`](https://docs.getty.so/#root;de.UnionAccess), [`getty.de.VariantAccess`](https://docs.getty.so/#root;de.VariantAccess)
+    [`getty.de.UnionAccess`](https://docs.getty.so/#A;std:de.UnionAccess), [`getty.de.VariantAccess`](https://docs.getty.so/#A;std:de.VariantAccess)
 
     :  Represents a _Union_.
 
 Let's start by implementing `deserializeSeq`, which uses the
-[`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess) interface.
+[`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess) interface.
 
 ??? info "getty.de.SeqAccess"
 
@@ -514,13 +514,13 @@ Let's start by implementing `deserializeSeq`, which uses the
 
     1. A [`getty.de.SeqAccess`]() is responsible for deserializing elements of a _Sequence_ into Zig.
 
-    1.  The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#root;de.Seed)
+    1.  The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#A;std:de.Seed)
         interface value, which allows for stateful deserialization.
 
         By default, Getty passes in
-        [`getty.de.DefaultSeed`](https://docs.getty.so/#root;de.DefaultSeed)
+        [`getty.de.DefaultSeed`](https://docs.getty.so/#A;std:de.DefaultSeed)
         `seed`. The default seed just calls
-        [`getty.deserialize`](https://docs.getty.so/#root;deserialize) and can
+        [`getty.deserialize`](https://docs.getty.so/#A;std:deserialize) and can
         therefore be used for stateless deserialization.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="24 124-133 136-161 166-170"
@@ -713,7 +713,7 @@ Getty took care of the rest!
 
 Okay, that leaves us with `deserializeMap` and `deserializeUnion`. Let's
 implement the former, which uses the
-[`getty.de.MapAccess`](https://docs.getty.so/#root;de.MapAccess) interface.
+[`getty.de.MapAccess`](https://docs.getty.so/#A;std:de.MapAccess) interface.
 
 ??? info "getty.de.MapAccess"
 
@@ -963,10 +963,10 @@ pub fn main() anyerror!void {
     If there are no elements left (i.e., if `]` was encountered) then `null` is
     returned. Otherwise, the deserialized element is.
 
-    The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#root;de.Seed)
+    The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#A;std:de.Seed)
     interface value, which allows for stateful deserialization. We don't
     really need that for this tutorial, but we can still use `seed` since
-    the default seed of Getty just calls [`getty.deserialize`](https://docs.getty.so/#root;deserialize).
+    the default seed of Getty just calls [`getty.deserialize`](https://docs.getty.so/#A;std:deserialize).
 
 ```console title="Shell session"
 $ zig build run

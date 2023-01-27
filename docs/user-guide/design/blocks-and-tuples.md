@@ -119,7 +119,7 @@ const db = struct {
     <br>
     Usually, you don't need it unless you're doing pointer deserialization.
 
-1. `Visitor` is a generic type that implements [`getty.de.Visitor`](https://docs.getty.so/#root;de.Visitor).
+1. `Visitor` is a generic type that implements [`getty.de.Visitor`](https://docs.getty.so/#A;std:de.Visitor).
     <br>
     <br>
     Visitors are responsible for specifying how to deserialize values from
@@ -232,8 +232,8 @@ const Point = struct {
 ### Usage
 
 Once you've defined a block, you can pass them along to Getty via the
-[`getty.Serializer`](https://docs.getty.so/#root;Serializer) and
-[`getty.Deserializer`](https://docs.getty.so/#root;Deserializer) interfaces.
+[`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) and
+[`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interfaces.
 They take optional (de)serialization blocks as arguments.
 
 For example, the following defines a serializer that can serialize _Booleans_

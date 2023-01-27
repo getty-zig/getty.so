@@ -9,7 +9,7 @@ Let's write a JSON serializer that serializes values by printing their JSON equi
 
 ## Scalar Serialization
 
-Every Getty serializer implements the [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface, shown below.
+Every Getty serializer implements the [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface, shown below.
 
 ```zig title="Zig code"
 // (1)!
@@ -48,13 +48,13 @@ fn Serializer(
 
 2.  `Context` is a namespace that owns the method implementations passed to the `methods` parameter.
 
-    Usually, this is the type implementing [`getty.Serializer`](https://docs.getty.so/#root;Serializer) or a pointer to it if mutability is required.
+    Usually, this is the type implementing [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) or a pointer to it if mutability is required.
 
 3.  `O` is the successful return type for most of a `Serializer`'s methods.
 
 4.  `E` is the error set returned by a `Serializer`'s methods upon failure.
 
-    `E` must contain [`getty.ser.Error`](https://docs.getty.so/#root;ser.Error).
+    `E` must contain [`getty.ser.Error`](https://docs.getty.so/#A;std:ser.Error).
 
 5.  `user_sbt` and `serializer_sbt` are optional user- and serializer-defined serialization blocks or tuples, respectively.
 
@@ -63,7 +63,7 @@ fn Serializer(
 
 6.  `Map`, `Seq`, and `Structure` are optional types that implement Getty's aggregate serialization interfaces.
 
-    Those interfaces are [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map), [`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq), and [`getty.ser.Structure`](https://docs.getty.so/#root;ser.Structure). I'm sure you can figure out which parameters should implement which interfaces.
+    Those interfaces are [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map), [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq), and [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure). I'm sure you can figure out which parameters should implement which interfaces.
 
 7.  `methods` contains all of the methods a `Serializer` must provide or can override.
 
@@ -94,7 +94,7 @@ const Serializer = struct {
 
 Kind of a useless serializer...
 
-But let's try serializing a value with it anyways! We can do so by calling [`getty.serialize`](https://docs.getty.so/#root;serialize), which takes a value to serialize and a [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface value.
+But let's try serializing a value with it anyways! We can do so by calling [`getty.serialize`](https://docs.getty.so/#A;std:serialize), which takes a value to serialize and a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="20-24"
 const getty = @import("getty");
@@ -266,7 +266,7 @@ We've made our initial `Serializer` implementation from before, but now with a b
 
     Method implementations can be kept private.
 
-    By marking them private, we avoid polluting the public API of `Serializer` with interface-related code. Additionally, we ensure that users cannot mistakenly use a value of the implementing type to perform serialization. Instead, they will always be forced to use a [`getty.Serializer`](https://docs.getty.so/#root;Serializer) interface value.
+    By marking them private, we avoid polluting the public API of `Serializer` with interface-related code. Additionally, we ensure that users cannot mistakenly use a value of the implementing type to perform serialization. Instead, they will always be forced to use a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
 
 ??? tip "Type Validation"
 
@@ -279,7 +279,7 @@ We've made our initial `Serializer` implementation from before, but now with a b
 
 Now let's take a look at serialization for aggregate types.
 
-If you'll recall, [`getty.Serializer`](https://docs.getty.so/#root;Serializer) required three associated types from its implementations: `Seq`, `Map`, and `Structure`. Each type is expected to implement one of Getty's aggregate serialization interfaces, which are [`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq), [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) and [`getty.ser.Structure`](https://docs.getty.so/#root;ser.Structure).
+If you'll recall, [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) required three associated types from its implementations: `Seq`, `Map`, and `Structure`. Each type is expected to implement one of Getty's aggregate serialization interfaces, which are [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq), [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map) and [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure).
 
 The reason we need `Seq`, `Map`, and `Structure` is because aggregate types
 have all kinds of different access and iteration patterns, but Getty can't
@@ -291,7 +291,7 @@ way they want.
 
 To give you an example of what I mean, let's implement the `serializeSeq`
 method, which returns a value of type `Seq`, which is expected to implement the
-[`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq) interface.
+[`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq) interface.
 
 ??? info "getty.ser.Seq"
 
@@ -428,7 +428,7 @@ pub fn main() anyerror!void {
 
 1.  All we do here is begin serialization by printing `[` and then return a `Seq` for the caller to use.
 
-2.  This is our [`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq) implementation.
+2.  This is our [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq) implementation.
 
     It specifies how to serialize the elements of and how to end the serialization process for _Sequences_.
 
@@ -440,14 +440,14 @@ $ zig build run
 It worked!
 
 And notice how we didn't have to write any code specific to the
-[`std.ArrayList`](https://ziglang.org/documentation/master/std/#root;ArrayList)
+[`std.ArrayList`](https://ziglang.org/documentation/master/std/#A;std:ArrayList)
 type in `Serializer`. We simply specified how sequence serialization should start, how elements
 should be serialized, and how serialization should end. And Getty took care of
 the rest!
 
 Okay, that leaves us with `serializeMap` and `serializeStruct`, which return
-implementations of [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) and
-[`getty.ser.Structure`](https://docs.getty.so/#root;ser.Structure),
+implementations of [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map) and
+[`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure),
 respectively.
 
 ??? info "getty.ser.Map"
@@ -469,7 +469,7 @@ respectively.
     ) type
     ```
 
-    1.  A [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) is responsible
+    1.  A [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map) is responsible
         for serializing the keys and values of a _Map_ and ending the
         serialization process for a _Map_.
 

@@ -2,7 +2,7 @@
 
 Most Zig (de)serializers are functions that take a value, switch on its type,
 and (de)serialize based on the resulting type information.
-[`std.json`](https://ziglang.org/documentation/master/std/#root;json) works
+[`std.json`](https://ziglang.org/documentation/master/std/#A;std:json) works
 like this, and it's generally a nice way to show off the capabilities of Zig as
 a programming language. Unfortunately, it's also quite brittle, inflexible, and
 usually ends up being a lot of unnecessary work.

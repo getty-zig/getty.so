@@ -31,7 +31,7 @@ Getty maintains two data models: one for serialization and another for deseriali
 
         __Map__
 
-        :  Represented by a [`getty.ser.Map`](https://docs.getty.so/#root;ser.Map) interface value.
+        :  Represented by a [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map) interface value.
 
         __Null__
 
@@ -39,7 +39,7 @@ Getty maintains two data models: one for serialization and another for deseriali
 
         __Seq__
 
-        :  Represented by a [`getty.ser.Seq`](https://docs.getty.so/#root;ser.Seq) interface value.
+        :  Represented by a [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq) interface value.
 
         __Some__
 
@@ -47,11 +47,11 @@ Getty maintains two data models: one for serialization and another for deseriali
 
         __String__
 
-        :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#root;meta.trait.isZigString).
+        :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#A;std:meta.trait.isZigString).
 
         __Structure__
 
-        :  Represented by a [`getty.ser.Structure`](https://docs.getty.so/#root;ser.Structure) interface value.
+        :  Represented by a [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure) interface value.
 
         __Void__
 
@@ -77,7 +77,7 @@ Getty maintains two data models: one for serialization and another for deseriali
 
         __Map__
 
-        :  Represented by a [`getty.de.MapAccess`](https://docs.getty.so/#root;de.MapAccess) interface value.
+        :  Represented by a [`getty.de.MapAccess`](https://docs.getty.so/#A;std:de.MapAccess) interface value.
 
         __Null__
 
@@ -85,7 +85,7 @@ Getty maintains two data models: one for serialization and another for deseriali
 
         __Seq__
 
-        :  Represented by a [`getty.de.SeqAccess`](https://docs.getty.so/#root;de.SeqAccess) interface value.
+        :  Represented by a [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess) interface value.
 
         __Some__
 
@@ -93,11 +93,11 @@ Getty maintains two data models: one for serialization and another for deseriali
 
         __String__
 
-        :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#root;meta.trait.isZigString).
+        :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#A;std:meta.trait.isZigString).
 
         __Union__
 
-        :  Represented by a [`getty.de.UnionAccess`](https://docs.getty.so/#root;de.UnionAccess) interface value and a [`getty.de.VariantAccess`](https://docs.getty.so/#root;de.VariantAccess) interface value.
+        :  Represented by a [`getty.de.UnionAccess`](https://docs.getty.so/#A;std:de.UnionAccess) interface value and a [`getty.de.VariantAccess`](https://docs.getty.so/#A;std:de.VariantAccess) interface value.
 
         __Void__
 
