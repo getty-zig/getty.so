@@ -1569,7 +1569,7 @@ over them now.</p>
     Usually, you don't need it unless you're doing pointer deserialization.</p>
 </li>
 <li>
-<p><code>Visitor</code> is a generic type that implements <a href="https://docs.getty.so/#root;de.Visitor"><code>getty.de.Visitor</code></a>.
+<p><code>Visitor</code> is a generic type that implements <a href="https://docs.getty.so/#A;std:de.Visitor"><code>getty.de.Visitor</code></a>.
     <br>
     <br>
     Visitors are responsible for specifying how to deserialize values from
@@ -1674,8 +1674,8 @@ and deserialization blocks are. The only difference is that you don't need an
 </code></pre></div>
 <h3 id="usage">Usage</h3>
 <p>Once you've defined a block, you can pass them along to Getty via the
-<a href="https://docs.getty.so/#root;Serializer"><code>getty.Serializer</code></a> and
-<a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interfaces.
+<a href="https://docs.getty.so/#A;std:Serializer"><code>getty.Serializer</code></a> and
+<a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> interfaces.
 They take optional (de)serialization blocks as arguments.</p>
 <p>For example, the following defines a serializer that can serialize <em>Booleans</em>
 and <em>Integers</em> into JSON. It's generic over an <abbr title="Serialization Block">SB</abbr>, which it passes to Getty,

@@ -1319,7 +1319,7 @@ If not, see <a href="/user-guide/design/interfaces/">here</a> before continuing.
 </div>
 <p>Let's write a simple (albeit slightly naive) JSON deserializer.</p>
 <h2 id="scalar-deserialization">Scalar Deserialization</h2>
-<p>Every Getty deserializer implements the <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface, shown below.</p>
+<p>Every Getty deserializer implements the <a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> interface, shown below.</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// (1)!</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">fn</span><span class="w"> </span><span class="n">Deserializer</span><span class="p">(</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">Context</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span><span class="w"> </span><span class="c1">// (2)!</span>
@@ -1350,22 +1350,22 @@ If not, see <a href="/user-guide/design/interfaces/">here</a> before continuing.
 </code></pre></div>
 <ol>
 <li>
-<p>A <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> deserializes
+<p>A <a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> deserializes
     values from a <strong>data format</strong> into Getty's <strong>data model</strong>.</p>
 </li>
 <li>
 <p><code>Context</code> is a namespace that owns the method implementations passed to the
     <code>methods</code> parameter.</p>
 <p>Usually, this is the type implementing
-<a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> or a
+<a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> or a
 pointer to it if mutability is required.</p>
 </li>
 <li>
 <p><code>E</code> is the error set returned by
-    <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a>'s methods upon
+    <a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a>'s methods upon
     failure.</p>
 <p>The value of <code>E</code> must contain
-<a href="https://docs.getty.so/#root;de.Error"><code>getty.de.Error</code></a>, a base error set
+<a href="https://docs.getty.so/#A;std:de.Error"><code>getty.de.Error</code></a>, a base error set
 defined by Getty.</p>
 </li>
 <li>
@@ -1377,14 +1377,14 @@ behavior. If user- or deserializer-defined customization isn't supported,
 </li>
 <li>
 <p><code>methods</code> contains all of the methods that implementations of
-    <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> must
+    <a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> must
     provide or can override.</p>
 </li>
 <li>
 <p>These methods are responsible for deserializing into a specific type in
     Getty's data model from a data format.</p>
 <p>The <code>v</code> parameter in these methods is a
-<a href="https://docs.getty.so/#root;de.Visitor"><code>getty.de.Visitor</code></a> interface value.</p>
+<a href="https://docs.getty.so/#A;std:de.Visitor"><code>getty.de.Visitor</code></a> interface value.</p>
 <p>The <code>deserializeAny</code> and <code>deserializeIgnored</code> methods are pretty niche, so
 we can ignore them for this tutorial.</p>
 </li>
@@ -1425,14 +1425,14 @@ start with the following:</p>
 <p>A JSON parser provided by the standard library.</p>
 </li>
 <li>
-<p>A convenient alias for our <a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface type.</p>
+<p>A convenient alias for our <a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> interface type.</p>
 </li>
 </ol>
 <p>Kind of a useless deserializer...</p>
 <p>But let's try deserializing a value with it anyways! We can do so by calling
-<a href="https://docs.getty.so/#root;deserialize"><code>getty.deserialize</code></a>, which takes an
+<a href="https://docs.getty.so/#A;std:deserialize"><code>getty.deserialize</code></a>, which takes an
 optional allocator, a type to deserialize into, and a
-<a href="https://docs.getty.so/#root;Deserializer"><code>getty.Deserializer</code></a> interface
+<a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> interface
 value.</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
@@ -1773,22 +1773,22 @@ the aggregate types within Getty's data model (from a deserialization
 perspective). There are four of them:</p>
 <div class="admonition info">
 <dl>
-<dt><a href="https://docs.getty.so/#root;de.SeqAccess"><code>getty.de.SeqAccess</code></a></dt>
+<dt><a href="https://docs.getty.so/#A;std:de.SeqAccess"><code>getty.de.SeqAccess</code></a></dt>
 <dd>
 <p>Represents a <em>Sequence</em>.</p>
 </dd>
-<dt><a href="https://docs.getty.so/#root;de.MapAccess"><code>getty.de.MapAccess</code></a></dt>
+<dt><a href="https://docs.getty.so/#A;std:de.MapAccess"><code>getty.de.MapAccess</code></a></dt>
 <dd>
 <p>Represents a <em>Map</em>.</p>
 </dd>
-<dt><a href="https://docs.getty.so/#root;de.UnionAccess"><code>getty.de.UnionAccess</code></a>, <a href="https://docs.getty.so/#root;de.VariantAccess"><code>getty.de.VariantAccess</code></a></dt>
+<dt><a href="https://docs.getty.so/#A;std:de.UnionAccess"><code>getty.de.UnionAccess</code></a>, <a href="https://docs.getty.so/#A;std:de.VariantAccess"><code>getty.de.VariantAccess</code></a></dt>
 <dd>
 <p>Represents a <em>Union</em>.</p>
 </dd>
 </dl>
 </div>
 <p>Let's start by implementing <code>deserializeSeq</code>, which uses the
-<a href="https://docs.getty.so/#root;de.SeqAccess"><code>getty.de.SeqAccess</code></a> interface.</p>
+<a href="https://docs.getty.so/#A;std:de.SeqAccess"><code>getty.de.SeqAccess</code></a> interface.</p>
 <details class="info">
 <summary>getty.de.SeqAccess</summary>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// (1)!</span>
@@ -1806,12 +1806,12 @@ perspective). There are four of them:</p>
 <p>A <a href=""><code>getty.de.SeqAccess</code></a> is responsible for deserializing elements of a <em>Sequence</em> into Zig.</p>
 </li>
 <li>
-<p>The <code>seed</code> parameter of <code>nextElementSeed</code> is a <a href="https://docs.getty.so/#root;de.Seed"><code>getty.de.Seed</code></a>
+<p>The <code>seed</code> parameter of <code>nextElementSeed</code> is a <a href="https://docs.getty.so/#A;std:de.Seed"><code>getty.de.Seed</code></a>
     interface value, which allows for stateful deserialization.</p>
 <p>By default, Getty passes in
-<a href="https://docs.getty.so/#root;de.DefaultSeed"><code>getty.de.DefaultSeed</code></a>
+<a href="https://docs.getty.so/#A;std:de.DefaultSeed"><code>getty.de.DefaultSeed</code></a>
 <code>seed</code>. The default seed just calls
-<a href="https://docs.getty.so/#root;deserialize"><code>getty.deserialize</code></a> and can
+<a href="https://docs.getty.so/#A;std:deserialize"><code>getty.deserialize</code></a> and can
 therefore be used for stateless deserialization.</p>
 </li>
 </ol>
@@ -2000,7 +2000,7 @@ had to specify how JSON sequences (arrays) should be deserialized and
 Getty took care of the rest!</p>
 <p>Okay, that leaves us with <code>deserializeMap</code> and <code>deserializeUnion</code>. Let's
 implement the former, which uses the
-<a href="https://docs.getty.so/#root;de.MapAccess"><code>getty.de.MapAccess</code></a> interface.</p>
+<a href="https://docs.getty.so/#A;std:de.MapAccess"><code>getty.de.MapAccess</code></a> interface.</p>
 <details class="info">
 <summary>getty.de.MapAccess</summary>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// (1)!</span>
@@ -2468,10 +2468,10 @@ implement the former, which uses the
     deserializer's input data.</p>
 <p>If there are no elements left (i.e., if <code>]</code> was encountered) then <code>null</code> is
 returned. Otherwise, the deserialized element is.</p>
-<p>The <code>seed</code> parameter of <code>nextElementSeed</code> is a <a href="https://docs.getty.so/#root;de.Seed"><code>getty.de.Seed</code></a>
+<p>The <code>seed</code> parameter of <code>nextElementSeed</code> is a <a href="https://docs.getty.so/#A;std:de.Seed"><code>getty.de.Seed</code></a>
 interface value, which allows for stateful deserialization. We don't
 really need that for this tutorial, but we can still use <code>seed</code> since
-the default seed of Getty just calls <a href="https://docs.getty.so/#root;deserialize"><code>getty.deserialize</code></a>.</p>
+the default seed of Getty just calls <a href="https://docs.getty.so/#A;std:deserialize"><code>getty.deserialize</code></a>.</p>
 </li>
 </ol>
 <div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build<span class="w"> </span>run
