@@ -1225,24 +1225,25 @@
 &nbsp;</p>
 </li>
 <li>
-<p>Install Getty into the <code>lib/getty</code> directory within <code>getty-learn</code>:</p>
-<p><div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/getty-zig/getty<span class="w"> </span>lib/getty
+<p>Install Getty into the <code>libs/getty</code> directory within <code>getty-learn</code>:</p>
+<p><div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/getty-zig/getty<span class="w"> </span>libs/getty
 </code></pre></div>
 &nbsp;</p>
 </li>
 <li>
-<p>Make <code>getty-learn</code> aware of Getty by calling <code>addPackagePath</code> in <code>build.zig</code>:</p>
+<p>Make <code>getty-learn</code> aware of Getty by adding it as a package in <code>build.zig</code>:</p>
 <p><div class="highlight"><span class="filename"><code>build.zig</code></span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="o">:</span><span class="w"> </span><span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">Builder</span><span class="p">)</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="c1">// ...</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">exe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">addExecutable</span><span class="p">(</span><span class="s">&quot;getty-learn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;src/main.zig&quot;</span><span class="p">);</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setTarget</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setBuildMode</span><span class="p">(</span><span class="n">mode</span><span class="p">);</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addPackagePath</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lib/getty/src/getty.zig&quot;</span><span class="p">);</span>
-</span><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">install</span><span class="p">();</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="hll"><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;libs/getty/build.zig&quot;</span><span class="p">);</span>
+</span><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="o">:</span><span class="w"> </span><span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">Builder</span><span class="p">)</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">exe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">addExecutable</span><span class="p">(</span><span class="s">&quot;getty-learn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;src/main.zig&quot;</span><span class="p">);</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setTarget</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">setBuildMode</span><span class="p">(</span><span class="n">mode</span><span class="p">);</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addPackage</span><span class="p">(</span><span class="n">getty</span><span class="p">.</span><span class="n">pkg</span><span class="p">(</span><span class="n">b</span><span class="p">));</span>
+</span><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">install</span><span class="p">();</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
 </code></pre></div>
 &nbsp;</p>
 </li>
