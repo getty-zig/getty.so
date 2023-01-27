@@ -11,17 +11,18 @@ To begin, we need to set up a new project.
     ```
 &nbsp;
 
-2. Install Getty into the `lib/getty` directory within `getty-learn`:
+2. Install Getty into the `libs/getty` directory within `getty-learn`:
 
     ```sh title="Shell session"
-    git clone https://github.com/getty-zig/getty lib/getty
+    git clone https://github.com/getty-zig/getty libs/getty
     ```
 &nbsp;
 
-3. Make `getty-learn` aware of Getty by calling `addPackagePath` in `build.zig`:
+3. Make `getty-learn` aware of Getty by adding it as a package in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="9"
+    ```zig title="<code>build.zig</code>" hl_lines="2 10"
     const std = @import("std");
+    const getty = @import("libs/getty/build.zig");
 
     pub fn build(b: *std.build.Builder) void {
         // ...
@@ -29,7 +30,7 @@ To begin, we need to set up a new project.
         const exe = b.addExecutable("getty-learn", "src/main.zig");
         exe.setTarget(target);
         exe.setBuildMode(mode);
-        exe.addPackagePath("getty", "lib/getty/src/getty.zig");
+        exe.addPackage(getty.pkg(b));
         exe.install();
     }
     ```

@@ -15,10 +15,11 @@ To install Getty, you can use any of the following methods.
     git clone https://github.com/getty-zig/getty libs/getty
     ```
 
-2. Make the following change in `build.zig`:
+2. Make the following changes in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="9"
+    ```zig title="<code>build.zig</code>" hl_lines="2 10"
     const std = @import("std");
+    const getty = @import("libs/getty/build.zig");
 
     pub fn build(b: *std.build.Builder) void {
         // ...
@@ -26,7 +27,7 @@ To install Getty, you can use any of the following methods.
         const exe = b.addExecutable("getty-learn", "src/main.zig");
         exe.setTarget(target);
         exe.setBuildMode(mode);
-        exe.addPackagePath("getty", "libs/getty/src/getty.zig");
+        exe.addPackage(getty.pkg(b));
         exe.install();
     }
     ```
