@@ -66,14 +66,14 @@ const Serializer = struct {
     }
 
     fn serializeSome(s: @This(), value: anytype) Error!Ok {
-        try getty.serialize(value, s.serializer());
+        try getty.serialize(null, value, s.serializer());
     }
 };
 
 pub fn main() !void {
     const s = (Serializer{}).serializer();
 
-    try getty.serialize("Getty", s);
+    try getty.serialize(null, "Getty", s);
 }
 ```
 

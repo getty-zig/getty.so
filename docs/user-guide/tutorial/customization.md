@@ -66,8 +66,8 @@ const block = struct {
 pub fn main() anyerror!void {
     const s = (Serializer{}).serializer();
 
-    try getty.serialize(true, s);
-    try getty.serialize(false, s);
+    try getty.serialize(null, true, s);
+    try getty.serialize(null, false, s);
 }
 ```
 
@@ -154,16 +154,16 @@ pub fn main() anyerror!void {
     {
         const s = (Serializer(int_block){}).serializer();
 
-        try getty.serialize(true, s);
-        try getty.serialize(false, s);
+        try getty.serialize(null, true, s);
+        try getty.serialize(null, false, s);
     }
 
     // String
     {
         const s = (Serializer(string_block){}).serializer();
 
-        try getty.serialize(true, s);
-        try getty.serialize(false, s);
+        try getty.serialize(null, true, s);
+        try getty.serialize(null, false, s);
     }
 }
 ```
@@ -260,11 +260,11 @@ const Struct = struct {
             true => self.first = false,
             false => std.debug.print(", ", .{}),
         }
-        try getty.serialize(key, (Serializer{}).serializer());
+        try getty.serialize(null, key, (Serializer{}).serializer());
 
         // Serialize value.
         std.debug.print(": ", .{});
-        try getty.serialize(value, (Serializer{}).serializer());
+        try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
     fn end(_: *@This()) Error!Ok {
@@ -276,7 +276,7 @@ pub fn main() anyerror!void {
     const v = Point{ .x = 1, .y = 2 };
     const s = (Serializer{}).serializer();
 
-    try getty.serialize(v, s);
+    try getty.serialize(null, v, s);
 }
 ```
 

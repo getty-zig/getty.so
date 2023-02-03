@@ -94,7 +94,7 @@ const Serializer = struct {
 
 Kind of a useless serializer...
 
-But let's try serializing a value with it anyways! We can do so by calling [`getty.serialize`](https://docs.getty.so/#A;std:serialize), which takes a value to serialize and a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
+But let's try serializing a value with it anyways! We can do so by calling [`getty.serialize`](https://docs.getty.so/#A;std:serialize), which takes an optional allocator, a value to serialize and a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="20-24"
 const getty = @import("getty");
@@ -119,7 +119,7 @@ const Serializer = struct {
 pub fn main() anyerror!void {
     const s = (Serializer{}).serializer();
 
-    try getty.serialize(true, s);
+    try getty.serialize(null, true, s);
 }
 ```
 
@@ -162,7 +162,7 @@ const Serializer = struct {
 pub fn main() anyerror!void {
     const s = (Serializer{}).serializer();
 
-    try getty.serialize(true, s);
+    try getty.serialize(null, true, s);
 
     std.debug.print("\n", .{});
 }
@@ -227,7 +227,7 @@ const Serializer = struct {
     }
 
     fn serializeSome(self: @This(), value: anytype) Error!Ok {
-        try getty.serialize(value, self.serializer());
+        try getty.serialize(null, value, self.serializer());
     }
 };
 
@@ -235,7 +235,7 @@ pub fn main() anyerror!void {
     const s = (Serializer{}).serializer();
 
     inline for (.{ 10, 10.0, "string", .variant, {}, null }) |v| {
-        try getty.serialize(v, s);
+        try getty.serialize(null, v, s);
 
         std.debug.print("\n", .{});
     }
@@ -366,7 +366,7 @@ const Serializer = struct {
     }
 
     fn serializeSome(s: @This(), value: anytype) Error!Ok {
-        try getty.serialize(value, s.serializer());
+        try getty.serialize(null, value, s.serializer());
     }
 
     // (1)!
@@ -403,7 +403,7 @@ const Seq = struct {
         }
 
         // Serialize element.
-        try getty.serialize(value, (Serializer{}).serializer());
+        try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
     fn end(_: *@This()) Error!Ok {
@@ -420,7 +420,7 @@ pub fn main() anyerror!void {
     try list.append(2);
     try list.append(3);
 
-    try getty.serialize(list, s);
+    try getty.serialize(null, list, s);
 
     std.debug.print("\n", .{});
 }
@@ -550,7 +550,7 @@ const Serializer = struct {
     }
 
     fn serializeSome(self: @This(), value: anytype) Error!Ok {
-        try getty.serialize(value, self.serializer());
+        try getty.serialize(null, value, self.serializer());
     }
 
     fn serializeSeq(_: @This(), _: ?usize) Error!Seq {
@@ -595,7 +595,7 @@ const Seq = struct {
             false => std.debug.print(",", .{}),
         }
 
-        try getty.serialize(value, (Serializer{}).serializer());
+        try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
     fn end(_: *@This()) Error!Ok {
@@ -636,13 +636,13 @@ const Map = struct {
             false => std.debug.print(",", .{}),
         }
 
-        try getty.serialize(value, (Serializer{}).serializer());
+        try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
     fn serializeValue(_: *@This(), value: anytype) Error!void {
         std.debug.print(":", .{});
 
-        try getty.serialize(value, (Serializer{}).serializer());
+        try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
     fn serializeField(self: *@This(), comptime key: []const u8, value: anytype) Error!void {
@@ -663,7 +663,7 @@ pub fn main() anyerror!void {
     try map.put("x", 1);
     try map.put("y", 2);
 
-    try getty.serialize(map, s);
+    try getty.serialize(null, map, s);
 
     std.debug.print("\n", .{});
 }
