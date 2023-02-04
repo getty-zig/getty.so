@@ -17,16 +17,13 @@ To install Getty, you can use any of the following methods.
 
 2. Make the following changes in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="2 10"
+    ```zig title="<code>build.zig</code>" hl_lines="2 7"
     const std = @import("std");
     const getty = @import("libs/getty/build.zig");
 
     pub fn build(b: *std.build.Builder) void {
         // ...
 
-        const exe = b.addExecutable("getty-learn", "src/main.zig");
-        exe.setTarget(target);
-        exe.setBuildMode(mode);
         exe.addPackage(getty.pkg(b));
         exe.install();
     }
@@ -50,16 +47,13 @@ To install Getty, you can use any of the following methods.
 
 2. Make the following changes in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="2 10"
+    ```zig title="<code>build.zig</code>" hl_lines="2 7"
     const std = @import("std");
     const pkgs = @import("deps.zig").pkgs;
 
     pub fn build(b: *std.build.Builder) void {
         // ...
 
-        const exe = b.addExecutable("getty-learn", "src/main.zig");
-        exe.setTarget(target);
-        exe.setBuildMode(mode);
         pkgs.addAllTo(exe);
         exe.install();
     }
@@ -91,16 +85,13 @@ To install Getty, you can use any of the following methods.
 
 3. Make the following changes in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="2 10"
+    ```zig title="<code>build.zig</code>" hl_lines="2 7"
     const std = @import("std");
     const deps = @import("deps.zig");
 
     pub fn build(b: *std.build.Builder) void {
         // ...
 
-        const exe = b.addExecutable("getty-learn", "src/main.zig");
-        exe.setTarget(target);
-        exe.setBuildMode(mode);
         deps.addAllTo(exe);
         exe.install();
     }

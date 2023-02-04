@@ -20,16 +20,13 @@ To begin, we need to set up a new project.
 
 3. Make `getty-learn` aware of Getty by adding it as a package in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="2 10"
+    ```zig title="<code>build.zig</code>" hl_lines="2 7"
     const std = @import("std");
     const getty = @import("libs/getty/build.zig");
 
     pub fn build(b: *std.build.Builder) void {
         // ...
 
-        const exe = b.addExecutable("getty-learn", "src/main.zig");
-        exe.setTarget(target);
-        exe.setBuildMode(mode);
         exe.addPackage(getty.pkg(b));
         exe.install();
     }
