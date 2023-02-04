@@ -19,3 +19,7 @@
     /* Links */
     --md-typeset-a-color: #738DE8;
 }
+
+.breaking-change {
+  color: #F55050;
+}
