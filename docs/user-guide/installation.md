@@ -1,98 +1,67 @@
 # Installation
 
-To install Getty, you can use any of the following methods.
-
-## Manual
-
 !!! warning "Prerequisites"
 
-    These steps assume that you have the `master` version of
+    Please make sure you have the `master` version of
     [Zig](https://ziglang.org/download/) installed.
 
-1. Add Getty to your project.
+To install Getty:
 
-    ```sh title="Shell session"
-    git clone https://github.com/getty-zig/getty libs/getty
-    ```
+1. Declare Getty as a dependency in `build.zig.zon`:
 
-2. Make the following changes in `build.zig`:
-
-    ```zig title="<code>build.zig</code>" hl_lines="2 7"
-    const std = @import("std");
-    const getty = @import("libs/getty/build.zig");
-
-    pub fn build(b: *std.build.Builder) void {
-        // ...
-
-        exe.addPackage(getty.pkg(b));
-        exe.install();
+    ```zig title="<code>build.zig.zon</code>" hl_lines="5-7"
+    .{
+        .name = "my-project",
+        .version = "0.0.0",
+        .dependencies = .{
+            .getty = .{
+                .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
+            },
+        },
     }
     ```
 
-## Gyro
+2. Expose Getty as a module in `build.zig`:
 
-!!! warning "Prerequisites"
-
-    These steps assume that you have the `master` version of
-    [Zig](https://ziglang.org/download/) and the
-    [Gyro](https://github.com/mattnite/gyro#installation) package manager
-    installed.
-
-1. Add Getty to your project.
-
-    ```sh title="Shell session"
-    gyro add -s github getty-zig/getty
-    gyro fetch
-    ```
-
-2. Make the following changes in `build.zig`:
-
-    ```zig title="<code>build.zig</code>" hl_lines="2 7"
+    ```zig title="<code>build.zig</code>" hl_lines="7-8 11"
     const std = @import("std");
-    const pkgs = @import("deps.zig").pkgs;
 
-    pub fn build(b: *std.build.Builder) void {
-        // ...
+    pub fn build(b: *std.Build) void {
+        const target = b.standardTargetOptions(.{});
+        const optimize = b.standardOptimizeOption(.{});
 
-        pkgs.addAllTo(exe);
+        const opts = .{ .target = target, .optimize = optimize };
+        const getty_module = b.dependency("getty", opts).module("getty");
+
+        const exe = b.addExecutable(.{ .name = "my-project", .root_source_file = .{ .path = "src/main.zig" }, .target = target, .optimize = optimize });
+        exe.addModule("getty", getty_module);
         exe.install();
+
+        ...
     }
     ```
 
-## Zigmod
+3. Obtain Getty's package hash:
 
-!!! warning "Prerequisites"
-
-    These steps assume that you have the `master` version of
-    [Zig](https://ziglang.org/download/) and the
-    [Zigmod](https://github.com/nektro/zigmod#download) package manager
-    installed.
-
-1. Make the following changes in `zigmod.yml`:
-
-    ```yaml title="<code>zigmod.yml</code>" hl_lines="3 4"
-    # ...
-
-    root_dependencies:
-      - src: git https://gitub.com/getty-zig/getty
+    ```console title="Shell session"
+    $ zig build
+    my-project/build.zig.zon:6:20: error: url field is missing corresponding hash field
+            .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    note: expected .hash = "<HASH>",
     ```
 
-2. Add Getty to your project.
+4. Update `build.zig.zon` with the hash value:
 
-    ```sh title="Shell session"
-    zigmod fetch
-    ```
-
-3. Make the following changes in `build.zig`:
-
-    ```zig title="<code>build.zig</code>" hl_lines="2 7"
-    const std = @import("std");
-    const deps = @import("deps.zig");
-
-    pub fn build(b: *std.build.Builder) void {
-        // ...
-
-        deps.addAllTo(exe);
-        exe.install();
+    ```zig title="<code>build.zig.zon</code>" hl_lines="7"
+    .{
+        .name = "my-project",
+        .version = "0.0.0",
+        .dependencies = .{
+            .json = .{
+                .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
+                .hash = "<HASH>",
+            },
+        },
     }
     ```
