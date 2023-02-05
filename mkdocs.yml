@@ -81,9 +81,9 @@ extra:
   generator: false
   social:
     - icon: fontawesome/brands/github 
-      link: https://github.com/ibokuri/
+      link: https://github.com/getty-zig
     - icon: fontawesome/brands/discord
-      link: https://discord.gg/njDA67U5ph/
+      link: https://discord.gg/njDA67U5ph
   
 extra_css:
   - stylesheets/extra.css
