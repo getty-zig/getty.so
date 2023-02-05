@@ -23,6 +23,8 @@ theme:
 
   icon:
     logo: material/circle-multiple
+    repo: material/github
+
   favicon: assets/images/getty-favicon-solid-large.png
 
   palette:
