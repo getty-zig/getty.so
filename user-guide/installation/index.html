@@ -13,10 +13,10 @@
         <link rel="canonical" href="https://getty.so/user-guide/installation/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../tutorial/customization/">
       
       
-        <link rel="next" href="../tutorial/">
+        <link rel="next" href="../design/">
       
       
         
@@ -485,44 +485,6 @@
                 
   
   
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    <span class="md-typeset">
-      Installation
-    </span>
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
     
     
@@ -547,7 +509,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
         
           
           
@@ -568,14 +530,14 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_2_3">
+              <label class="md-nav__link " for="__nav_2_2">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
-          <label class="md-nav__title" for="__nav_2_3">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -701,6 +663,44 @@
             
           </ul>
         </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Installation
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
       
     </li>
   
@@ -1212,56 +1212,58 @@
 
 
 <h1 id="installation">Installation</h1>
-<div class="admonition warning">
-<p class="admonition-title">Prerequisites</p>
-<p>Please make sure you have the <code>master</code> version of
-<a href="https://ziglang.org/download/">Zig</a> installed.</p>
-</div>
 <p>To install Getty:</p>
 <ol>
 <li>
-<p>Declare Getty as a dependency in <code>build.zig.zon</code>:</p>
-<div class="highlight"><span class="filename"><code>build.zig.zon</code></span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">.{</span>
+<p>Declare Getty as a dependency by writing the following in <code>build.zig.zon</code>:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Be sure to replace <code>&lt;COMMIT&gt;</code> in the URL with a commit SHA from Getty.</p>
+</div>
+<p><div class="highlight"><span class="filename"><code>build.zig.zon</code></span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">.{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my-project&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.0.0&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">.</span><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="hll"><span class="w">        </span><span class="p">.</span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span>
-</span><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="hll"><span class="w">            </span><span class="p">.</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://github.com/getty-zig/getty/archive/&lt;COMMIT&gt;.tar.gz&quot;</span><span class="p">,</span>
-</span><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="hll"><span class="w">        </span><span class="p">},</span>
-</span><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="p">.</span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="p">.</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://github.com/getty-zig/getty/archive/&lt;COMMIT&gt;.tar.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">},</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
 </code></pre></div>
+&nbsp;</p>
 </li>
 <li>
-<p>Expose Getty as a module in <code>build.zig</code>:</p>
-<div class="highlight"><span class="filename"><code>build.zig</code></span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
+<p>Expose Getty as a module by adding the following lines to <code>build.zig</code>:</p>
+<p><div class="highlight"><span class="filename"><code>build.zig</code></span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">b</span><span class="o">:</span><span class="w"> </span><span class="o">*</span><span class="n">std</span><span class="p">.</span><span class="n">Build</span><span class="p">)</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">standardTargetOptions</span><span class="p">(.{});</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">optimize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">standardOptimizeOption</span><span class="p">(.{});</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="hll"><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">optimize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optimize</span><span class="w"> </span><span class="p">};</span>
-</span><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="hll"><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">getty_module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">dependency</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">).</span><span class="n">module</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
+</span><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="hll"><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">getty_mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">dependency</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">).</span><span class="n">module</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 </span><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">exe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">addExecutable</span><span class="p">(.{</span><span class="w"> </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my-project&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">root_source_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;src/main.zig&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">.</span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">optimize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optimize</span><span class="w"> </span><span class="p">});</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addModule</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getty_module</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addModule</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getty_mod</span><span class="p">);</span>
 </span><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">install</span><span class="p">();</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="c1">// (snip)</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">}</span>
 </code></pre></div>
+&nbsp;</p>
 </li>
 <li>
-<p>Obtain Getty's package hash:</p>
-<div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build
+<p>Obtain Getty's package hash (denoted below as <code>&lt;HASH&gt;</code>) by running <code>zig build</code> once:</p>
+<p><div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="go">my-project/build.zig.zon:6:20: error: url field is missing corresponding hash field</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="go">        .url = &quot;https://github.com/getty-zig/getty/archive/&lt;COMMIT&gt;.tar.gz&quot;,</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="go">               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="go">note: expected .hash = &quot;&lt;HASH&gt;&quot;,</span>
 </code></pre></div>
+&nbsp;</p>
 </li>
 <li>
-<p>Update <code>build.zig.zon</code> with the hash value:</p>
+<p>Update <code>build.zig.zon</code> with the obtained hash value:</p>
 <div class="highlight"><span class="filename"><code>build.zig.zon</code></span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">.{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my-project&quot;</span><span class="p">,</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.0.0&quot;</span><span class="p">,</span>
@@ -1303,7 +1305,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: User Guide" rel="prev">
+          <a href="../tutorial/customization/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Customization" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -1312,20 +1314,20 @@
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                User Guide
+                Customization
               </div>
             </div>
           </a>
         
         
           
-          <a href="../tutorial/" class="md-footer__link md-footer__link--next" aria-label="Next: Tutorial" rel="next">
+          <a href="../design/" class="md-footer__link md-footer__link--next" aria-label="Next: Design" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Tutorial
+                Design
               </div>
             </div>
             <div class="md-footer__button md-icon">

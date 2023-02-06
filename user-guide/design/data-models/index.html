@@ -486,34 +486,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    <span class="md-typeset">
-      Installation
-    </span>
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
     
     
       
@@ -537,7 +509,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
         
           
           
@@ -558,14 +530,14 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_2_3">
+              <label class="md-nav__link " for="__nav_2_2">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
-          <label class="md-nav__title" for="__nav_2_3">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -692,6 +664,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Installation
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1312,16 +1312,14 @@
 
 
 <h1 id="data-models">Data Models</h1>
-<p>A <strong>data model</strong> represents a set of types supported by Getty. The types within
-a data model are purely conceptual; they aren't actually Zig types. For
-example, there is no <code>i32</code> or <code>u64</code> in either of Getty's data
-models. Instead, they are both considered to the same type: <em>Integer</em>.</p>
+<p>A <strong>data model</strong> represents a set of types that are supported by Getty. The
+types within a data model are purely conceptual; they aren't actually Zig
+types. For example, there is no <code>i32</code> or <code>u64</code> in either of Getty's data
+models. Instead, they're both considered to be <em>Integers</em>.</p>
 <h2 id="models">Models</h2>
 <p>Getty maintains two data models: one for serialization and another for deserialization.</p>
-<div class="admonition info">
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Serialization</label><label for="__tabbed_1_2">Deserialization</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
+<details class="info">
+<summary>Serialization</summary>
 <dl>
 <dt><strong>Boolean</strong></dt>
 <dd>
@@ -1368,8 +1366,9 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 <p>Represented by a <code>void</code> value.</p>
 </dd>
 </dl>
-</div>
-<div class="tabbed-block">
+</details>
+<details class="info">
+<summary>Deserialization</summary>
 <dl>
 <dt><strong>Boolean</strong></dt>
 <dd>
@@ -1416,32 +1415,19 @@ models. Instead, they are both considered to the same type: <em>Integer</em>.</p
 <p>Represented by a <code>void</code> value.</p>
 </dd>
 </dl>
-</div>
-</div>
-</div>
-</div>
+</details>
 <h2 id="motivation">Motivation</h2>
 <p>Getty's data models establish a generic baseline from which (de)serializers can
 operate.</p>
 <figure>
 <p><img alt="Data Model" src="/assets/images/data-model-light.svg#only-light" />
-<img alt="Data Model" src="/assets/images/data-model-dark.svg#only-dark" /></p>
+  <img alt="Data Model" src="/assets/images/data-model-dark.svg#only-dark" /></p>
 </figure>
-<details class="info">
-<summary>Interactions</summary>
-<p>Notice how the (de)serializers never interact directly with Zig.</p>
-<ul>
-<li>Serializers receive values from Getty's <strong>data model</strong> and serialize them
-  into a <strong>data format</strong>.</li>
-<li>Deserializers receive values from a <strong>data format</strong> and deserialize them
-  into Getty's <strong>data model</strong>.</li>
-</ul>
-</details>
 <p>This design often simplifies the job of a (de)serializer significantly. For
 example, suppose you wanted to serialize <code>[]i32</code>, <code>[100]i32</code>,
 <code>std.ArrayList(i32)</code>, and <code>std.TailQueue(i32)</code> values. Since Zig
 considers all of these types to be different, you'd have to write unique
-serialization logic for all of them (plus integers)!</p>
+serialization logic for all of them (as well as for integers)!</p>
 <p>In Getty, you don't have to do nearly as much work. Getty considers all of the
 aforementioned types to be the same: they are all <em>Sequences</em>. This means that
 you only have to specify the serialization process for two types: <em>Integers</em>
@@ -1449,6 +1435,16 @@ and <em>Sequences</em>. And by doing so, you'll automatically be able to seriali
 values of any of the aforementioned types, plus any other value whose type is
 supported by Getty and is considered a <em>Sequence</em>, such as <code>std.SinglyLinkedList</code>
 and <code>std.BoundedArray</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Interactions</p>
+<p>Notice how (de)serializers in Getty never interact directly with Zig.</p>
+<ul>
+<li>Serializers receive values from Getty's <strong>data model</strong> and serialize them
+  into a <strong>data format</strong>.</li>
+<li>Deserializers receive values from a <strong>data format</strong> and deserialize them
+  into Getty's <strong>data model</strong>.</li>
+</ul>
+</div>
 
 
 

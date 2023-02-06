@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://getty.so/user-guide/tutorial/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../">
       
       
         <link rel="next" href="setup/">
@@ -485,34 +485,6 @@
                 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    <span class="md-typeset">
-      Installation
-    </span>
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -539,7 +511,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
+        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
         
           
           
@@ -560,14 +532,14 @@
 
             </a>
             
-              <label class="md-nav__link md-nav__link--active" for="__nav_2_3">
+              <label class="md-nav__link md-nav__link--active" for="__nav_2_2">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
-          <label class="md-nav__title" for="__nav_2_3">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -694,6 +666,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Installation
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1204,19 +1204,13 @@
 
 
 <h1 id="tutorial">Tutorial</h1>
-<p>Most Zig (de)serializers are functions that take a value, switch on its type,
-and (de)serialize based on the resulting type information.
-<a href="https://ziglang.org/documentation/master/std/#A;std:json"><code>std.json</code></a> works
-like this, and it's generally a nice way to show off the capabilities of Zig as
-a programming language. Unfortunately, it's also quite brittle, inflexible, and
-usually ends up being a lot of unnecessary work.</p>
-<p>The goal of Getty is to help you avoid all of that and reduce the amount of
-code you need to make a (de)serializer that is customizable, performant, and
-able to support a wide variety of data types!</p>
+<p>In short, Getty aims to reduce the amount of code needed to write
+(de)serializers that are robust, customizable, performant, and able to support
+a wide variety of data types.</p>
 <p>As an example, the following code defines a JSON serializer that supports
-scalar and string values. At around 60 lines, <code>Serializer</code> is a fully
-functional serializer capable of converting values of type <code>bool</code>, <code>i32</code>,
-<code>enum{ foo }</code>, <code>[]u8</code>, <code>*const [5]u8</code>, <code>?void</code>, and more into JSON!</p>
+scalar and string values. At around 60 lines, <code>Serializer</code> is a complete
+serializer capable of converting values of type <code>bool</code>, <code>i32</code>, <code>f128</code>, <code>enum{
+foo }</code>, <code>*const [3]u8</code>, <code>[]u8</code>, <code>?*void</code>, and more into JSON!</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1279,12 +1273,13 @@ functional serializer capable of converting values of type <code>bool</code>, <c
 <div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build<span class="w"> </span>run
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="go">&quot;Getty&quot;</span>
 </code></pre></div>
-<p>In this tutorial, we'll slowly build up to above implementation so that by the
-end of it all you'll understand everything there is to know about it. We'll
-also be extending <code>Serializer</code> to support non-scalar types, such as <code>struct{ x:
-i32 }</code> and <code>std.ArrayList(i32)</code>. And to cap things off, we'll write ourselves a
-JSON deserializer and go over how custom (de)serialization works in Getty.</p>
-<p>Let's get started!</p>
+<p>In this tutorial, we'll:</p>
+<ul>
+<li>Build up to the above <code>Serializer</code> implementation.</li>
+<li>Extend <code>Serializer</code> to support non-scalar types, such as <code>std.ArrayList(i32)</code>.</li>
+<li>Write a JSON deserializer.</li>
+<li>Explore how custom (de)serialization works in Getty.</li>
+</ul>
 
 
 
@@ -1313,7 +1308,7 @@ JSON deserializer and go over how custom (de)serialization works in Getty.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation" rel="prev">
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: User Guide" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -1322,7 +1317,7 @@ JSON deserializer and go over how custom (de)serialization works in Getty.</p>
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                Installation
+                User Guide
               </div>
             </div>
           </a>

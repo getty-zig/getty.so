@@ -486,34 +486,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    <span class="md-typeset">
-      Installation
-    </span>
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
     
     
       
@@ -537,7 +509,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
         
           
           
@@ -558,14 +530,14 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_2_3">
+              <label class="md-nav__link " for="__nav_2_2">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
-          <label class="md-nav__title" for="__nav_2_3">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -692,6 +664,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Installation
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1475,7 +1475,7 @@ your implementation.</p>
 </code></pre></div>
 <h2 id="usage">Usage</h2>
 <p>To use a value of, say <code>OppositeSerializer</code>, as an implementation of <code>BoolSerializer</code>:</p>
-<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kt">anyerror</span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OppositeSerializer</span><span class="p">{};</span><span class="w"> </span><span class="c1">// (1)!</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">bs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">os</span><span class="p">.</span><span class="n">boolSerializer</span><span class="p">();</span><span class="w">  </span><span class="c1">// (2)!</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>

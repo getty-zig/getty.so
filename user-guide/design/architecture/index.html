@@ -486,34 +486,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    
-  
-    <span class="md-typeset">
-      Installation
-    </span>
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
     
     
       
@@ -537,7 +509,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
         
           
           
@@ -558,14 +530,14 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_2_3">
+              <label class="md-nav__link " for="__nav_2_2">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
         <nav class="md-nav" aria-label="Tutorial" data-md-level="2">
-          <label class="md-nav__title" for="__nav_2_3">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -692,6 +664,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Installation
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1214,11 +1214,16 @@
 
 
 <h1 id="architecture">Architecture</h1>
-<p>At a high-level, Getty consists of two flows: one for serialization and another
-for deserialization.</p>
+<p>At a high-level, Getty consists of two flows: a serialization and a
+deserialization flow.</p>
+<figure>
+<p><img alt="Architecture" src="/assets/images/architecture-light.svg#only-light" />
+  <img alt="Architecture" src="/assets/images/architecture-dark.svg#only-dark" /></p>
+</figure>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Serialization</label><label for="__tabbed_1_2">Deserialization</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
+<p>In the serialization flow:</p>
 <ol>
 <li>A Zig value is passed to Getty.</li>
 <li>Based on the value's type, a <a href="/user-guide/design/blocks-and-tuples">serialization block</a> is selected and executed by Getty.</li>
@@ -1227,19 +1232,16 @@ for deserialization.</p>
 </ol>
 </div>
 <div class="tabbed-block">
+<p>In the deserialization flow: </p>
 <ol>
 <li>A Zig type is passed to Getty.</li>
 <li>Based on the type, a <a href="/user-guide/design/blocks-and-tuples">deserialization block</a> is selected and executed by Getty.</li>
 <li>The block prompts a <a href="https://docs.getty.so/#A;std:Deserializer">Deserializer</a> to deserialize its input data into Getty's <a href="/user-guide/design/data-models">data model</a>.</li>
-<li>The resulting value is passed to a <a href="https://docs.getty.so/#A;std:de.Visitor">Visitor</a>, which converts it into a Zig value of the initial type.</li>
+<li>The resulting value is passed to a <a href="https://docs.getty.so/#A;std:de.Visitor">Visitor</a>, which converts it into a value of the initial type.</li>
 </ol>
 </div>
 </div>
 </div>
-<figure>
-<p><img alt="Architecture" src="/assets/images/architecture-light.svg#only-light" />
-<img alt="Architecture" src="/assets/images/architecture-dark.svg#only-dark" /></p>
-</figure>
 
 
 
