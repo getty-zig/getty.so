@@ -1,6 +1,6 @@
 # Setup
 
-To begin, we need to set up a new project.
+To get started, let's make a new Zig project.
 
 1. Create a Zig application called `getty-learn`:
 
@@ -11,9 +11,13 @@ To begin, we need to set up a new project.
     ```
 &nbsp;
 
-2. Declare Getty as a dependency in `build.zig.zon`:
+2. Declare Getty as a dependency by writing the following in `build.zig.zon`:
 
-    ```zig title="<code>build.zig.zon</code>" hl_lines="5-7"
+    !!! warning
+
+        Be sure to replace `<COMMIT>` in the URL with a commit SHA from Getty.
+
+    ```zig title="<code>build.zig.zon</code>"
     .{
         .name = "getty-learn",
         .version = "0.0.0",
@@ -26,7 +30,7 @@ To begin, we need to set up a new project.
     ```
 &nbsp;
 
-3. Expose Getty as a module in `build.zig`:
+3. Expose Getty as a module by adding the following lines to `build.zig`:
 
     ```zig title="<code>build.zig</code>" hl_lines="7-8 11"
     const std = @import("std");
@@ -36,18 +40,18 @@ To begin, we need to set up a new project.
         const optimize = b.standardOptimizeOption(.{});
 
         const opts = .{ .target = target, .optimize = optimize };
-        const getty_module = b.dependency("getty", opts).module("getty");
+        const getty_mod = b.dependency("getty", opts).module("getty");
 
         const exe = b.addExecutable(.{ .name = "getty-learn", .root_source_file = .{ .path = "src/main.zig" }, .target = target, .optimize = optimize });
-        exe.addModule("getty", getty_module);
+        exe.addModule("getty", getty_mod);
         exe.install();
 
-        ...
+        // (snip)
     }
     ```
 &nbsp;
 
-4. Obtain Getty's package hash:
+4. Obtain Getty's package hash (denoted below as `<HASH>`) by running `zig build` once:
 
     ```console title="Shell session"
     $ zig build
@@ -58,7 +62,7 @@ To begin, we need to set up a new project.
     ```
 &nbsp;
 
-5. Update `build.zig.zon` with the hash value:
+5. Update `build.zig.zon` with the obtained hash value:
 
     ```zig title="<code>build.zig.zon</code>" hl_lines="7"
     .{
@@ -72,23 +76,21 @@ To begin, we need to set up a new project.
         },
     }
     ```
-&nbsp;
 
-6. Replace the contents of `src/main.zig` with the following:
+To make sure that everything has been set up properly, go ahead and replace the
+contents of `src/main.zig` with the following code and then run the application
+using `zig build run`:
 
-    ```zig title="<code>src/main.zig</code>"
-    const std = @import("std");
-    const getty = @import("getty");
+```zig title="<code>src/main.zig</code>"
+const std = @import("std");
+const getty = @import("getty");
 
-    pub fn main() anyerror!void {
-        std.debug.print("{}\n", .{getty});
-    }
-    ```
-&nbsp;
+pub fn main() !void {
+    std.debug.print("Hello, {}!\n", .{getty});
+}
+```
 
-7. Run the application to make sure everything is working correctly:
-
-    ```sh title="Shell session"
-    $ zig build run
-    getty
-    ```
+```console title="Shell session"
+$ zig build run
+Hello, getty!
+```

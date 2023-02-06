@@ -4,9 +4,9 @@
 
 How a Zig value is represented within a data format is determined entirely by
 whichever Getty serializer you use. Therefore, it's important that you check
-how a serialization library is handling things before you start using it. As an
-example, here's how the [Getty JSON](https://github.com/getty-zig/json/)
-library does things:
+how a serialization library is handling things before you start using it.
+
+As an example, here's how the [Getty JSON](https://github.com/getty-zig/json/) library does things:
 
 ```zig title="Shell session"
 const a = {};                        // serialized as null
@@ -23,6 +23,6 @@ const f = U{ .foo = 1 };             // serialized as {"foo":1}
 Similarly, it is up to a Getty deserializer to determine how values within a
 data format should be parsed and deserialized. For instance, the [Getty
 JSON](https://github.com/getty-zig/json/) library has no issues converting the
-JSON object `#!json {"foo":1}` into a tagged union. However, other
+JSON object `{"foo":1}` into a tagged union. However, other
 deserializers may expect something different from their input data when
 deserializing into a union value.

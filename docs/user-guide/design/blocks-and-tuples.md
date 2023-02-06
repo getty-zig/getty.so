@@ -285,7 +285,7 @@ const sb = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     // Normal
     {
         var s = Serializer(null){};

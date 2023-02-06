@@ -23,7 +23,7 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 ## Quick Start
 
-The following example uses the [Getty JSON](https://github.com/getty-zig/json) library to demonstrate how (de)serialization works.
+The following code uses the [Getty JSON](https://github.com/getty-zig/json) library to demonstrate how (de)serialization works.
 
 ```zig title="Zig code"
 const std = @import("std");
@@ -36,14 +36,17 @@ const Point = struct {
     y: i32,
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const value = Point{ .x = 1, .y = 2 };
 
+    // Serialize a Point value into JSON.
     const serialized = try json.toSlice(allocator, value);
     defer allocator.free(serialized);
 
+    // Deserialize JSON data into a Point value.
     const deserialized = try json.fromSlice(null, Point, serialized);
 
+    // Print results.
     std.debug.print("{s}\n", .{serialized});
     std.debug.print("{}\n", .{deserialized});
 }

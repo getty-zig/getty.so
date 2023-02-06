@@ -116,7 +116,7 @@ const Serializer = struct {
     const Error = getty.ser.Error;
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = (Serializer{}).serializer();
 
     try getty.serialize(null, true, s);
@@ -159,7 +159,7 @@ const Serializer = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = (Serializer{}).serializer();
 
     try getty.serialize(null, true, s);
@@ -231,7 +231,7 @@ const Serializer = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = (Serializer{}).serializer();
 
     inline for (.{ 10, 10.0, "string", .variant, {}, null }) |v| {
@@ -411,7 +411,7 @@ const Seq = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = (Serializer{}).serializer();
 
     var list = std.ArrayList(i32).init(std.heap.page_allocator);
@@ -655,7 +655,7 @@ const Map = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = (Serializer{}).serializer();
 
     var map = std.StringHashMap(i32).init(std.heap.page_allocator);

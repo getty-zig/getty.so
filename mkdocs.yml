@@ -187,13 +187,13 @@ nav:
     - index.md
   - User Guide:
     - user-guide/index.md
-    - user-guide/installation.md
     - Tutorial:
       - user-guide/tutorial/index.md
       - user-guide/tutorial/setup.md
       - user-guide/tutorial/serializers.md
       - user-guide/tutorial/deserializers.md
       - user-guide/tutorial/customization.md
+    - user-guide/installation.md
     - Design:
       - user-guide/design/index.md
       - user-guide/design/architecture.md

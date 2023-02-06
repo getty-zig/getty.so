@@ -1,107 +1,105 @@
 # Data Models
 
-A __data model__ represents a set of types supported by Getty. The types within
-a data model are purely conceptual; they aren't actually Zig types. For
-example, there is no `i32` or `u64` in either of Getty's data
-models. Instead, they are both considered to the same type: _Integer_.
+A __data model__ represents a set of types that are supported by Getty. The
+types within a data model are purely conceptual; they aren't actually Zig
+types. For example, there is no `i32` or `u64` in either of Getty's data
+models. Instead, they're both considered to be _Integers_.
 
 ## Models
 
 Getty maintains two data models: one for serialization and another for deserialization.
 
-!!! info ""
+??? info "Serialization"
 
-    === "Serialization"
+    __Boolean__
 
-        __Boolean__
+    :  Represented by a `bool` value.
 
-        :  Represented by a `bool` value.
+    __Enum__
 
-        __Enum__
+    :  Represented by any `enum` value.
 
-        :  Represented by any `enum` value.
+    __Float__
 
-        __Float__
+    :  Represented by any floating-point value (`comptime_float`, `f16`, `f32`, `f64`, `f80`, `f128`).
 
-        :  Represented by any floating-point value (`comptime_float`, `f16`, `f32`, `f64`, `f80`, `f128`).
+    __Integer__
 
-        __Integer__
+    :  Represented by any integer value (`comptime_int`, `u0` – `u65535`, `i0` – `i65535`).
 
-        :  Represented by any integer value (`comptime_int`, `u0` – `u65535`, `i0` – `i65535`).
+    __Map__
 
-        __Map__
+    :  Represented by a [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map) interface value.
 
-        :  Represented by a [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map) interface value.
+    __Null__
 
-        __Null__
+    :  Represented by a `null` value.
 
-        :  Represented by a `null` value.
+    __Seq__
 
-        __Seq__
+    :  Represented by a [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq) interface value.
 
-        :  Represented by a [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq) interface value.
+    __Some__
 
-        __Some__
+    :  Represented by the payload of an optional value.
 
-        :  Represented by the payload of an optional value.
+    __String__
 
-        __String__
+    :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#A;std:meta.trait.isZigString).
 
-        :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#A;std:meta.trait.isZigString).
+    __Structure__
 
-        __Structure__
+    :  Represented by a [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure) interface value.
 
-        :  Represented by a [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure) interface value.
+    __Void__
 
-        __Void__
+    :  Represented by a `void` value.
 
-        :  Represented by a `void` value.
+??? info "Deserialization"
 
-    === "Deserialization"
+    __Boolean__
 
-        __Boolean__
+    :  Represented by a `bool` value.
 
-        :  Represented by a `bool` value.
+    __Enum__
 
-        __Enum__
+    :  Represented by any `enum` value.
 
-        :  Represented by any `enum` value.
+    __Float__
 
-        __Float__
+    :  Represented by any floating-point value (`comptime_float`, `f16`, `f32`, `f64`, `f80`, `f128`).
 
-        :  Represented by any floating-point value (`comptime_float`, `f16`, `f32`, `f64`, `f80`, `f128`).
+    __Integer__
 
-        __Integer__
+    :  Represented by any integer value (`comptime_int`, `u0` – `u65535`, `i0` – `i65535`).
 
-        :  Represented by any integer value (`comptime_int`, `u0` – `u65535`, `i0` – `i65535`).
+    __Map__
 
-        __Map__
+    :  Represented by a [`getty.de.MapAccess`](https://docs.getty.so/#A;std:de.MapAccess) interface value.
 
-        :  Represented by a [`getty.de.MapAccess`](https://docs.getty.so/#A;std:de.MapAccess) interface value.
+    __Null__
 
-        __Null__
+    :  Represented by a `null` value.
 
-        :  Represented by a `null` value.
+    __Seq__
 
-        __Seq__
+    :  Represented by a [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess) interface value.
 
-        :  Represented by a [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess) interface value.
+    __Some__
 
-        __Some__
+    :  Represented by the payload of an optional value.
 
-        :  Represented by the payload of an optional value.
+    __String__
 
-        __String__
+    :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#A;std:meta.trait.isZigString).
 
-        :  Represented by any string value as determined by [`std.meta.trait.isZigString`](https://ziglang.org/documentation/master/std/#A;std:meta.trait.isZigString).
+    __Union__
 
-        __Union__
+    :  Represented by a [`getty.de.UnionAccess`](https://docs.getty.so/#A;std:de.UnionAccess) interface value and a [`getty.de.VariantAccess`](https://docs.getty.so/#A;std:de.VariantAccess) interface value.
 
-        :  Represented by a [`getty.de.UnionAccess`](https://docs.getty.so/#A;std:de.UnionAccess) interface value and a [`getty.de.VariantAccess`](https://docs.getty.so/#A;std:de.VariantAccess) interface value.
+    __Void__
 
-        __Void__
-
-        :  Represented by a `void` value.
+    :  Represented by a `void` value.
 
 ## Motivation
 
@@ -109,26 +107,15 @@ Getty's data models establish a generic baseline from which (de)serializers can
 operate.
 
 <figure markdown>
-
-![Data Model](/assets/images/data-model-light.svg#only-light)
-![Data Model](/assets/images/data-model-dark.svg#only-dark)
-
+  ![Data Model](/assets/images/data-model-light.svg#only-light)
+  ![Data Model](/assets/images/data-model-dark.svg#only-dark)
 </figure>
-
-??? info "Interactions"
-
-    Notice how the (de)serializers never interact directly with Zig.
-
-    - Serializers receive values from Getty's __data model__ and serialize them
-      into a __data format__.
-    - Deserializers receive values from a __data format__ and deserialize them
-      into Getty's __data model__.
 
 This design often simplifies the job of a (de)serializer significantly. For
 example, suppose you wanted to serialize `[]i32`, `[100]i32`,
 `std.ArrayList(i32)`, and `std.TailQueue(i32)` values. Since Zig
 considers all of these types to be different, you'd have to write unique
-serialization logic for all of them (plus integers)!
+serialization logic for all of them (as well as for integers)!
 
 In Getty, you don't have to do nearly as much work. Getty considers all of the
 aforementioned types to be the same: they are all _Sequences_. This means that
@@ -137,3 +124,12 @@ and _Sequences_. And by doing so, you'll automatically be able to serialize
 values of any of the aforementioned types, plus any other value whose type is
 supported by Getty and is considered a _Sequence_, such as `std.SinglyLinkedList`
 and `std.BoundedArray`.
+
+!!! tip "Interactions"
+
+    Notice how (de)serializers in Getty never interact directly with Zig.
+
+    - Serializers receive values from Getty's __data model__ and serialize them
+      into a __data format__.
+    - Deserializers receive values from a __data format__ and deserialize them
+      into Getty's __data model__.

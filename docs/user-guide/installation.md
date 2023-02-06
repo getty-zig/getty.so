@@ -1,15 +1,14 @@
 # Installation
 
-!!! warning "Prerequisites"
-
-    Please make sure you have the `master` version of
-    [Zig](https://ziglang.org/download/) installed.
-
 To install Getty:
 
-1. Declare Getty as a dependency in `build.zig.zon`:
+1. Declare Getty as a dependency by writing the following in `build.zig.zon`:
 
-    ```zig title="<code>build.zig.zon</code>" hl_lines="5-7"
+    !!! warning
+
+        Be sure to replace `<COMMIT>` in the URL with a commit SHA from Getty.
+
+    ```zig title="<code>build.zig.zon</code>"
     .{
         .name = "my-project",
         .version = "0.0.0",
@@ -20,8 +19,9 @@ To install Getty:
         },
     }
     ```
+&nbsp;
 
-2. Expose Getty as a module in `build.zig`:
+2. Expose Getty as a module by adding the following lines to `build.zig`:
 
     ```zig title="<code>build.zig</code>" hl_lines="7-8 11"
     const std = @import("std");
@@ -31,17 +31,18 @@ To install Getty:
         const optimize = b.standardOptimizeOption(.{});
 
         const opts = .{ .target = target, .optimize = optimize };
-        const getty_module = b.dependency("getty", opts).module("getty");
+        const getty_mod = b.dependency("getty", opts).module("getty");
 
         const exe = b.addExecutable(.{ .name = "my-project", .root_source_file = .{ .path = "src/main.zig" }, .target = target, .optimize = optimize });
-        exe.addModule("getty", getty_module);
+        exe.addModule("getty", getty_mod);
         exe.install();
 
-        ...
+        // (snip)
     }
     ```
+&nbsp;
 
-3. Obtain Getty's package hash:
+3. Obtain Getty's package hash (denoted below as `<HASH>`) by running `zig build` once:
 
     ```console title="Shell session"
     $ zig build
@@ -50,8 +51,9 @@ To install Getty:
                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     note: expected .hash = "<HASH>",
     ```
+&nbsp;
 
-4. Update `build.zig.zon` with the hash value:
+4. Update `build.zig.zon` with the obtained hash value:
 
     ```zig title="<code>build.zig.zon</code>" hl_lines="7"
     .{

@@ -139,7 +139,7 @@ const OppositeSerializer = struct {
 To use a value of, say `OppositeSerializer`, as an implementation of `BoolSerializer`:
 
 ```zig title="Zig code"
-pub fn main() anyerror!void {
+pub fn main() !void {
     const os = OppositeSerializer{}; // (1)!
     const bs = os.boolSerializer();  // (2)!
 

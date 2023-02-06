@@ -155,7 +155,7 @@ const Deserializer = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = "true";
 
     var d = Deserializer.init(s);
@@ -221,7 +221,7 @@ const Deserializer = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = "true";
 
     var d = Deserializer.init(s);
@@ -378,7 +378,7 @@ const Deserializer = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const allocator = std.heap.page_allocator; // (3)!
     const types = .{ i32, f32, []u8, enum { foo }, ?u8, void };
     const jsons = .{ "10", "10.0", "\"ABC\"", "\"foo\"", "null", "null" };
@@ -686,7 +686,7 @@ const SeqAccess = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const allocator = std.heap.page_allocator;
 
     var d = Deserializer.init("[1,2,3]");
@@ -944,7 +944,7 @@ const MapAccess = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const allocator = std.heap.page_allocator;
 
     var d = Deserializer.init("\"x\":1,\"y\":2");

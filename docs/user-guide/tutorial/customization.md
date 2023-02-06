@@ -63,7 +63,7 @@ const block = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const s = (Serializer{}).serializer();
 
     try getty.serialize(null, true, s);
@@ -149,7 +149,7 @@ const string_block = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     // Integer
     {
         const s = (Serializer(int_block){}).serializer();
@@ -272,7 +272,7 @@ const Struct = struct {
     }
 };
 
-pub fn main() anyerror!void {
+pub fn main() !void {
     const v = Point{ .x = 1, .y = 2 };
     const s = (Serializer{}).serializer();
 
