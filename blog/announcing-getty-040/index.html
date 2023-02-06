@@ -1411,8 +1411,8 @@ way of installing Getty will not work anymore, so be sure to update your
 <h3 id="fixes">Fixes</h3>
 <ul>
 <li>The <code>rename</code> attribute has been fixed so that it no longer acts as an alias. (<a href="https://github.com/getty-zig/getty/commit/a52ec214306b8611eb88c28ef4f30c6862377896">a52ec21</a>)</li>
-<li><abbr title="Deserialization Blocks">DBs</abbr> now return <code>error.MissingAllocator</code> when allocation is required but no allocator is present. Before, they would simply panic after attempting to unwrap a <code>null</code> allocator. (<a href="644cfc5ae1c0a1ad56be546d42d0a9dc3d818793">644cfc5</a>)</li>
-<li>The <code>blocks</code> namespaces no longer group similar types together under a single declaration. That is, <code>blocks.ArrayList</code> and <code>blocks.ArrayListAligned</code> are now separate declaration. (<a href="5e366ca9128d4aa8e2c5826e7c7e2065f1e0bb70">5e366ca</a>)</li>
+<li><abbr title="Deserialization Blocks">DBs</abbr> now return <code>error.MissingAllocator</code> when allocation is required but no allocator is present. Before, they would simply panic after attempting to unwrap a <code>null</code> allocator. (<a href="https://github.com/getty-zig/getty/commit/644cfc5ae1c0a1ad56be546d42d0a9dc3d818793">644cfc5</a>)</li>
+<li>The <code>blocks</code> namespaces no longer group similar types together under a single declaration. That is, <code>blocks.ArrayList</code> and <code>blocks.ArrayListAligned</code> are now separate declaration. (<a href="https://github.com/getty-zig/getty/commit/5e366ca9128d4aa8e2c5826e7c7e2065f1e0bb70">5e366ca</a>)</li>
 <li>The test deserializer now properly checks the length of sequence tokens. (<a href="https://github.com/getty-zig/getty/commit/0ca32de0c169fe16a3de3e58f49bb6b33eeea7c3">0ca32de</a>)</li>
 <li>Serialization examples now use the <code>getty.ser.Error</code> error set. (<a href="https://github.com/getty-zig/getty/commit/bba74b78167edf6167a1a664674a39f6ea49c7d9">bba74b7</a>)</li>
 <li><code>README</code> links and badges have been fixed. (<a href="https://github.com/getty-zig/getty/commit/94231c2c061794b57fc495c15da3aa3722cd1e64">94231c2</a>)</li>
