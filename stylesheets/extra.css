@@ -5,9 +5,13 @@
     --md-primary-fg-color:             hsla(var(--md-hue), 0%, 10% , 1);
     --md-primary-fg-color--light:      hsla(var(--md-hue), 0%, 11% , 1);
     --md-primary-fg-color--dark:       hsla(var(--md-hue), 0%, 8% , 1);
+    --md-default-bg-color:             hsla(var(--md-hue), 0%, 95%, 1);
+
+    /* Code colors */
+    --md-code-bg-color:                hsla(var(--md-hue), 0%, 91%, 1);
 
     /* Links */
-    --md-typeset-a-color:              hsla(36, 81%, 59% , 1);
+    --md-typeset-a-color:              hsla(36, 81%, 50% , 1);
 
     /* Accent colors */
     --md-accent-fg-color:              hsla(36, 81%, 59% , 1);
