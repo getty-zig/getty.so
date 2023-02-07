@@ -1,7 +1,7 @@
 # Tutorial
 
-In short, Getty aims to reduce the amount of code needed to write
-(de)serializers that are robust, customizable, performant, and able to support
+The goal of Getty is to reduce the amount of code you need to write
+(de)serializers that are robust, customizable, performant, and able to easily support
 a wide variety of data types.
 
 As an example, the following code defines a JSON serializer that supports
