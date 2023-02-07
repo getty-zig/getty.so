@@ -190,6 +190,7 @@ nav:
     - Tutorial:
       - user-guide/tutorial/index.md
       - user-guide/tutorial/setup.md
+      - user-guide/tutorial/interfaces.md
       - user-guide/tutorial/serializers.md
       - user-guide/tutorial/deserializers.md
       - user-guide/tutorial/customization.md
@@ -199,7 +200,6 @@ nav:
       - user-guide/design/architecture.md
       - user-guide/design/values.md
       - user-guide/design/data-models.md
-      - user-guide/design/interfaces.md
       - user-guide/design/blocks-and-tuples.md
   - Blog:
     - blog/index.md

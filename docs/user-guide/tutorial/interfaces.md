@@ -1,34 +1,34 @@
 # Interfaces
 
-When building a (de)serializer in Getty, you will eventually have to implement
-an interface.
+To make a (de)serializer with Getty, you will eventually have to implement an
+interface.
 
-Unfortunately, interfaces in Zig are a userspace thing so everyone has their
-own way of doing things. So, let's quickly go over how Getty implements interfaces and how you can use them.
+Now, unfortunately, interfaces in Zig are a userspace thing so everyone has their
+own way of doing things. So, let's quickly go over how Getty does interfaces
+and how you can use them.
 
-## Definition
+## Interface
 
-A __Getty interface__ is a function, and its constraints are specified as a
-parameter list. For example, the following interface requires 3 associated
-types and 1 method from its implementations.
+In Getty, an __interface__ is a function whose parameter list specifies
+constraints and behaviors.
+
+For example, the following code defines an interface, `BoolSerializer`, which
+requires three associated types and one method from its implementations.
 
 ```zig title="Zig code"
-// (1)!
 fn BoolSerializer(
-    // (2)!
+    // (1)!
     comptime Context: type,
     comptime O: type,
     comptime E: type,
 
-    // (3)!
+    // (2)!
     comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
     },
 ) type
 
 ```
-
-1.  This function is an interface similar to the ones defined in Getty.
 
 1.  These parameters are associated types that implementations of `BoolSerializer` must provide.
 
@@ -38,9 +38,8 @@ fn BoolSerializer(
     to decide what happens. Generally, a compile error is raised or an error is
     returned.
 
-The return value of a Getty interface is a `struct` namespace that
-contains two declarations: an __interface type__ and an __interface function__.
-A value of the interface type is an __interface value__.
+In Getty, the return value of an interface is a namespace that contains two
+declarations: an __interface type__ and an __interface function__.
 
 ```zig title="Zig code"
 fn BoolSerializer(
@@ -76,9 +75,12 @@ fn BoolSerializer(
 }
 ```
 
-1.  This function is an interface function. Its job is to return an interface value.
+1.  This is the interface function.
 
-1.  This declaration is an interface type. They generally have:
+    Its job is to return a value of the interface type, also known as an
+    __interface value__.
+
+1.  This is the interface type. Interface types generally have:
       - A single field to store an instance of an implementation.
       - A few declarations that may be useful to implementations.
       - Wrapper methods that define the interface's behavior.
@@ -93,16 +95,16 @@ fn BoolSerializer(
       [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
       interface is named `@"getty.de.SeqAccess"`.
 
-    - Interface functions are always named after the interface (in
-      `camelCase` format). For example, the interface type for the
+    - Interface functions are always named after the interface in `camelCase`
+      format. For example, the interface function for the
       [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
       interface is named `seqAccess`.
 
 ## Implementation
 
-To implement a Getty interface, call the interface and apply `usingnamespace` to
-its return value. This will import an interface type and interface function into
-your implementation.
+To implement an interface in Getty, call the interface and apply
+`usingnamespace` to its return value. This will import an interface type and an
+interface function into the implementation.
 
 ```zig title="Zig code"
 const std = @import("std");
@@ -150,7 +152,7 @@ pub fn main() !void {
 ```
 
 1. Create a value of the implementing type, `OppositeSerializer`.
-1. Create an interface value from your implementation using the interface function.
+1. Create an interface value from the implementation using the interface function.
 1. Use the interface value for all of your interface-y needs!
 
 ```console title="Shell session"
@@ -158,3 +160,10 @@ $ zig build run
 false
 true
 ```
+
+## Next Steps
+
+Okay, that should be enough to get us through the tutorial.
+
+<!--If you want to learn more about interfaces in Getty, check out the-->
+<!--[Interfaces](/user-guide/design/interfaces/) page.-->

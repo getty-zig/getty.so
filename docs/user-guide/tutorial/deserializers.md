@@ -1,10 +1,5 @@
 # Deserializers
 
-!!! warning "Prerequisites"
-
-    This page assumes you know what __Getty Interfaces__ are and how they work.
-    If not, see [here](/user-guide/design/interfaces/) before continuing.
-
 Let's write a simple (albeit slightly naive) JSON deserializer.
 
 ## Scalar Deserialization

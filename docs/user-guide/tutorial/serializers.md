@@ -1,15 +1,13 @@
 # Serializers
 
-!!! warning "Prerequisites"
-
-    This page assumes you know what __Getty Interfaces__ are and how they work.
-    If not, see [here](/user-guide/design/interfaces/) before continuing.
-
-Let's write a JSON serializer that serializes values by printing their JSON equivalent to `STDERR`.
+Let's write a JSON serializer that serializes values by printing their JSON
+equivalent to `STDERR`.
 
 ## Scalar Serialization
 
-Every Getty serializer implements the [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface, shown below.
+Every Getty serializer must implement the
+[`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface, shown
+below.
 
 ```zig title="Zig code"
 // (1)!
@@ -46,9 +44,12 @@ fn Serializer(
 
 1.  A `Serializer` serializes values from Getty's data model into a data format.
 
-2.  `Context` is a namespace that owns the method implementations passed to the `methods` parameter.
+2.  `Context` is a namespace that owns the method implementations passed to the
+    `methods` parameter.
 
-    Usually, this is the type implementing [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) or a pointer to it if mutability is required.
+    Usually, this is the type implementing
+    [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) or a pointer
+    to it if mutability is required.
 
 3.  `O` is the successful return type for most of a `Serializer`'s methods.
 
@@ -56,16 +57,23 @@ fn Serializer(
 
     `E` must contain [`getty.ser.Error`](https://docs.getty.so/#A;std:ser.Error).
 
-5.  `user_sbt` and `serializer_sbt` are optional user- and serializer-defined serialization blocks or tuples, respectively.
+5.  `user_sbt` and `serializer_sbt` are optional user- and serializer-defined
+    SBTs, respectively.
 
-    They allow users and serializers to customize Getty's serialization behavior. If user- or serializer-defined customization isn't supported, you can pass in `null`.
+    SBTs allow users and serializers to customize Getty's serialization
+    behavior. If user- or serializer-defined customization isn't supported, you
+    can pass in `null`.
 
+6.  `Map`, `Seq`, and `Structure` are optional types that implement Getty's
+    aggregate serialization interfaces.
 
-6.  `Map`, `Seq`, and `Structure` are optional types that implement Getty's aggregate serialization interfaces.
+    Those interfaces are
+    [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map),
+    [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq), and
+    [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure).
 
-    Those interfaces are [`getty.ser.Map`](https://docs.getty.so/#A;std:ser.Map), [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq), and [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure). I'm sure you can figure out which parameters should implement which interfaces.
-
-7.  `methods` contains all of the methods a `Serializer` must provide or can override.
+7.  `methods` contains all of the methods a `Serializer` must provide or can
+    override.
 
 Quite the parameter list!
 
@@ -76,7 +84,7 @@ const getty = @import("getty");
 
 const Serializer = struct {
     pub usingnamespace getty.Serializer(
-        @This(),
+        Context,
         Ok,
         Error,
         null,
@@ -87,6 +95,7 @@ const Serializer = struct {
         .{},
     );
 
+    const Context = @This();
     const Ok = void;
     const Error = getty.ser.Error;
 };
@@ -94,14 +103,14 @@ const Serializer = struct {
 
 Kind of a useless serializer...
 
-But let's try serializing a value with it anyways! We can do so by calling [`getty.serialize`](https://docs.getty.so/#A;std:serialize), which takes an optional allocator, a value to serialize and a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
+But let's try using it anyway! We can serialize a value by calling [`getty.serialize`](https://docs.getty.so/#A;std:serialize), which takes an optional allocator, a value to serialize, and a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
 
-```zig title="<code>src/main.zig</code>" hl_lines="20-24"
+```zig title="<code>src/main.zig</code>" hl_lines="21-25"
 const getty = @import("getty");
 
 const Serializer = struct {
     pub usingnamespace getty.Serializer(
-        @This(),
+        Context,
         Ok,
         Error,
         null,
@@ -112,16 +121,22 @@ const Serializer = struct {
         .{},
     );
 
+    const Context = @This();
     const Ok = void;
     const Error = getty.ser.Error;
 };
 
 pub fn main() !void {
-    const s = (Serializer{}).serializer();
+    const s = (Serializer{}).serializer(); // (1)!
 
     try getty.serialize(null, true, s);
 }
 ```
+
+1.  Here, we do two things:
+
+    1. Make a value of the implementing type.
+    2. Call the implementation's interface function to obtain an interface value.
 
 ```console title="Shell session"
 $ zig build run
@@ -132,13 +147,13 @@ A compile error!
 
 Looks like Getty can't serialize `bool`s unless `serializeBool` is implemented. Let's fix that.
 
-```zig title="<code>src/main.zig</code>" hl_lines="1 14-16 22-24 32"
+```zig title="<code>src/main.zig</code>" hl_lines="1 14-16 23-25 33"
 const std = @import("std");
 const getty = @import("getty");
 
 const Serializer = struct {
     pub usingnamespace getty.Serializer(
-        @This(),
+        Context,
         Ok,
         Error,
         null,
@@ -151,10 +166,11 @@ const Serializer = struct {
         },
     );
 
+    const Context = @This();
     const Ok = void;
     const Error = getty.ser.Error;
 
-    fn serializeBool(_: @This(), value: bool) Error!Ok {
+    fn serializeBool(_: Context, value: bool) Error!Ok {
         std.debug.print("{}", .{value});
     }
 };
@@ -177,13 +193,13 @@ Success!
 
 Now let's do the same thing for `serializeEnum`, `serializeFloat`, `serializeInt`, `serializeNull`, `serializeSome`, `serializeString`, and `serializeVoid`.
 
-```zig title="<code>src/main.zig</code>" hl_lines="16-22 33-51 57-61"
+```zig title="<code>src/main.zig</code>" hl_lines="16-22 34-52 58-62"
 const std = @import("std");
 const getty = @import("getty");
 
 const Serializer = struct {
     pub usingnamespace getty.Serializer(
-        @This(),
+        Context,
         Ok,
         Error,
         null,
@@ -203,31 +219,32 @@ const Serializer = struct {
         },
     );
 
+    const Context = @This();
     const Ok = void;
     const Error = getty.ser.Error;
 
-    fn serializeBool(_: @This(), value: bool) Error!Ok {
+    fn serializeBool(_: Context, value: bool) Error!Ok {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeNumber(_: @This(), value: anytype) Error!Ok {
+    fn serializeNumber(_: Context, value: anytype) Error!Ok {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeString(_: @This(), value: anytype) Error!Ok {
+    fn serializeString(_: Context, value: anytype) Error!Ok {
         std.debug.print("\"{s}\"", .{value});
     }
 
-    fn serializeEnum(self: @This(), value: anytype) Error!Ok {
-        try self.serializeString(@tagName(value));
+    fn serializeEnum(c: Context, value: anytype) Error!Ok {
+        try c.serializeString(@tagName(value));
     }
 
-    fn serializeNothing(_: @This()) Error!Ok {
+    fn serializeNothing(_: Context) Error!Ok {
         std.debug.print("null", .{});
     }
 
-    fn serializeSome(self: @This(), value: anytype) Error!Ok {
-        try getty.serialize(null, value, self.serializer());
+    fn serializeSome(c: Context, value: anytype) Error!Ok {
+        try getty.serialize(null, value, c.serializer());
     }
 };
 
@@ -315,13 +332,13 @@ method, which returns a value of type `Seq`, which is expected to implement the
 
     2.  `O` and `E` must match the `O` and `E` values of a corresponding `Serializer`.
 
-```zig title="<code>src/main.zig</code>" hl_lines="12 23 54-60 63-94 99-105"
+```zig title="<code>src/main.zig</code>" hl_lines="12 23 55-61 64-96 101-107"
 const std = @import("std");
 const getty = @import("getty");
 
 const Serializer = struct {
     pub usingnamespace getty.Serializer(
-        @This(),
+        Context,
         Ok,
         Error,
         null,
@@ -342,35 +359,36 @@ const Serializer = struct {
         },
     );
 
+    const Context = @This();
     const Ok = void;
     const Error = getty.ser.Error;
 
-    fn serializeBool(_: @This(), value: bool) Error!Ok {
+    fn serializeBool(_: Context, value: bool) Error!Ok {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeNumber(_: @This(), value: anytype) Error!Ok {
+    fn serializeNumber(_: Context, value: anytype) Error!Ok {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeString(_: @This(), value: anytype) Error!Ok {
+    fn serializeString(_: Context, value: anytype) Error!Ok {
         std.debug.print("\"{s}\"", .{value});
     }
 
-    fn serializeEnum(s: @This(), value: anytype) Error!Ok {
-        try s.serializeString(@tagName(value));
+    fn serializeEnum(c: Context, value: anytype) Error!Ok {
+        try c.serializeString(@tagName(value));
     }
 
-    fn serializeNothing(_: @This()) Error!Ok {
+    fn serializeNothing(_: Context) Error!Ok {
         std.debug.print("null", .{});
     }
 
-    fn serializeSome(s: @This(), value: anytype) Error!Ok {
-        try getty.serialize(null, value, s.serializer());
+    fn serializeSome(c: Context, value: anytype) Error!Ok {
+        try getty.serialize(null, value, c.serializer());
     }
 
-    // (1)!
-    fn serializeSeq(_: @This(), len: ?usize) Error!Seq {
+    // (2)!
+    fn serializeSeq(_: Context, len: ?usize) Error!Seq {
         _ = len;
 
         std.debug.print("[", .{});
@@ -378,12 +396,12 @@ const Serializer = struct {
     }
 };
 
-// (2)!
+// (1)!
 const Seq = struct {
     first: bool = true,
 
     pub usingnamespace getty.ser.Seq(
-        *@This(),
+        Context,
         Ok,
         Error,
         .{
@@ -392,21 +410,22 @@ const Seq = struct {
         },
     );
 
+    const Context = *@This();
     const Ok = Serializer.Ok;
     const Error = Serializer.Error;
 
-    fn serializeElement(s: *@This(), value: anytype) Error!void {
+    fn serializeElement(c: Context, value: anytype) Error!void {
         // Prefix element with a comma, if necessary.
-        switch (s.first) {
-            true => s.first = false,
+        switch (c.first) {
+            true => c.first = false,
             false => std.debug.print(",", .{}),
         }
 
         // Serialize element.
-        try getty.serialize(null, value, (Serializer{}).serializer());
+        try getty.serialize(null, value, (Serializer{}).serializer()); // (3)!
     }
 
-    fn end(_: *@This()) Error!Ok {
+    fn end(_: Context) Error!Ok {
         std.debug.print("]", .{});
     }
 };
@@ -426,11 +445,20 @@ pub fn main() !void {
 }
 ```
 
-1.  All we do here is begin serialization by printing `[` and then return a `Seq` for the caller to use.
 
-2.  This is our [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq) implementation.
+1.  This is our [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq) implementation.
 
     It specifies how to serialize the elements of and how to end the serialization process for _Sequences_.
+
+2.  Here, we do two things:
+
+    1. Begin serialization by printing `[`.
+    2. Return a `Seq` value for the caller to use to finish off serialization.
+
+3.  Since our serializer is stateless, we can just give Getty another instance of `Serializer` here.
+
+<!--The above annotations need to be ordered like they are to avoid weirdness-->
+<!--with the second list element in the interface type annotation.-->
 
 ```console title="Shell session"
 $ zig build run
@@ -497,13 +525,13 @@ respectively.
 
     2.  `O` and `E` must match the `O` and `E` values of a corresponding `Serializer`.
 
-```zig title="<code>src/main.zig</code>" hl_lines="11 13 24-25 62-73 106-156 161-166"
+```zig title="<code>src/main.zig</code>" hl_lines="11 13 24-25 63-74 108-159 164-169"
 const std = @import("std");
 const getty = @import("getty");
 
 const Serializer = struct {
     pub usingnamespace getty.Serializer(
-        @This(),
+        Context,
         Ok,
         Error,
         null,
@@ -526,50 +554,51 @@ const Serializer = struct {
         },
     );
 
+    const Context = @This();
     const Ok = void;
     const Error = getty.ser.Error;
 
-    fn serializeBool(_: @This(), value: bool) Error!Ok {
+    fn serializeBool(_: Context, value: bool) Error!Ok {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeNumber(_: @This(), value: anytype) Error!Ok {
+    fn serializeNumber(_: Context, value: anytype) Error!Ok {
         std.debug.print("{}", .{value});
     }
 
-    fn serializeString(_: @This(), value: anytype) Error!Ok {
+    fn serializeString(_: Context, value: anytype) Error!Ok {
         std.debug.print("\"{s}\"", .{value});
     }
 
-    fn serializeEnum(s: @This(), value: anytype) Error!Ok {
+    fn serializeEnum(s: Context, value: anytype) Error!Ok {
         try s.serializeString(@tagName(value));
     }
 
-    fn serializeNothing(_: @This()) Error!Ok {
+    fn serializeNothing(_: Context) Error!Ok {
         std.debug.print("null", .{});
     }
 
-    fn serializeSome(self: @This(), value: anytype) Error!Ok {
-        try getty.serialize(null, value, self.serializer());
+    fn serializeSome(c: Context, value: anytype) Error!Ok {
+        try getty.serialize(null, value, c.serializer());
     }
 
-    fn serializeSeq(_: @This(), _: ?usize) Error!Seq {
+    fn serializeSeq(_: Context, _: ?usize) Error!Seq {
         std.debug.print("[", .{});
 
         return Seq{};
     }
 
-    fn serializeMap(_: @This(), len: ?usize) Error!Map {
+    fn serializeMap(_: Context, len: ?usize) Error!Map {
         _ = len;
 
         std.debug.print("{{", .{});
         return Map{};
     }
 
-    fn serializeStruct(self: @This(), comptime name: []const u8, len: usize) Error!Map {
+    fn serializeStruct(c: Context, comptime name: []const u8, len: usize) Error!Map {
         _ = name;
 
-        return try self.serializeMap(len);
+        return try c.serializeMap(len);
     }
 };
 
@@ -577,7 +606,7 @@ const Seq = struct {
     first: bool = true,
 
     pub usingnamespace getty.ser.Seq(
-        *@This(),
+        Context,
         Ok,
         Error,
         .{
@@ -586,19 +615,20 @@ const Seq = struct {
         },
     );
 
+    const Context = *@This();
     const Ok = Serializer.Ok;
     const Error = Serializer.Error;
 
-    fn serializeElement(self: *@This(), value: anytype) Error!void {
-        switch (self.first) {
-            true => self.first = false,
+    fn serializeElement(c: Context, value: anytype) Error!void {
+        switch (c.first) {
+            true => c.first = false,
             false => std.debug.print(",", .{}),
         }
 
         try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
-    fn end(_: *@This()) Error!Ok {
+    fn end(_: Context) Error!Ok {
         std.debug.print("]", .{});
     }
 };
@@ -607,7 +637,7 @@ const Map = struct {
     first: bool = true,
 
     pub usingnamespace getty.ser.Map(
-        *@This(),
+        Context,
         Ok,
         Error,
         .{
@@ -618,7 +648,7 @@ const Map = struct {
     );
 
     pub usingnamespace getty.ser.Structure(
-        *@This(),
+        Context,
         Ok,
         Error,
         .{
@@ -627,30 +657,31 @@ const Map = struct {
         },
     );
 
+    const Context = *@This();
     const Ok = Serializer.Ok;
     const Error = Serializer.Error;
 
-    fn serializeKey(self: *@This(), value: anytype) Error!void {
-        switch (self.first) {
-            true => self.first = false,
+    fn serializeKey(c: Context, value: anytype) Error!void {
+        switch (c.first) {
+            true => c.first = false,
             false => std.debug.print(",", .{}),
         }
 
         try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
-    fn serializeValue(_: *@This(), value: anytype) Error!void {
+    fn serializeValue(_: Context, value: anytype) Error!void {
         std.debug.print(":", .{});
 
         try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
-    fn serializeField(self: *@This(), comptime key: []const u8, value: anytype) Error!void {
-        try self.serializeKey(key);
-        try self.serializeValue(value);
+    fn serializeField(c: Context, comptime key: []const u8, value: anytype) Error!void {
+        try c.serializeKey(key);
+        try c.serializeValue(value);
     }
 
-    fn end(_: *@This()) Error!Ok {
+    fn end(_: Context) Error!Ok {
         std.debug.print("}}", .{});
     }
 };
