@@ -76,21 +76,20 @@ To get started, let's make a new Zig project.
         },
     }
     ```
+&nbsp;
 
-To make sure that everything has been set up properly, go ahead and replace the
-contents of `src/main.zig` with the following code and then run the application
-using `zig build run`:
+6. Replace the contents of `src/main.zig` with the following and then run the application:
 
-```zig title="<code>src/main.zig</code>"
-const std = @import("std");
-const getty = @import("getty");
+    ```zig title="<code>src/main.zig</code>"
+    const std = @import("std");
+    const getty = @import("getty");
 
-pub fn main() !void {
-    std.debug.print("Hello, {}!\n", .{getty});
-}
-```
+    pub fn main() !void {
+        std.debug.print("Hello, {}!\n", .{getty});
+    }
+    ```
 
-```console title="Shell session"
-$ zig build run
-Hello, getty!
-```
+    ```console title="Shell session"
+    $ zig build run
+    Hello, getty!
+    ```
