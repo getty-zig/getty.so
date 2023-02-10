@@ -1228,19 +1228,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <span class="md-typeset">
-          Workflow
-        </span>
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1293,32 +1280,6 @@
 </li>
 <li>
 <p>If you push a new version of a PR, please add a comment about the new version. Notifications aren't sent for commits, so it's easy to miss updates without an explicit comment.</p>
-</li>
-</ul>
-<h2 id="workflow">Workflow</h2>
-<p>Getty uses the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Git Flow</a> model for its development. Essentially, what that means is:</p>
-<ul>
-<li>
-<p>The <code>main</code> branch is strictly for <em>releases</em> and <em>hotfixes</em>. <strong>Do not work on it.</strong></p>
-<ul>
-<li>
-<p>Releases are developed on <code>release/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
-</li>
-<li>
-<p>Hotfixes are developed on <code>hotfix/&lt;name&gt;</code> branches, which branch off of <code>main</code>.</p>
-</li>
-</ul>
-</li>
-<li>
-<p>The <code>develop</code> branch is an integration branch for <em>features</em> and <em>fixes</em>. <strong>Do not work on it.</strong></p>
-<ul>
-<li>
-<p>Features are developed on <code>feature/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
-</li>
-<li>
-<p>Fixes are developed on <code>fix/&lt;name&gt;</code> branches, which branch off of <code>develop</code>.</p>
-</li>
-</ul>
 </li>
 </ul>
 
