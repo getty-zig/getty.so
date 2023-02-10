@@ -25,19 +25,3 @@ This page provides some information and a few guidelines to help get you started
 - When submitting a PR, please have it be relative to a recent Git tip.
 
 - If you push a new version of a PR, please add a comment about the new version. Notifications aren't sent for commits, so it's easy to miss updates without an explicit comment.
-
-## Workflow
-
-Getty uses the [Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) model for its development. Essentially, what that means is:
-
-- The `main` branch is strictly for _releases_ and _hotfixes_. __Do not work on it.__
-
-    - Releases are developed on `release/<name>` branches, which branch off of `develop`.
-
-    - Hotfixes are developed on `hotfix/<name>` branches, which branch off of `main`.
-
-- The `develop` branch is an integration branch for _features_ and _fixes_. __Do not work on it.__
-
-    - Features are developed on `feature/<name>` branches, which branch off of `develop`.
-
-    - Fixes are developed on `fix/<name>` branches, which branch off of `develop`.
