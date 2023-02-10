@@ -78,7 +78,7 @@ To get started, let's make a new Zig project.
     ```
 &nbsp;
 
-6. Replace the contents of `src/main.zig` with the following and then run the application:
+6. To verify everything, replace the contents of `src/main.zig` with the following code:
 
     ```zig title="<code>src/main.zig</code>"
     const std = @import("std");
