@@ -1,6 +1,6 @@
 # Deserializers
 
-Let's write a simple (albeit slightly naive) JSON deserializer.
+We'll write a simple (albeit slightly naive) JSON deserializer.
 
 ## Scalar Deserialization
 

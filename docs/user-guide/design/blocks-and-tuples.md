@@ -38,7 +38,13 @@ const sb = struct {
     }
 
     // (2)!
-    pub fn serialize(value: anytype, serializer: anytype) @TypeOf(serializer).Error!@TypeOf(serializer).Ok {
+    pub fn serialize(
+        allocator: ?std.mem.Allocator,
+        value: anytype,
+        serializer: anytype,
+    ) @TypeOf(serializer).Error!@TypeOf(serializer).Ok {
+        _ = allocator;
+
         // Convert bool value to a Getty Integer.
         const v: i32 = if (value) 1 else 0;
 
@@ -72,10 +78,12 @@ const db = struct {
     // (2)!
     pub fn deserialize(
         allocator: ?std.mem.Allocator,
-        comptime _: type, // (3)!
+        comptime T: type,
         deserializer: anytype,
         visitor: anytype,
     ) @TypeOf(deserializer).Error!@TypeOf(visitor).Value {
+        _ = T; // (3)!
+
         return try deserializer.deserializeInt(allocator, visitor);
     }
 
@@ -89,11 +97,14 @@ const db = struct {
             );
 
             pub fn visitInt(
-                _: @This(),
+                self: @This(),
                 allocator: ?std.mem.Allocator,
                 comptime Deserializer: type,
                 input: anytype,
             ) Deserializer.Error!Value {
+                _ = self;
+                _ = allocator;
+
                 return input != 0;
             }
         };
@@ -114,7 +125,7 @@ const db = struct {
     the deserializer that the Zig type being deserialized into can probably be
     made from a Getty Integer.
 
-1.  This parameter (often named `T`) is the current type being deserialized into.
+1.  `T` is the current type being deserialized into.
     <br>
     <br>
     Usually, you don't need it unless you're doing pointer deserialization.
@@ -196,7 +207,7 @@ const ab = struct {
 !!! info "Supported Attributes"
 
     For a complete list of the attributes supported by Getty, see
-    [here](https://github.com/getty-zig/getty/blob/develop/src/attributes.zig).
+    [here](https://github.com/getty-zig/getty/blob/main/src/attributes.zig).
 
 ### Type-Defined Blocks
 
@@ -208,12 +219,12 @@ things for `struct` and `union` types that you did define yourself.
 
 If you define a block _within_ a `struct` or `union`, Getty will automatically
 process it without you having to pass it to a (de)serializer. All you have to
-do is make sure the block is public and named `@"getty.sb"` (for serialization)
+do is make sure that the block is public and named `@"getty.sb"` (for serialization)
 or `@"getty.db"` (for deserialization).
 
-Type-defined blocks are defined exactly the same as attribute, serialization,
-and deserialization blocks are. The only difference is that you don't need an
-`is` function in a type-defined block.
+Type-defined blocks are defined exactly the same as attribute and
+(de)serialization blocks are. The only difference is that you don't need to
+define an `is` function.
 
 ```zig title="Zig code"
 const Point = struct {
@@ -244,13 +255,13 @@ making it even easier for us to customize Getty's behavior.
 const std = @import("std");
 const getty = @import("getty");
 
-fn Serializer(comptime user_sb: ?type) type {
+fn Serializer(comptime user_sb: anytype) type {
     return struct {
         pub usingnamespace getty.Serializer(
             @This(),
             Ok,
             Error,
-            user_sb orelse null,
+            user_sb,
             null,
             null,
             null,
@@ -262,7 +273,7 @@ fn Serializer(comptime user_sb: ?type) type {
         );
 
         const Ok = void;
-        const Error = error{};
+        const Error = getty.ser.Error;
 
         fn serializeBool(_: @This(), value: bool) Error!Ok {
             std.debug.print("{}\n", .{value});
@@ -279,7 +290,7 @@ const sb = struct {
         return T == bool;
     }
 
-    pub fn serialize(value: anytype, serializer: anytype) !@TypeOf(serializer).Ok {
+    pub fn serialize(_: ?std.mem.Allocator, value: anytype, serializer: anytype) !@TypeOf(serializer).Ok {
         const v: i32 = if (value) 1 else 0;
         return try serializer.serializeInt(v);
     }
@@ -291,8 +302,8 @@ pub fn main() !void {
         var s = Serializer(null){};
         const serializer = s.serializer();
 
-        try getty.serialize(true, serializer);
-        try getty.serialize(false, serializer);
+        try getty.serialize(null, true, serializer);
+        try getty.serialize(null, false, serializer);
     }
 
     // Custom
@@ -300,8 +311,8 @@ pub fn main() !void {
         var s = Serializer(sb){};
         const serializer = s.serializer();
 
-        try getty.serialize(true, serializer);
-        try getty.serialize(false, serializer);
+        try getty.serialize(null, true, serializer);
+        try getty.serialize(null, false, serializer);
     }
 }
 ```

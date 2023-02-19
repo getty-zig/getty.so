@@ -1,13 +1,13 @@
 # Tutorial
 
 The goal of Getty is to reduce the amount of code you need to write
-(de)serializers that are robust, customizable, performant, and able to easily support
-a wide variety of data types.
+(de)serializers that are robust, customizable, performant, and able to easily
+support a wide variety of data types.
 
 As an example, the following code defines a JSON serializer that supports
-scalar and string values. At around 60 lines, `Serializer` is a complete
-serializer capable of converting values of type `bool`, `i32`, `f128`, `enum{
-foo }`, `*const [3]u8`, `[]u8`, `?*void`, and more into JSON!
+scalar and string values. At around 60 lines, `Serializer` is 
+capable of converting values of type `bool`, `i32`, `f64`, `enum{
+foo, bar }`, `*const [3]u8`, `[]u8`, `?*void`, and more into JSON!
 
 ```zig title="Zig code"
 const std = @import("std");

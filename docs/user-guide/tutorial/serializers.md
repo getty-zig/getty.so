@@ -1,6 +1,6 @@
 # Serializers
 
-Let's write a JSON serializer that serializes values by printing their JSON
+We'll write a JSON serializer that serializes values by printing their JSON
 equivalent to `STDERR`.
 
 ## Scalar Serialization
@@ -36,7 +36,11 @@ fn Serializer(
         serializeSeq: ?fn (Context, ?usize) E!Seq = null,
         serializeSome: ?fn (Context, anytype) E!O = null,
         serializeString: ?fn (Context, anytype) E!O = null,
-        serializeStruct: ?fn (Context, comptime []const u8, usize) E!Structure = null,
+        serializeStruct: ?fn (
+            Context,
+            comptime []const u8,
+            usize,
+        ) E!Structure = null,
         serializeVoid: ?fn (Context) E!O = null,
     },
 ) type

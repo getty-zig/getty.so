@@ -1,19 +1,18 @@
 # Interfaces
 
-To make a (de)serializer with Getty, you will eventually have to implement an
-interface.
+A big part of writing (de)serializers in Getty is knowing how to implement
+interfaces.
 
-Now, unfortunately, interfaces in Zig are a userspace thing so everyone has their
-own way of doing things. So, let's quickly go over how Getty does interfaces
+Unfortunately, interfaces in Zig are a userspace concept so everyone has their
+own way of doing things. So, let's quickly go over how Getty interfaces work
 and how you can use them.
 
 ## Interface
 
 In Getty, an __interface__ is a function whose parameter list specifies
-constraints and behaviors.
-
-For example, the following code defines an interface, `BoolSerializer`, which
-requires three associated types and one method from its implementations.
+constraints and behaviors. For example, the following code defines an interface
+(`BoolSerializer`) that requires from its implementations 3 associated types
+(`Context`, `O`, and `E`) and 1 method (`serializeBool`).
 
 ```zig title="Zig code"
 fn BoolSerializer(
@@ -30,15 +29,17 @@ fn BoolSerializer(
 
 ```
 
-1.  These parameters are associated types that implementations of `BoolSerializer` must provide.
+1.  `Context`, `O`, and `E` are types that implementations of `BoolSerializer`
+    must provide.
 
-1.  This parameter contains the methods that implementations of `BoolSerializer` must or can provide.
+1.  `methods` lists all methods that implementations of `BoolSerializer` must
+    or can provide.
 
-    If a method is not provided by an implementation, it is up to the interface
-    to decide what happens. Generally, a compile error is raised or an error is
-    returned.
+    If a required method is not provided by an implementation, it is up to the
+    interface to decide what happens. Generally, a compile error is raised or
+    an error is returned.
 
-In Getty, the return value of an interface is a namespace that contains two
+In Getty, the return value of an interface is a namespace containing two
 declarations: an __interface type__ and an __interface function__.
 
 ```zig title="Zig code"
@@ -75,12 +76,13 @@ fn BoolSerializer(
 }
 ```
 
-1.  This is the interface function.
+1.  `boolSerializer` is an interface function.
 
     Its job is to return a value of the interface type, also known as an
     __interface value__.
 
-1.  This is the interface type. Interface types generally have:
+1.  `Interface` is an interface type. They generally have:
+
       - A single field to store an instance of an implementation.
       - A few declarations that may be useful to implementations.
       - Wrapper methods that define the interface's behavior.
@@ -102,9 +104,9 @@ fn BoolSerializer(
 
 ## Implementation
 
-To implement an interface in Getty, call the interface and apply
-`usingnamespace` to its return value. This will import an interface type and an
-interface function into the implementation.
+To implement a Getty interface, simply call the interface and apply
+`usingnamespace` to its return value. An interface type and function will then be
+imported into your implementation.
 
 ```zig title="Zig code"
 const std = @import("std");
@@ -163,7 +165,7 @@ true
 
 ## Next Steps
 
-Okay, that should be enough to get us through the tutorial.
+Okay, that should be enough to get us through the tutorial. Let's get started!
 
 <!--If you want to learn more about interfaces in Getty, check out the-->
 <!--[Interfaces](/user-guide/design/interfaces/) page.-->
