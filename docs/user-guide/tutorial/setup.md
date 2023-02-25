@@ -13,17 +13,13 @@ To get started, let's make a new Zig project.
 
 2. Declare Getty as a dependency by writing the following in `build.zig.zon`:
 
-    !!! warning
-
-        Be sure to replace `<COMMIT>` in the URL with a commit SHA from Getty.
-
     ```zig title="<code>build.zig.zon</code>"
     .{
         .name = "getty-learn",
         .version = "0.1.0",
         .dependencies = .{
             .getty = .{
-                .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
+                .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
             },
         },
     }
@@ -51,13 +47,13 @@ To get started, let's make a new Zig project.
     ```
 &nbsp;
 
-4. Obtain Getty's package hash (denoted below as `<HASH>`) by running `zig build` once:
+4. Obtain Getty's package hash by running `zig build`:
 
     ```console title="Shell session"
     $ zig build
     getty-learn/build.zig.zon:6:20: error: url field is missing corresponding hash field
-            .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     note: expected .hash = "<HASH>",
     ```
 &nbsp;
@@ -70,7 +66,7 @@ To get started, let's make a new Zig project.
         .version = "0.0.0",
         .dependencies = .{
             .json = .{
-                .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
+                .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
                 .hash = "<HASH>",
             },
         },
@@ -78,7 +74,7 @@ To get started, let's make a new Zig project.
     ```
 &nbsp;
 
-6. To verify everything, replace the contents of `src/main.zig` with the following code:
+6. To verify everything, replace the contents of `src/main.zig` with the following code and then run the application:
 
     ```zig title="<code>src/main.zig</code>"
     const std = @import("std");
