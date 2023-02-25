@@ -1217,7 +1217,7 @@
 <p>Declare Getty as a dependency by writing the following in <code>build.zig.zon</code>:</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Be sure to replace <code>&lt;COMMIT&gt;</code> in the URL with a commit SHA from Getty.</p>
+<p>Be sure to replace <code>&lt;COMMIT&gt;</code> in the URL with a commit from Getty.</p>
 </div>
 <p><div class="highlight"><span class="filename"><code>build.zig.zon</code></span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">.{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my-project&quot;</span><span class="p">,</span>
@@ -1252,7 +1252,7 @@
 &nbsp;</p>
 </li>
 <li>
-<p>Obtain Getty's package hash (denoted below as <code>&lt;HASH&gt;</code>) by running <code>zig build</code> once:</p>
+<p>Obtain Getty's package hash by running <code>zig build</code>:</p>
 <p><div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="go">my-project/build.zig.zon:6:20: error: url field is missing corresponding hash field</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="go">        .url = &quot;https://github.com/getty-zig/getty/archive/&lt;COMMIT&gt;.tar.gz&quot;,</span>
