@@ -6,7 +6,7 @@ To install Getty:
 
     !!! warning
 
-        Be sure to replace `<COMMIT>` in the URL with a commit SHA from Getty.
+        Be sure to replace `<COMMIT>` in the URL with a commit from Getty.
 
     ```zig title="<code>build.zig.zon</code>"
     .{
@@ -42,7 +42,7 @@ To install Getty:
     ```
 &nbsp;
 
-3. Obtain Getty's package hash (denoted below as `<HASH>`) by running `zig build` once:
+3. Obtain Getty's package hash by running `zig build`:
 
     ```console title="Shell session"
     $ zig build
