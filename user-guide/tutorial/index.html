@@ -1206,10 +1206,9 @@
 <p>The goal of Getty is to reduce the amount of code you need to write
 (de)serializers that are robust, customizable, performant, and able to easily
 support a wide variety of data types.</p>
-<p>As an example, the following code defines a JSON serializer that supports
-scalar and string values. At around 60 lines, <code>Serializer</code> is 
-capable of converting values of type <code>bool</code>, <code>i32</code>, <code>f64</code>, <code>enum{
-foo, bar }</code>, <code>*const [3]u8</code>, <code>[]u8</code>, <code>?*void</code>, and more into JSON!</p>
+<p>The following code, for instance,  defines a JSON serializer that supports
+scalar and string values. It can convert values of type <code>bool</code>, <code>i32</code>, <code>f64</code>,
+<code>enum{ foo, bar }</code>, <code>*const [3]u8</code>, <code>[]u8</code>, <code>?*void</code>, and more into JSON!</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1277,7 +1276,7 @@ foo, bar }</code>, <code>*const [3]u8</code>, <code>[]u8</code>, <code>?*void</c
 <li>Build up to the above <code>Serializer</code> implementation.</li>
 <li>Extend <code>Serializer</code> to support non-scalar types, such as <code>std.ArrayList(i32)</code>.</li>
 <li>Write a JSON deserializer.</li>
-<li>Explore how custom (de)serialization works in Getty.</li>
+<li>Learn how to customize the (de)serialization process.</li>
 </ul>
 
 

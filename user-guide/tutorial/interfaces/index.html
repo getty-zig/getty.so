@@ -1363,16 +1363,12 @@
 
 
 <h1 id="interfaces">Interfaces</h1>
-<p>A big part of writing (de)serializers in Getty is knowing how to implement
-interfaces.</p>
-<p>Unfortunately, interfaces in Zig are a userspace concept so everyone has their
-own way of doing things. So, let's quickly go over how Getty interfaces work
-and how you can use them.</p>
+<p>Interfaces are a big part of Getty, so let's take some time now to learn a bit about them.</p>
 <h2 id="interface">Interface</h2>
 <p>In Getty, an <strong>interface</strong> is a function whose parameter list specifies
 constraints and behaviors. For example, the following code defines an interface
-(<code>BoolSerializer</code>) that requires from its implementations 3 associated types
-(<code>Context</code>, <code>O</code>, and <code>E</code>) and 1 method (<code>serializeBool</code>).</p>
+that requires from its implementations three associated types (<code>Context</code>, <code>O</code>,
+<code>E</code>) and one method (<code>serializeBool</code>).</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">fn</span><span class="w"> </span><span class="n">BoolSerializer</span><span class="p">(</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="c1">// (1)!</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">Context</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span>
@@ -1391,15 +1387,16 @@ constraints and behaviors. For example, the following code defines an interface
     must provide.</p>
 </li>
 <li>
-<p><code>methods</code> lists all methods that implementations of <code>BoolSerializer</code> must
-    or can provide.</p>
-<p>If a required method is not provided by an implementation, it is up to the
-interface to decide what happens. Generally, a compile error is raised or
-an error is returned.</p>
+<p><code>methods</code> lists every method that implementations of <code>BoolSerializer</code> must
+    provide or can override.</p>
+<p>If a method is not provided by an implementation, it is up to the interface
+to decide what happens. Generally, a compile error is raised, an error is
+returned, or a default implementation is used.</p>
 </li>
 </ol>
-<p>In Getty, the return value of an interface is a namespace containing two
-declarations: an <strong>interface type</strong> and an <strong>interface function</strong>.</p>
+<p>The return value of an interface is a namespace (i.e., a <code>struct</code> with no
+fields) containing two declarations: an <strong>interface type</strong> and an <strong>interface
+function</strong>.</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">fn</span><span class="w"> </span><span class="n">BoolSerializer</span><span class="p">(</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">Context</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kr">comptime</span><span class="w"> </span><span class="n">O</span><span class="o">:</span><span class="w"> </span><span class="kt">type</span><span class="p">,</span>
@@ -1468,9 +1465,9 @@ declarations: an <strong>interface type</strong> and an <strong>interface functi
 </ul>
 </div>
 <h2 id="implementation">Implementation</h2>
-<p>To implement a Getty interface, simply call the interface and apply
-<code>usingnamespace</code> to its return value. An interface type and function will then be
-imported into your implementation.</p>
+<p>To implement a Getty interface, call the interface and apply <code>usingnamespace</code>
+to its return value. An interface type and function will be imported into
+your implementation.</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kr">const</span><span class="w"> </span><span class="n">UselessSerializer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>

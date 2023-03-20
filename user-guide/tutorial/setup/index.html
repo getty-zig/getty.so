@@ -1213,7 +1213,7 @@
 
 
 <h1 id="setup">Setup</h1>
-<p>To get started, let's make a new Zig project.</p>
+<p>To get started, we need to make a new Zig project.</p>
 <ol>
 <li>
 <p>Create a Zig application called <code>getty-learn</code>:</p>
@@ -1248,12 +1248,18 @@
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="hll"><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">optimize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optimize</span><span class="w"> </span><span class="p">};</span>
 </span><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="hll"><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">getty_mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">dependency</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">).</span><span class="n">module</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 </span><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">exe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">addExecutable</span><span class="p">(.{</span><span class="w"> </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;getty-learn&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">root_source_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;src/main.zig&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">.</span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">optimize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optimize</span><span class="w"> </span><span class="p">});</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addModule</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getty_mod</span><span class="p">);</span>
-</span><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">install</span><span class="p">();</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="c1">// (snip)</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">exe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">addExecutable</span><span class="p">(.{</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;getty-learn&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="p">.</span><span class="n">root_source_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.{</span><span class="w"> </span><span class="p">.</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;src/main.zig&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="p">.</span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="p">.</span><span class="n">optimize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optimize</span><span class="p">,</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="p">});</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="hll"><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">addModule</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getty_mod</span><span class="p">);</span>
+</span><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="n">exe</span><span class="p">.</span><span class="n">install</span><span class="p">();</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="c1">// (snip)</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="p">}</span>
 </code></pre></div>
 &nbsp;</p>
 </li>
@@ -1263,8 +1269,8 @@
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">getty-learn/build.zig.zon:6:20: error: url field is missing corresponding hash field</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">        .url = &quot;https://github.com/getty-zig/getty/archive/main.tar.gz&quot;,</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="go">note: expected .hash = &quot;&lt;HASH&gt;&quot;,</span>
-</code></pre></div>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="hll"><span class="go">note: expected .hash = &quot;&lt;HASH&gt;&quot;,</span>
+</span></code></pre></div>
 &nbsp;</p>
 </li>
 <li>
