@@ -76,7 +76,7 @@ fn Serializer(
     [`getty.ser.Seq`](https://docs.getty.so/#A;std:ser.Seq), and
     [`getty.ser.Structure`](https://docs.getty.so/#A;std:ser.Structure).
 
-7.  `methods` contains all of the methods a `Serializer` must provide or can
+7.  `methods` lists every method that a `Serializer` must provide or can
     override.
 
 Quite the parameter list!

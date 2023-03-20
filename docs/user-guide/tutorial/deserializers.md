@@ -61,8 +61,7 @@ fn Deserializer(
     behavior. If user- or deserializer-defined customization isn't supported,
     `null` can be passed in for these parameters.
 
-5.  `methods` contains all of the methods that implementations of
-    [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) must
+5.  `methods` lists every method that a `Deserializer` must
     provide or can override.
 
 6.  These methods are responsible for deserializing into a specific type in

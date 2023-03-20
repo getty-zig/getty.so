@@ -1,18 +1,13 @@
 # Interfaces
 
-A big part of writing (de)serializers in Getty is knowing how to implement
-interfaces.
-
-Unfortunately, interfaces in Zig are a userspace concept so everyone has their
-own way of doing things. So, let's quickly go over how Getty interfaces work
-and how you can use them.
+Interfaces are a big part of Getty, so let's take some time now to learn a bit about them.
 
 ## Interface
 
 In Getty, an __interface__ is a function whose parameter list specifies
 constraints and behaviors. For example, the following code defines an interface
-(`BoolSerializer`) that requires from its implementations 3 associated types
-(`Context`, `O`, and `E`) and 1 method (`serializeBool`).
+that requires from its implementations three associated types (`Context`, `O`,
+`E`) and one method (`serializeBool`).
 
 ```zig title="Zig code"
 fn BoolSerializer(
@@ -32,15 +27,16 @@ fn BoolSerializer(
 1.  `Context`, `O`, and `E` are types that implementations of `BoolSerializer`
     must provide.
 
-1.  `methods` lists all methods that implementations of `BoolSerializer` must
-    or can provide.
+1.  `methods` lists every method that implementations of `BoolSerializer` must
+    provide or can override.
 
-    If a required method is not provided by an implementation, it is up to the
-    interface to decide what happens. Generally, a compile error is raised or
-    an error is returned.
+    If a method is not provided by an implementation, it is up to the interface
+    to decide what happens. Generally, a compile error is raised, an error is
+    returned, or a default implementation is used.
 
-In Getty, the return value of an interface is a namespace containing two
-declarations: an __interface type__ and an __interface function__.
+The return value of an interface is a namespace (i.e., a `struct` with no
+fields) containing two declarations: an __interface type__ and an __interface
+function__.
 
 ```zig title="Zig code"
 fn BoolSerializer(
@@ -104,9 +100,9 @@ fn BoolSerializer(
 
 ## Implementation
 
-To implement a Getty interface, simply call the interface and apply
-`usingnamespace` to its return value. An interface type and function will then be
-imported into your implementation.
+To implement a Getty interface, call the interface and apply `usingnamespace`
+to its return value. An interface type and function will be imported into
+your implementation.
 
 ```zig title="Zig code"
 const std = @import("std");

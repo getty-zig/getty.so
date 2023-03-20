@@ -1,6 +1,6 @@
 # Setup
 
-To get started, let's make a new Zig project.
+To get started, we need to make a new Zig project.
 
 1. Create a Zig application called `getty-learn`:
 
@@ -28,7 +28,7 @@ To get started, let's make a new Zig project.
 
 3. Expose Getty as a module by adding the following lines to `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="7-8 11"
+    ```zig title="<code>build.zig</code>" hl_lines="7-8 17"
     const std = @import("std");
 
     pub fn build(b: *std.Build) void {
@@ -38,7 +38,13 @@ To get started, let's make a new Zig project.
         const opts = .{ .target = target, .optimize = optimize };
         const getty_mod = b.dependency("getty", opts).module("getty");
 
-        const exe = b.addExecutable(.{ .name = "getty-learn", .root_source_file = .{ .path = "src/main.zig" }, .target = target, .optimize = optimize });
+        const exe = b.addExecutable(.{
+            .name = "getty-learn",
+            .root_source_file = .{ .path = "src/main.zig" },
+            .target = target,
+            .optimize = optimize,
+        });
+
         exe.addModule("getty", getty_mod);
         exe.install();
 
@@ -49,7 +55,7 @@ To get started, let's make a new Zig project.
 
 4. Obtain Getty's package hash by running `zig build`:
 
-    ```console title="Shell session"
+    ```console title="Shell session" hl_lines="5"
     $ zig build
     getty-learn/build.zig.zon:6:20: error: url field is missing corresponding hash field
             .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
