@@ -71,7 +71,7 @@ To get started, we need to make a new Zig project.
         .name = "getty-learn",
         .version = "0.0.0",
         .dependencies = .{
-            .json = .{
+            .getty = .{
                 .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
                 .hash = "<HASH>",
             },

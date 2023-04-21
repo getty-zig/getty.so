@@ -10,7 +10,7 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 ## Goals
 
-- Minimize the amount of code required for (de)serializer implementations.
+- Simplify (de)serializer implementations.
 - Enable granular customization of the (de)serialization process.
 - Avoid as much performance overhead as possible.
 
@@ -18,8 +18,7 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 
 - Compile-time (de)serialization.
 - Out-of-the-box support for a wide variety of standard library types.
-- Local customization of (de)serialization logic for both existing and remote types.
-- Data model abstractions that serve as simple and generic baselines for (de)serializers.
+- Local customization of (de)serialization logic for existing _and_ remote types.
 
 ## Quick Start
 
@@ -43,7 +42,7 @@ pub fn main() !void {
     const serialized = try json.toSlice(allocator, value);
     defer allocator.free(serialized);
 
-    // Deserialize JSON data into a Point value.
+    // Deserialize JSON data into a Point.
     const deserialized = try json.fromSlice(null, Point, serialized);
 
     // Print results.

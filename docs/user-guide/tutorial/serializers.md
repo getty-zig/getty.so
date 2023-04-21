@@ -1,6 +1,6 @@
 # Serializers
 
-We'll write a JSON serializer that serializes values by printing their JSON
+Let's write a JSON serializer that serializes values by printing their JSON
 equivalent to `STDERR`.
 
 ## Scalar Serialization
@@ -36,11 +36,7 @@ fn Serializer(
         serializeSeq: ?fn (Context, ?usize) E!Seq = null,
         serializeSome: ?fn (Context, anytype) E!O = null,
         serializeString: ?fn (Context, anytype) E!O = null,
-        serializeStruct: ?fn (
-            Context,
-            comptime []const u8,
-            usize,
-        ) E!Structure = null,
+        serializeStruct: ?fn (Context, comptime []const u8, usize) E!Structure = null,
         serializeVoid: ?fn (Context) E!O = null,
     },
 ) type
@@ -81,7 +77,8 @@ fn Serializer(
 
 Quite the parameter list!
 
-Luckily, most of the parameters have default values we can use. So, let's start with this:
+Luckily, most of the parameters have default values we can use. So, let's start
+with the following implementation:
 
 ```zig title="<code>src/main.zig</code>"
 const getty = @import("getty");
@@ -105,9 +102,7 @@ const Serializer = struct {
 };
 ```
 
-Kind of a useless serializer...
-
-But let's try using it anyway! We can serialize a value by calling [`getty.serialize`](https://docs.getty.so/#A;std:serialize), which takes an optional allocator, a value to serialize, and a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
+To serialize a value using `Serializer`, we can call [`getty.serialize`](https://docs.getty.so/#A;std:serialize), which takes an optional allocator, a value to serialize, and a [`getty.Serializer`](https://docs.getty.so/#A;std:Serializer) interface value.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="21-25"
 const getty = @import("getty");
@@ -131,16 +126,11 @@ const Serializer = struct {
 };
 
 pub fn main() !void {
-    const s = (Serializer{}).serializer(); // (1)!
+    const s = (Serializer{}).serializer();
 
     try getty.serialize(null, true, s);
 }
 ```
-
-1.  Here, we do two things:
-
-    1. Make a value of the implementing type.
-    2. Call the implementation's interface function to obtain an interface value.
 
 ```console title="Shell session"
 $ zig build run
@@ -149,7 +139,8 @@ $ zig build run
 
 A compile error!
 
-Looks like Getty can't serialize `bool`s unless `serializeBool` is implemented. Let's fix that.
+It looks like Getty can't serialize `bool`s unless `serializeBool` is
+implemented. Let's fix that.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="1 14-16 23-25 33"
 const std = @import("std");
@@ -195,7 +186,9 @@ true
 
 Success!
 
-Now let's do the same thing for `serializeEnum`, `serializeFloat`, `serializeInt`, `serializeNull`, `serializeSome`, `serializeString`, and `serializeVoid`.
+Now let's do the same thing for `serializeFloat`, `serializeInt`,
+`serializeNull`, `serializeString`, `serializeVoid`, `serializeEnum`, and
+`serializeSome`.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="16-22 34-52 58-62"
 const std = @import("std");
@@ -273,9 +266,7 @@ null
 null
 ```
 
-And there we go!
-
-We've made our initial `Serializer` implementation from before, but now with a bit of context!
+And there we go, our initial `Serializer` implementation from before!
 
 ??? tip "Method Reuse"
 
@@ -426,7 +417,7 @@ const Seq = struct {
         }
 
         // Serialize element.
-        try getty.serialize(null, value, (Serializer{}).serializer()); // (3)!
+        try getty.serialize(null, value, (Serializer{}).serializer());
     }
 
     fn end(_: Context) Error!Ok {
@@ -458,8 +449,6 @@ pub fn main() !void {
 
     1. Begin serialization by printing `[`.
     2. Return a `Seq` value for the caller to use to finish off serialization.
-
-3.  Since our serializer is stateless, we can just give Getty another instance of `Serializer` here.
 
 <!--The above annotations need to be ordered like they are to avoid weirdness-->
 <!--with the second list element in the interface type annotation.-->

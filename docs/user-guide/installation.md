@@ -66,7 +66,7 @@ To install Getty:
         .name = "my-project",
         .version = "0.0.0",
         .dependencies = .{
-            .json = .{
+            .getty = .{
                 .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
                 .hash = "<HASH>",
             },

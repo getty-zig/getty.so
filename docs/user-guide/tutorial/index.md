@@ -1,12 +1,12 @@
 # Tutorial
 
-The goal of Getty is to reduce the amount of code you need to write
-(de)serializers that are robust, customizable, performant, and able to easily
-support a wide variety of data types.
+The goal of Getty is to help you write (de)serializers that are robust,
+customizable, performant, and able to easily support a wide variety of data
+types.
 
-The following code, for instance,  defines a JSON serializer that supports
-scalar and string values. It can convert values of type `bool`, `i32`, `f64`,
-`enum{ foo, bar }`, `*const [3]u8`, `[]u8`, `?*void`, and more into JSON!
+For example, consider the following code, which defines a JSON serializer that
+supports scalar and string values. It can convert values of type `bool`, `i32`,
+`f64`, `enum{ foo, bar }`, `[]u8`, `*const [3]u8`, `?*void`, and more into JSON!
 
 ```zig title="Zig code"
 const std = @import("std");
@@ -77,6 +77,6 @@ $ zig build run
 In this tutorial, we'll:
 
 - Build up to the above `Serializer` implementation.
-- Extend `Serializer` to support non-scalar types, such as `std.ArrayList(i32)`.
+- Extend `Serializer` to support non-scalar types, such as `std.ArrayList`.
 - Write a JSON deserializer.
 - Learn how to customize the (de)serialization process.

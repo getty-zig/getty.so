@@ -34,9 +34,9 @@ fn BoolSerializer(
     to decide what happens. Generally, a compile error is raised, an error is
     returned, or a default implementation is used.
 
-The return value of an interface is a namespace (i.e., a `struct` with no
-fields) containing two declarations: an __interface type__ and an __interface
-function__.
+The return value of an interface is a namespace (i.e., a `struct` type with no
+fields) that contains two declarations: an __interface type__ and an
+__interface function__.
 
 ```zig title="Zig code"
 fn BoolSerializer(
@@ -80,7 +80,7 @@ fn BoolSerializer(
 1.  `Interface` is an interface type. They generally have:
 
       - A single field to store an instance of an implementation.
-      - A few declarations that may be useful to implementations.
+      - Wrapper declarations that may come in handy.
       - Wrapper methods that define the interface's behavior.
 
 <!--The above annotations need to be ordered like they are to avoid weirdness-->
@@ -101,13 +101,13 @@ fn BoolSerializer(
 ## Implementation
 
 To implement a Getty interface, call the interface and apply `usingnamespace`
-to its return value. An interface type and function will be imported into
+to the returned value. An interface type and an interface function will be imported into
 your implementation.
 
 ```zig title="Zig code"
 const std = @import("std");
 
-const UselessSerializer = struct {
+const SerializerA = struct {
     usingnamespace BoolSerializer(
         @This(),
         void,
@@ -116,7 +116,7 @@ const UselessSerializer = struct {
     );
 };
 
-const OppositeSerializer = struct {
+const SerializerB = struct {
     usingnamespace BoolSerializer(
         Context,
         Ok,
@@ -136,12 +136,12 @@ const OppositeSerializer = struct {
 
 ## Usage
 
-To use a value of, say `OppositeSerializer`, as an implementation of `BoolSerializer`:
+To use a value of, say `SerializerB`, as an implementation of `BoolSerializer`:
 
 ```zig title="Zig code"
 pub fn main() !void {
-    const os = OppositeSerializer{}; // (1)!
-    const bs = os.boolSerializer();  // (2)!
+    const s = SerializerB{}; // (1)!
+    const bs = s.boolSerializer();  // (2)!
 
     // (3)!
     try bs.serializeBool(true);

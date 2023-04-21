@@ -1,6 +1,6 @@
 # Deserializers
 
-We'll write a simple (albeit slightly naive) JSON deserializer.
+Let's write a simple (albeit slightly naive) JSON deserializer.
 
 ## Scalar Deserialization
 
@@ -76,7 +76,7 @@ fn Deserializer(
 Quite the parameter list!
 
 Luckily, most of the parameters have default values we can use. So, let's
-start with the following:
+start with the following implementation:
 
 ```zig title="<code>src/main.zig</code>"
 const std = @import("std");
