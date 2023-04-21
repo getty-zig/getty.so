@@ -1311,7 +1311,7 @@
 
 
 <h1 id="deserializers">Deserializers</h1>
-<p>We'll write a simple (albeit slightly naive) JSON deserializer.</p>
+<p>Let's write a simple (albeit slightly naive) JSON deserializer.</p>
 <h2 id="scalar-deserialization">Scalar Deserialization</h2>
 <p>Every Getty deserializer implements the <a href="https://docs.getty.so/#A;std:Deserializer"><code>getty.Deserializer</code></a> interface, shown below.</p>
 <div class="highlight"><span class="filename">Zig code</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// (1)!</span>
@@ -1384,7 +1384,7 @@ we can ignore them for this tutorial.</p>
 </ol>
 <p>Quite the parameter list!</p>
 <p>Luckily, most of the parameters have default values we can use. So, let's
-start with the following:</p>
+start with the following implementation:</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>

@@ -1311,7 +1311,7 @@
 
 
 <h1 id="serializers">Serializers</h1>
-<p>We'll write a JSON serializer that serializes values by printing their JSON
+<p>Let's write a JSON serializer that serializes values by printing their JSON
 equivalent to <code>STDERR</code>.</p>
 <h2 id="scalar-serialization">Scalar Serialization</h2>
 <p>Every Getty serializer must implement the
@@ -1343,14 +1343,10 @@ below.</p>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">        </span><span class="n">serializeSeq</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="kt">usize</span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">Seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">        </span><span class="n">serializeSome</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">        </span><span class="n">serializeString</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="n">anytype</span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">        </span><span class="n">serializeStruct</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">            </span><span class="n">Context</span><span class="p">,</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">            </span><span class="kr">comptime</span><span class="w"> </span><span class="p">[]</span><span class="kr">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">            </span><span class="kt">usize</span><span class="p">,</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">Structure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">        </span><span class="n">serializeVoid</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="p">)</span><span class="w"> </span><span class="kt">type</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">        </span><span class="n">serializeStruct</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">,</span><span class="w"> </span><span class="kr">comptime</span><span class="w"> </span><span class="p">[]</span><span class="kr">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">usize</span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">Structure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">        </span><span class="n">serializeVoid</span><span class="o">:</span><span class="w"> </span><span class="o">?</span><span class="k">fn</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">)</span><span class="w"> </span><span class="n">E</span><span class="o">!</span><span class="n">O</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="p">)</span><span class="w"> </span><span class="kt">type</span>
 </code></pre></div>
 <ol>
 <li>
@@ -1391,7 +1387,8 @@ can pass in <code>null</code>.</p>
 </li>
 </ol>
 <p>Quite the parameter list!</p>
-<p>Luckily, most of the parameters have default values we can use. So, let's start with this:</p>
+<p>Luckily, most of the parameters have default values we can use. So, let's start
+with the following implementation:</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kr">const</span><span class="w"> </span><span class="n">Serializer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
@@ -1412,8 +1409,7 @@ can pass in <code>null</code>.</p>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">ser</span><span class="p">.</span><span class="n">Error</span><span class="p">;</span>
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">};</span>
 </code></pre></div>
-<p>Kind of a useless serializer...</p>
-<p>But let's try using it anyway! We can serialize a value by calling <a href="https://docs.getty.so/#A;std:serialize"><code>getty.serialize</code></a>, which takes an optional allocator, a value to serialize, and a <a href="https://docs.getty.so/#A;std:Serializer"><code>getty.Serializer</code></a> interface value.</p>
+<p>To serialize a value using <code>Serializer</code>, we can call <a href="https://docs.getty.so/#A;std:serialize"><code>getty.serialize</code></a>, which takes an optional allocator, a value to serialize, and a <a href="https://docs.getty.so/#A;std:Serializer"><code>getty.Serializer</code></a> interface value.</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kr">const</span><span class="w"> </span><span class="n">Serializer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
@@ -1435,25 +1431,17 @@ can pass in <code>null</code>.</p>
 <a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="p">};</span>
 <a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
 <a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="hll"><span class="kr">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">!</span><span class="kt">void</span><span class="w"> </span><span class="p">{</span>
-</span><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="hll"><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="n">serializer</span><span class="p">();</span><span class="w"> </span><span class="c1">// (1)!</span>
+</span><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="hll"><span class="w">    </span><span class="kr">const</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="n">serializer</span><span class="p">();</span>
 </span><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="hll">
 </span><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="hll"><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
 </span><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="hll"><span class="p">}</span>
 </span></code></pre></div>
-<ol>
-<li>
-<p>Here, we do two things:</p>
-<ol>
-<li>Make a value of the implementing type.</li>
-<li>Call the implementation's interface function to obtain an interface value.</li>
-</ol>
-</li>
-</ol>
 <div class="highlight"><span class="filename">Shell session</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>zig<span class="w"> </span>build<span class="w"> </span>run
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">[...] error: serializeBool is not implemented by type: main.Serializer</span>
 </code></pre></div>
 <p>A compile error!</p>
-<p>Looks like Getty can't serialize <code>bool</code>s unless <code>serializeBool</code> is implemented. Let's fix that.</p>
+<p>It looks like Getty can't serialize <code>bool</code>s unless <code>serializeBool</code> is
+implemented. Let's fix that.</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="hll"><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 </span><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
@@ -1493,7 +1481,9 @@ can pass in <code>null</code>.</p>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go">true</span>
 </code></pre></div>
 <p>Success!</p>
-<p>Now let's do the same thing for <code>serializeEnum</code>, <code>serializeFloat</code>, <code>serializeInt</code>, <code>serializeNull</code>, <code>serializeSome</code>, <code>serializeString</code>, and <code>serializeVoid</code>.</p>
+<p>Now let's do the same thing for <code>serializeFloat</code>, <code>serializeInt</code>,
+<code>serializeNull</code>, <code>serializeString</code>, <code>serializeVoid</code>, <code>serializeEnum</code>, and
+<code>serializeSome</code>.</p>
 <div class="highlight"><span class="filename"><code>src/main.zig</code></span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kr">const</span><span class="w"> </span><span class="n">std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;std&quot;</span><span class="p">);</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kr">const</span><span class="w"> </span><span class="n">getty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">@import</span><span class="p">(</span><span class="s">&quot;getty&quot;</span><span class="p">);</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
@@ -1566,8 +1556,7 @@ can pass in <code>null</code>.</p>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="go">null</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="go">null</span>
 </code></pre></div>
-<p>And there we go!</p>
-<p>We've made our initial <code>Serializer</code> implementation from before, but now with a bit of context!</p>
+<p>And there we go, our initial <code>Serializer</code> implementation from before!</p>
 <details class="tip">
 <summary>Method Reuse</summary>
 <p>You can use the same function to implement multiple required methods.</p>
@@ -1710,7 +1699,7 @@ method, which returns a value of type <code>Seq</code>, which is expected to imp
 </span><a id="__codelineno-9-87" name="__codelineno-9-87" href="#__codelineno-9-87"></a><span class="hll"><span class="w">        </span><span class="p">}</span>
 </span><a id="__codelineno-9-88" name="__codelineno-9-88" href="#__codelineno-9-88"></a><span class="hll">
 </span><a id="__codelineno-9-89" name="__codelineno-9-89" href="#__codelineno-9-89"></a><span class="hll"><span class="w">        </span><span class="c1">// Serialize element.</span>
-</span><a id="__codelineno-9-90" name="__codelineno-9-90" href="#__codelineno-9-90"></a><span class="hll"><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="n">serializer</span><span class="p">());</span><span class="w"> </span><span class="c1">// (3)!</span>
+</span><a id="__codelineno-9-90" name="__codelineno-9-90" href="#__codelineno-9-90"></a><span class="hll"><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="n">getty</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">Serializer</span><span class="p">{}).</span><span class="n">serializer</span><span class="p">());</span>
 </span><a id="__codelineno-9-91" name="__codelineno-9-91" href="#__codelineno-9-91"></a><span class="hll"><span class="w">    </span><span class="p">}</span>
 </span><a id="__codelineno-9-92" name="__codelineno-9-92" href="#__codelineno-9-92"></a><span class="hll">
 </span><a id="__codelineno-9-93" name="__codelineno-9-93" href="#__codelineno-9-93"></a><span class="hll"><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="n">end</span><span class="p">(</span><span class="n">_</span><span class="o">:</span><span class="w"> </span><span class="n">Context</span><span class="p">)</span><span class="w"> </span><span class="n">Error</span><span class="o">!</span><span class="n">Ok</span><span class="w"> </span><span class="p">{</span>
@@ -1743,9 +1732,6 @@ method, which returns a value of type <code>Seq</code>, which is expected to imp
 <li>Begin serialization by printing <code>[</code>.</li>
 <li>Return a <code>Seq</code> value for the caller to use to finish off serialization.</li>
 </ol>
-</li>
-<li>
-<p>Since our serializer is stateless, we can just give Getty another instance of <code>Serializer</code> here.</p>
 </li>
 </ol>
 <!--The above annotations need to be ordered like they are to avoid weirdness-->
