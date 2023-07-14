@@ -1,82 +1,100 @@
 # Tutorial
 
-The goal of Getty is to help you write (de)serializers that are robust,
-customizable, performant, and able to easily support a wide variety of data
-types.
+Getty's goal is to help you write (de)serializers that are robust,
+customizable, and performant.
 
-For example, consider the following code, which defines a JSON serializer that
-supports scalar and string values. It can convert values of type `bool`, `i32`,
-`f64`, `enum{ foo, bar }`, `[]u8`, `*const [3]u8`, `?*void`, and more into JSON!
+To give you an example, the following JSON serializer supports string values
+and any _Getty Sequence_ value, which includes arrays, slices, `std.ArrayList`,
+`std.TailQueue`, and more.
 
 ```zig title="Zig code"
 const std = @import("std");
 const getty = @import("getty");
 
+const ally = std.heap.page_allocator;
+
 const Serializer = struct {
     pub usingnamespace getty.Serializer(
-        @This(),
+        Context,
         Ok,
         Error,
         null,
         null,
         null,
-        null,
+        Seq,
         null,
         .{
-            .serializeBool = serializeBool,
-            .serializeFloat = serializeNumber,
-            .serializeInt = serializeNumber,
-            .serializeNull = serializeNothing,
             .serializeString = serializeString,
-            .serializeVoid = serializeNothing,
-            .serializeEnum = serializeEnum,
-            .serializeSome = serializeSome,
+            .serializeSeq = serializeSeq,
         },
     );
 
+    const Context = @This();
     const Ok = void;
     const Error = getty.ser.Error;
 
-    fn serializeBool(_: @This(), value: bool) Error!Ok {
-        std.debug.print("{}\n", .{value});
+    fn serializeString(_: Context, value: anytype) Error!Ok {
+        std.debug.print("\"{s}\"", .{value});
     }
 
-    fn serializeNumber(_: @This(), value: anytype) Error!Ok {
-        std.debug.print("{}\n", .{value});
+    fn serializeSeq(_: Context, _: ?usize) Error!Seq {
+        std.debug.print("[", .{});
+        return Seq{};
+    }
+};
+
+const Seq = struct {
+    first: bool = true,
+
+    pub usingnamespace getty.ser.Seq(
+        Context,
+        Ok,
+        Error,
+        .{
+            .serializeElement = serializeElement,
+            .end = end,
+        },
+    );
+
+    const Context = *@This();
+    const Ok = Serializer.Ok;
+    const Error = Serializer.Error;
+
+    fn serializeElement(c: Context, value: anytype) Error!void {
+        switch (c.first) {
+            true => c.first = false,
+            false => std.debug.print(",", .{}),
+        }
+
+        const s = (Serializer{}).serializer();
+        try getty.serialize(null, value, s);
     }
 
-    fn serializeNothing(_: @This()) Error!Ok {
-        std.debug.print("null\n", .{});
-    }
-
-    fn serializeString(_: @This(), value: anytype) Error!Ok {
-        std.debug.print("\"{s}\"\n", .{value});
-    }
-
-    fn serializeEnum(s: @This(), value: anytype) Error!Ok {
-        try s.serializeString(@tagName(value));
-    }
-
-    fn serializeSome(s: @This(), value: anytype) Error!Ok {
-        try getty.serialize(null, value, s.serializer());
+    fn end(_: Context) Error!Ok {
+        std.debug.print("]", .{});
     }
 };
 
 pub fn main() !void {
-    const s = (Serializer{}).serializer();
+    var list = std.ArrayList([]const u8).init(ally);
+    defer list.deinit();
 
-    try getty.serialize(null, "Getty", s);
+    try list.append("a");
+    try list.append("b");
+    try list.append("c");
+
+    const s = (Serializer{}).serializer();
+    try getty.serialize(null, list, s);
 }
 ```
 
 ```console title="Shell session"
 $ zig build run
-"Getty"
+["a","b","c"]
 ```
 
 In this tutorial, we'll:
 
-- Build up to the above `Serializer` implementation.
-- Extend `Serializer` to support non-scalar types, such as `std.ArrayList`.
+- Build up to and extend the `Serializer` implementation above.
 - Write a JSON deserializer.
-- Learn how to customize the (de)serialization process.
+- Learn how to customize the (de)serialization process in Getty.
