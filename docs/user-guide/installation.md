@@ -11,7 +11,7 @@ To install Getty:
     ```zig title="<code>build.zig.zon</code>"
     .{
         .name = "my-project",
-        .version = "0.0.0",
+        .version = "0.1.0",
         .dependencies = .{
             .getty = .{
                 .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
@@ -64,7 +64,7 @@ To install Getty:
     ```zig title="<code>build.zig.zon</code>" hl_lines="7"
     .{
         .name = "my-project",
-        .version = "0.0.0",
+        .version = "0.1.0",
         .dependencies = .{
             .getty = .{
                 .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
