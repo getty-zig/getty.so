@@ -46,7 +46,6 @@ To get started, we need to make a new Zig project.
         });
 
         exe.addModule("getty", getty_mod);
-        exe.install();
 
         // (snip)
     }
@@ -69,7 +68,7 @@ To get started, we need to make a new Zig project.
     ```zig title="<code>build.zig.zon</code>" hl_lines="7"
     .{
         .name = "getty-learn",
-        .version = "0.0.0",
+        .version = "0.1.0",
         .dependencies = .{
             .getty = .{
                 .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
