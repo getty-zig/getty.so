@@ -18,8 +18,6 @@ This page provides some information and a few guidelines to help get you started
 
 ## Pull Requests
 
-- Please follow our [Style Guide](/contributing/style-guide) whenever contributing code.
-
 - Before submitting a PR, please test your changes and ensure that the test suite passes locally.
 
 - When submitting a PR, please have it be relative to a recent Git tip.

@@ -206,6 +206,5 @@ nav:
     - blog/index.md
   - Contributing:
     - contributing/index.md
-    - contributing/style-guide.md
   - API Reference:
     - https://docs.getty.so/
