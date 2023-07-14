@@ -30,6 +30,7 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: white
       toggle:
         icon: octicons/sun-16
         name: Switch to dark mode
