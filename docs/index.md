@@ -1,12 +1,17 @@
+---
+hide:
+  - navigation
+---
+
 # Getty
 
 Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)serializers in Zig.
 
-<br>
+<!--<br>-->
 
-<figure markdown>
-  ![Getty](/assets/images/getty-solid.svg){ width=370 }
-</figure>
+<!--<figure markdown>-->
+  <!--![Getty](/assets/images/getty-solid.svg){ width=370 }-->
+<!--</figure>-->
 
 ## Goals
 
@@ -17,8 +22,8 @@ Getty is a framework for building __robust__, __optimal__, and __reusable__ (de)
 ## Features
 
 - Compile-time (de)serialization.
-- Out-of-the-box support for a wide variety of standard library types.
-- Local customization of (de)serialization logic for existing _and_ remote types.
+- Out-of-the-box support for standard library types.
+- Local customization of (de)serialization logic for existing and remote types.
 
 ## Quick Start
 
@@ -28,26 +33,22 @@ The following code uses the [Getty JSON](https://github.com/getty-zig/json) libr
 const std = @import("std");
 const json = @import("json");
 
-const allocator = std.heap.page_allocator;
-
-const Point = struct {
-    x: i32,
-    y: i32,
-};
+const ally = std.heap.page_allocator;
 
 pub fn main() !void {
-    const value = Point{ .x = 1, .y = 2 };
+    const Point = struct { x: i32, y: i32 };
+    const point = Point{ .x = 1, .y = 2 };
 
     // Serialize a Point value into JSON.
-    const serialized = try json.toSlice(allocator, value);
-    defer allocator.free(serialized);
+    const s = try json.toSlice(ally, point);
+    defer ally.free(s);
 
     // Deserialize JSON data into a Point.
-    const deserialized = try json.fromSlice(null, Point, serialized);
+    const d = try json.fromSlice(ally, Point, s);
 
     // Print results.
-    std.debug.print("{s}\n", .{serialized});
-    std.debug.print("{}\n", .{deserialized});
+    std.debug.print("{s}\n", .{s});
+    std.debug.print("{}\n", .{d});
 }
 ```
 
