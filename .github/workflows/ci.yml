@@ -16,15 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.MKDOCS_MATERIAL_INSIDERS_KEY }}
-
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: eval `ssh-agent -s` && ssh-add - <<< '${{ secrets.MKDOCS_MATERIAL_INSIDERS_KEY }}'
-      - run: pip install git+ssh://git@github.com/ibokuri/mkdocs-material-insiders.git
+      - run: pip install mkdocs-material
       - run: mkdocs build --site-dir public
 
       - uses: s0/git-publish-subdir-action@develop
