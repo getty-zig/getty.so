@@ -2,30 +2,15 @@
 
 To install Getty:
 
-1. Declare Getty as a dependency by writing the following in `build.zig.zon`:
+1. Declare Getty as a dependency (replace `<COMMIT>` with an actual commit SHA):
 
-    !!! warning
-
-        Be sure to replace `<COMMIT>` in the URL with a commit from Getty.
-
-    ```zig title="<code>build.zig.zon</code>"
-    .{
-        .name = "my-project",
-        .version = "0.1.0",
-        .dependencies = .{
-            .getty = .{
-                .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
-            },
-        },
-    }
+    ```sh
+    zig fetch --save git+https://github.com/getty-zig/getty.git#<COMMIT>
     ```
-&nbsp;
 
-2. Expose Getty as a module by adding the following lines to `build.zig`:
+2. Expose Getty as a module in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="7-8 17"
-    const std = @import("std");
-
+    ```zig title="<code>build.zig</code>" hl_lines="5-6 14"
     pub fn build(b: *std.Build) void {
         const target = b.standardTargetOptions(.{});
         const optimize = b.standardOptimizeOption(.{});
@@ -39,37 +24,8 @@ To install Getty:
             .target = target,
             .optimize = optimize,
         });
+        exe.root_module.addImport("getty", getty_mod);
 
-        exe.addModule("getty", getty_mod);
-        exe.install();
-
-        // (snip)
-    }
-    ```
-&nbsp;
-
-3. Obtain Getty's package hash by running `zig build`:
-
-    ```console title="Shell session" hl_lines="5"
-    $ zig build
-    my-project/build.zig.zon:6:20: error: url field is missing corresponding hash field
-            .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    note: expected .hash = "<HASH>",
-    ```
-&nbsp;
-
-4. Update `build.zig.zon` with the obtained hash value:
-
-    ```zig title="<code>build.zig.zon</code>" hl_lines="7"
-    .{
-        .name = "my-project",
-        .version = "0.1.0",
-        .dependencies = .{
-            .getty = .{
-                .url = "https://github.com/getty-zig/getty/archive/<COMMIT>.tar.gz",
-                .hash = "<HASH>",
-            },
-        },
+        // ...
     }
     ```
