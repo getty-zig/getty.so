@@ -28,18 +28,8 @@ theme:
   favicon: assets/images/getty-favicon-solid-large.png
 
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: white
-      toggle:
-        icon: octicons/sun-16
-        name: Switch to dark mode
-
-    - media: "(prefers-color-scheme: dark)"
+      media: "(prefers-color-scheme: dark)"
       scheme: slate
-      toggle:
-        icon: octicons/moon-16
-        name: Switch to light mode
 
   custom_dir: docs/overrides
 
