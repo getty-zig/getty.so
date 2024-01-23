@@ -1,8 +1,3 @@
-[data-md-color-scheme="default"] {
-    --md-primary-fg-color:             #F6F4F2;
-    --md-primary-bg-color:             #242424;
-}
-
 [data-md-color-scheme="slate"] {
     /* Default colors */
     --md-default-fg-color:             hsla(var(--md-hue), 0%, 95%, 1);
