@@ -20,7 +20,7 @@
     ```
 &nbsp;
 
-2. Expose Getty as a module in `build.zig`:
+3. Expose Getty as a module in `build.zig`:
 
     ```zig title="<code>build.zig</code>" hl_lines="5-6 14"
     pub fn build(b: *std.Build) void {
@@ -43,7 +43,7 @@
     ```
 &nbsp;
 
-3. Replace `src/main.zig`'s content with the following code to ensure everything is correct:
+4. Replace `src/main.zig`'s content with the following code to ensure everything is correct:
 
     ```zig title="<code>src/main.zig</code>"
     const std = @import("std");

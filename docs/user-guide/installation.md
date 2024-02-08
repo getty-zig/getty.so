@@ -1,14 +1,16 @@
 # Installation
 
-To install Getty:
+1. Declare Getty as a project dependency with `zig fetch`:
 
-1. Declare Getty as a dependency (replace `<COMMIT>` with an actual commit SHA):
+    ```sh title="Shell session"
+    # Latest version
+    zig fetch --save git+https://github.com/getty-zig/getty.git#main
 
-    ```sh
+    # Specific version
     zig fetch --save git+https://github.com/getty-zig/getty.git#<COMMIT>
     ```
 
-2. Expose Getty as a module in `build.zig`:
+2. Expose Getty as a module in your project's `build.zig`:
 
     ```zig title="<code>build.zig</code>" hl_lines="5-6 14"
     pub fn build(b: *std.Build) void {
@@ -28,4 +30,10 @@ To install Getty:
 
         // ...
     }
+    ```
+
+3. Import Getty into your code:
+
+    ```zig title="<code>src/main.zig</code>"
+    const getty = @import("getty");
     ```
