@@ -1,36 +1,28 @@
 # Setup
 
-To get started, we need to make a new Zig project.
-
-1. Create a Zig application called `getty-learn`:
+1. Create a new Zig project called `getty-learn`:
 
     ```sh title="Shell session"
     mkdir getty-learn
     cd getty-learn
-    zig init-exe
+    zig init
     ```
 &nbsp;
 
-2. Declare Getty as a dependency by writing the following in `build.zig.zon`:
+2. Declare Getty as a dependency with `zig fetch`:
 
-    ```zig title="<code>build.zig.zon</code>"
-    .{
-        .name = "getty-learn",
-        .version = "0.1.0",
-        .dependencies = .{
-            .getty = .{
-                .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
-            },
-        },
-    }
+    ```sh title="Shell session"
+    # Latest version
+    zig fetch --save git+https://github.com/getty-zig/getty.git#main
+
+    # Specific version
+    zig fetch --save git+https://github.com/getty-zig/getty.git#<COMMIT>
     ```
 &nbsp;
 
-3. Expose Getty as a module by adding the following lines to `build.zig`:
+2. Expose Getty as a module in `build.zig`:
 
-    ```zig title="<code>build.zig</code>" hl_lines="7-8 17"
-    const std = @import("std");
-
+    ```zig title="<code>build.zig</code>" hl_lines="5-6 14"
     pub fn build(b: *std.Build) void {
         const target = b.standardTargetOptions(.{});
         const optimize = b.standardOptimizeOption(.{});
@@ -39,47 +31,19 @@ To get started, we need to make a new Zig project.
         const getty_mod = b.dependency("getty", opts).module("getty");
 
         const exe = b.addExecutable(.{
-            .name = "getty-learn",
+            .name = "my-project",
             .root_source_file = .{ .path = "src/main.zig" },
             .target = target,
             .optimize = optimize,
         });
+        exe.root_module.addImport("getty", getty_mod);
 
-        exe.addModule("getty", getty_mod);
-
-        // (snip)
+        // ...
     }
     ```
 &nbsp;
 
-4. Obtain Getty's package hash by running `zig build`:
-
-    ```console title="Shell session" hl_lines="5"
-    $ zig build
-    getty-learn/build.zig.zon:6:20: error: url field is missing corresponding hash field
-            .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    note: expected .hash = "<HASH>",
-    ```
-&nbsp;
-
-5. Update `build.zig.zon` with the obtained hash value:
-
-    ```zig title="<code>build.zig.zon</code>" hl_lines="7"
-    .{
-        .name = "getty-learn",
-        .version = "0.1.0",
-        .dependencies = .{
-            .getty = .{
-                .url = "https://github.com/getty-zig/getty/archive/main.tar.gz",
-                .hash = "<HASH>",
-            },
-        },
-    }
-    ```
-&nbsp;
-
-6. To verify everything, replace the contents of `src/main.zig` with the following code and then run the application:
+3. Replace `src/main.zig`'s content with the following code to ensure everything is correct:
 
     ```zig title="<code>src/main.zig</code>"
     const std = @import("std");
