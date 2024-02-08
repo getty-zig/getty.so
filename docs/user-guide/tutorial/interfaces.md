@@ -34,56 +34,47 @@ fields) that contains two declarations: an __interface type__ and an
 __interface function__.
 
 ```zig title="Zig code"
-fn BoolSerializer(
-    comptime Context: type,
-    comptime O: type,
-    comptime E: type,
-    comptime methods: struct {
-        serializeBool: ?fn (Context, bool) E!O = null,
-    },
-) type {
-    return struct {
-        // Iface is an interface type. These generally have:
-        //
-        //   * A field to store an instance of an implementation.
-        //   * Wrapper methods that define the interface's behavior.
-        //   * Wrapper declarations that may come in handy.
-        pub const Iface = struct {
-            context: Context,
+struct {
+    // Iface is an interface type. These generally have:
+    //
+    //   * A field to store an instance of an implementation.
+    //   * Wrapper declarations for important associated types.
+    //   * Wrapper methods that define the interface's behavior.
+    pub const Iface = struct {
+        context: Context,
 
-            pub const Ok = O;
-            pub const Error = E;
+        pub const Ok = O;
+        pub const Error = E;
 
-            pub fn serializeBool(self: @This(), value: bool) Error!Ok {
-                if (methods.serializeBool) |f| {
-                    return try f(self.context, value);
-                }
-
-                @compileError("serializeBool is unimplemented");
+        pub fn serializeBool(self: @This(), value: bool) Error!Ok {
+            if (methods.serializeBool) |f| {
+                return try f(self.context, value);
             }
-        };
 
-        // boolSerializer is an interface function.
-        //
-        // Its job is to return a value of the interface type, also known as
-        // an interface value.
-        pub fn boolSerializer(self: Context) Iface {
-            return .{ .context = self };
+            @compileError("serializeBool is unimplemented");
         }
     };
-}
+
+    // boolSerializer is an interface function.
+    //
+    // Its job is to return a value of the interface type, also known as
+    // an interface value.
+    pub fn boolSerializer(self: Context) Iface {
+        return .{ .context = self };
+    }
+};
 ```
 
 !!! info "Naming Conventions"
 
     - Interface types are always named after the interface's import path. For
       example, the interface type for the
-      [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
+      [`getty.de.SeqAccess`](https://docs.getty.so/#A;getty:de.SeqAccess)
       interface is named `@"getty.de.SeqAccess"`.
 
     - Interface functions are always named after the interface in `camelCase`
       format. For example, the interface function for the
-      [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
+      [`getty.de.SeqAccess`](https://docs.getty.so/#A;getty:de.SeqAccess)
       interface is named `seqAccess`.
 
 ## Implementation
@@ -124,7 +115,7 @@ const OppositeSerializer = struct {
 
 ## Usage
 
-To use a value of, say `OppositeSerializer`, as an implementation of `BoolSerializer`:
+To use a value of `OppositeSerializer` as an implementation of `BoolSerializer`:
 
 ```zig title="Zig code"
 pub fn main() !void {
@@ -145,10 +136,3 @@ $ zig build run
 false
 true
 ```
-
-## Next Steps
-
-Okay, that should be enough to get us through the tutorial. Let's get started!
-
-<!--If you want to learn more about interfaces in Getty, check out the-->
-<!--[Interfaces](/user-guide/design/interfaces/) page.-->
