@@ -4,7 +4,7 @@ Getty's goal is to help you write (de)serializers that are robust,
 customizable, and performant.
 
 To give you an example, the following JSON serializer supports string values
-and any _Getty Sequence_ value, which includes arrays, slices, `std.ArrayList`,
+and any _Getty Sequence_ value, including arrays, slices, `std.ArrayList`,
 `std.TailQueue`, and more.
 
 ```zig title="Zig code"
@@ -33,7 +33,7 @@ const Serializer = struct {
     const Ok = void;
     const Error = getty.ser.Error;
 
-    fn serializeString(_: Context, value: anytype) Error!Ok {
+    fn serializeString(_: @This(), value: anytype) Error!Ok {
         std.debug.print("\"{s}\"", .{value});
     }
 
@@ -61,9 +61,10 @@ const Seq = struct {
     const Error = Serializer.Error;
 
     fn serializeElement(c: Context, value: anytype) Error!void {
-        switch (c.first) {
-            true => c.first = false,
-            false => std.debug.print(",", .{}),
+        if (c.first) {
+            c.first = false;
+        } else {
+            std.debug.print(",", .{});
         }
 
         const s = (Serializer{}).serializer();
@@ -78,13 +79,12 @@ const Seq = struct {
 pub fn main() !void {
     var list = std.ArrayList([]const u8).init(ally);
     defer list.deinit();
-
-    try list.append("a");
-    try list.append("b");
-    try list.append("c");
+    try list.appendSlice(&.{ "a", "b", "c" });
 
     const s = (Serializer{}).serializer();
     try getty.serialize(null, list, s);
+
+    std.debug.print("\n", .{});
 }
 ```
 
