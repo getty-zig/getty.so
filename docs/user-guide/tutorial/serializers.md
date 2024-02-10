@@ -1,9 +1,8 @@
 # Serializers
 
-Let's write a JSON serializer that serializes values by printing their JSON
-equivalent to `STDERR`.
-
-## Scalar Serialization
+<!--Now that we know everything we need to know, let's start writing a JSON-->
+<!--serializer that serializes values by printing their JSON equivalent to-->
+<!--`STDERR`.-->
 
 Every Getty serializer must implement the
 [`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) interface, shown
@@ -28,7 +27,7 @@ fn Serializer(
     // (7)!
     comptime methods: struct {
         serializeBool: ?fn (Context, bool) E!O = null,
-        serializeEnum: ?fn (Context, anytype) E!O = null,
+        serializeEnum: ?fn (Context, anytype, []const u8) E!O = null,
         serializeFloat: ?fn (Context, anytype) E!O = null,
         serializeInt: ?fn (Context, anytype) E!O = null,
         serializeMap: ?fn (Context, ?usize) E!Map = null,
@@ -77,8 +76,8 @@ fn Serializer(
 
 Quite the parameter list!
 
-Luckily, most of the parameters have default values we can use. So, let's start
-with the following implementation:
+Luckily, most of the parameters have default values we can use. So let's kick
+things off with the following implementation:
 
 ```zig title="<code>src/main.zig</code>"
 const getty = @import("getty");
@@ -102,7 +101,9 @@ const Serializer = struct {
 };
 ```
 
-To serialize a value, we can call
+## Scalar Serialization
+
+To serialize a value with our brand new `Serializer`, we can call
 [`getty.serialize`](https://docs.getty.so/#A;getty:serialize), which takes an
 optional allocator, a value to serialize, and a
 [`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) interface
@@ -240,8 +241,8 @@ const Serializer = struct {
         std.debug.print("\"{s}\"", .{value});
     }
 
-    fn serializeEnum(c: Context, value: anytype) Error!Ok {
-        try c.serializeString(@tagName(value));
+    fn serializeEnum(c: Context, _: anytype, name: []const u8) Error!Ok {
+        try c.serializeString(name);
     }
 
     fn serializeSome(c: Context, value: anytype) Error!Ok {
@@ -253,7 +254,7 @@ pub fn main() !void {
     const s = Serializer{};
     const ss = s.serializer();
 
-    inline for (.{ 10, 10.0, "string", .variant, {}, null }) |v| {
+    inline for (.{ 10, 10.0, "foo", .bar, {}, null, @as(?bool, true) }) |v| {
         try getty.serialize(null, v, ss);
 
         std.debug.print("\n", .{});
@@ -265,38 +266,56 @@ pub fn main() !void {
 $ zig build run
 10
 1.0e+01
-"string"
-"variant"
+"foo"
+"bar"
 null
 null
+true
 ```
 
-??? tip "Method Reuse"
-
-    You can use the same function to implement multiple required methods.
-
-    For example, we used `serializeNumber` to implement `serializeInt` and `serializeFloat`. We also used `serializeNothing` to implement `serializeNull` and `serializeVoid`.
-
-??? tip "Private Methods"
-
-    Method implementations can be kept private.
-
-    By marking them private, we avoid polluting the public API of `Serializer` with interface-related code. Additionally, we ensure that users cannot mistakenly use a value of the implementing type to perform serialization. Instead, they will always be forced to use a [`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) interface value.
+Easy peasy! :tada:
 
 ??? tip "Type Validation"
 
     You don't need to validate the `value` parameter of the `serialize*` methods.
 
-    Getty ensures that an appropriate type will be passed to each function. For example, strings will be passed to `serializeString`, and integers and floating-points will be passed to `serializeNumber`.
+    Getty ensures that an appropriate type will be passed to each function. For
+    example, strings will be passed to `serializeString`, and integers and
+    floating-points will be passed to `serializeNumber`.
 
+??? tip "Method Reuse"
+
+    You can use the same function to implement multiple required methods.
+
+    For example, we used `serializeNumber` to implement `serializeInt` and
+    `serializeFloat`. We also used `serializeNothing` to implement
+    `serializeNull` and `serializeVoid`.
+
+??? tip "Private Methods"
+
+    Method implementations can be kept private.
+
+    By marking them private, we avoid polluting the public API of `Serializer`
+    with interface-related code. Additionally, we ensure that users cannot
+    mistakenly use a value of the implementing type to perform serialization.
+    Instead, they will always be forced to use a
+    [`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) interface
+    value.
 
 ## Aggregate Serialization
 
 Now let's take a look at serialization for aggregate types.
 
-If you'll recall, [`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) required three associated types from its implementations: `Seq`, `Map`, and `Structure`. Each type is expected to implement one of Getty's aggregate serialization interfaces, which are [`getty.ser.Seq`](https://docs.getty.so/#A;getty:ser.Seq), [`getty.ser.Map`](https://docs.getty.so/#A;getty:ser.Map) and [`getty.ser.Structure`](https://docs.getty.so/#A;getty:ser.Structure).
+If you'll recall,
+[`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) required three
+associated types from its implementations: `Seq`, `Map`, and `Structure`. Each
+type is expected to implement one of Getty's aggregate serialization
+interfaces, which are
+[`getty.ser.Seq`](https://docs.getty.so/#A;getty:ser.Seq),
+[`getty.ser.Map`](https://docs.getty.so/#A;getty:ser.Map) and
+[`getty.ser.Structure`](https://docs.getty.so/#A;getty:ser.Structure).
 
-The reason we need `Seq`, `Map`, and `Structure` is because aggregate types
+The reason why we need `Seq`, `Map`, and `Structure` is because aggregate types
 have all kinds of different access and iteration patterns, but Getty can't
 possibly know about all of them. Therefore, the aggregate serialization methods
 (e.g., `serializeSeq`) are responsible only for _starting_ the serialization
@@ -330,7 +349,7 @@ method, which returns a value of type `Seq`, which is expected to implement the
 
     2.  `O` and `E` must match the `O` and `E` values of a corresponding `Serializer`.
 
-```zig title="<code>src/main.zig</code>" hl_lines="12 23 55-61 64-96 102-108"
+```zig title="<code>src/main.zig</code>" hl_lines="12 23 55-59 62-94 100-106"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -377,8 +396,8 @@ const Serializer = struct {
         std.debug.print("\"{s}\"", .{value});
     }
 
-    fn serializeEnum(c: Context, value: anytype) Error!Ok {
-        try c.serializeString(@tagName(value));
+    fn serializeEnum(c: Context, _: anytype, name: []const u8) Error!Ok {
+        try c.serializeString(name);
     }
 
     fn serializeSome(c: Context, value: anytype) Error!Ok {
@@ -386,9 +405,7 @@ const Serializer = struct {
     }
 
     // (2)!
-    fn serializeSeq(_: Context, len: ?usize) Error!Seq {
-        _ = len;
-
+    fn serializeSeq(_: Context, _: ?usize) Error!Seq {
         std.debug.print("[", .{});
         return Seq{};
     }
@@ -522,7 +539,7 @@ respectively.
 
     2.  `O` and `E` must match the `O` and `E` values of a corresponding `Serializer`.
 
-```zig title="<code>src/main.zig</code>" hl_lines="11 13 24-25 63-74 108-159 165-170"
+```zig title="<code>src/main.zig</code>" hl_lines="11 13 24-25 63-70 104-155 161-166"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -571,8 +588,8 @@ const Serializer = struct {
         std.debug.print("\"{s}\"", .{value});
     }
 
-    fn serializeEnum(c: Context, value: anytype) Error!Ok {
-        try c.serializeString(@tagName(value));
+    fn serializeEnum(c: Context, _: anytype, name: []const u8) Error!Ok {
+        try c.serializeString(name);
     }
 
     fn serializeSome(c: Context, value: anytype) Error!Ok {
@@ -585,16 +602,12 @@ const Serializer = struct {
         return Seq{};
     }
 
-    fn serializeMap(_: Context, len: ?usize) Error!Map {
-        _ = len;
-
+    fn serializeMap(_: Context, _: ?usize) Error!Map {
         std.debug.print("{{", .{});
         return Map{};
     }
 
-    fn serializeStruct(c: Context, comptime name: []const u8, len: usize) Error!Map {
-        _ = name;
-
+    fn serializeStruct(c: Context, comptime _: []const u8, len: usize) Error!Map {
         return try c.serializeMap(len);
     }
 };
@@ -702,3 +715,5 @@ pub fn main() !void {
 $ zig build run
 {"x":1,"y":2}
 ```
+
+And there we go! Our serializer is complete! :tada:
