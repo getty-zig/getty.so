@@ -1,9 +1,5 @@
 # Serializers
 
-<!--Now that we know everything we need to know, let's start writing a JSON-->
-<!--serializer that serializes values by printing their JSON equivalent to-->
-<!--`STDERR`.-->
-
 Every Getty serializer must implement the
 [`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) interface, shown
 below.
@@ -308,16 +304,26 @@ Now let's take a look at serialization for aggregate types.
 
 If you'll recall,
 [`getty.Serializer`](https://docs.getty.so/#A;getty:Serializer) required three
-associated types from its implementations: `Seq`, `Map`, and `Structure`. Each
-type is expected to implement one of Getty's aggregate serialization
-interfaces, which are
-[`getty.ser.Seq`](https://docs.getty.so/#A;getty:ser.Seq),
-[`getty.ser.Map`](https://docs.getty.so/#A;getty:ser.Map) and
-[`getty.ser.Structure`](https://docs.getty.so/#A;getty:ser.Structure).
+associated types from its implementations: `Seq`, `Map`, and `Structure`. These
+types must implement an aggregate serialization interface:
+
+!!! info ""
+
+    [`getty.ser.Seq`](https://docs.getty.so/#A;getty:ser.Seq)
+
+    :  Serializes the elements of and ends the serialization process for _Getty Sequences_.
+
+    [`getty.ser.Map`](https://docs.getty.so/#A;getty:ser.Map)
+
+    :  Serializes the keys and values of and ends the serialization process for _Getty Maps_.
+
+    [`getty.ser.Structure`](https://docs.getty.so/#A;getty:ser.Structure)
+
+    :  Serializes the fields of and ends the serialization process for _Getty Structures_.
 
 The reason why we need `Seq`, `Map`, and `Structure` is because aggregate types
 have all kinds of different access and iteration patterns, but Getty can't
-possibly know about all of them. Therefore, the aggregate serialization methods
+possibly know about all of them. As a result, the aggregate serialization methods
 (e.g., `serializeSeq`) are responsible only for _starting_ the serialization
 process, before returning a value of either `Seq`, `Map`, or `Structure`. The
 returned value is then used by the caller to finish serialization in whatever
