@@ -79,15 +79,15 @@ struct {
 
 ## Implementation
 
-To implement a Getty interface, call the interface and apply `usingnamespace`
-to the returned value. An interface type and an interface function will be imported into
-your implementation.
+To implement a Getty interface, call the interface and apply `pub
+usingnamespace` to the returned value. An interface type and function will be
+imported into your implementation.
 
 ```zig title="Zig code"
 const std = @import("std");
 
 const UselessSerializer = struct {
-    usingnamespace BoolSerializer(
+    pub usingnamespace BoolSerializer(
         @This(),
         void,
         error{},
@@ -96,7 +96,7 @@ const UselessSerializer = struct {
 };
 
 const OppositeSerializer = struct {
-    usingnamespace BoolSerializer(
+    pub usingnamespace BoolSerializer(
         Context,
         Ok,
         Error,
