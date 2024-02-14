@@ -1,10 +1,6 @@
 # Deserializers
 
-Let's write a simple (albeit slightly naive) JSON deserializer.
-
-## Scalar Deserialization
-
-Every Getty deserializer implements the [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interface, shown below.
+Every Getty deserializer implements the [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) interface, shown below.
 
 ```zig title="Zig code"
 // (1)!
@@ -19,39 +15,39 @@ fn Deserializer(
     // (5)!
     comptime methods: struct {
         // (6)!
-        deserializeAny: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeBool: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeEnum: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeFloat: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeIgnored: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeInt: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeMap: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeOptional: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeSeq: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeString: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeStruct: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeUnion: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
-        deserializeVoid: ?fn (Context, ?std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeAny: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeBool: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeEnum: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeFloat: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeIgnored: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeInt: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeMap: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeOptional: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeSeq: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeString: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeStruct: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeUnion: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
+        deserializeVoid: ?fn (Context, std.mem.Allocator, v: anytype) E!@TypeOf(v).Value = null,
     },
 ) type
 ```
 
-1.  A [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) deserializes
+1.  A [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) deserializes
     values from a __data format__ into Getty's __data model__.
 
 2.  `Context` is a namespace that owns the method implementations passed to the
     `methods` parameter.
 
     Usually, this is the type implementing
-    [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) or a
+    [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) or a
     pointer to it if mutability is required.
 
 3.  `E` is the error set returned by
-    [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer)'s methods upon
+    [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer)'s methods upon
     failure.
 
     The value of `E` must contain
-    [`getty.de.Error`](https://docs.getty.so/#A;std:de.Error), a base error set
+    [`getty.de.Error`](https://docs.getty.so/#A;getty:de.Error), a base error set
     defined by Getty.
 
 4.  `user_dbt` and `deserializer_dbt` are optional user- and deserializer-defined
@@ -68,15 +64,15 @@ fn Deserializer(
     Getty's data model from a data format.
 
     The `v` parameter in these methods is a
-    [`getty.de.Visitor`](https://docs.getty.so/#A;std:de.Visitor) interface value.
+    [`getty.de.Visitor`](https://docs.getty.so/#A;getty:de.Visitor) interface value.
 
     The `deserializeAny` and `deserializeIgnored` methods are pretty niche, so
     we can ignore them for this tutorial.
 
 Quite the parameter list!
 
-Luckily, most of the parameters have default values we can use. So, let's
-start with the following implementation:
+Luckily, most of the parameters have default values we can use. So let's kick
+things off with the following implementation:
 
 ```zig title="<code>src/main.zig</code>"
 const std = @import("std");
@@ -110,14 +106,14 @@ const Deserializer = struct {
 
 1.  A JSON parser provided by the standard library.
 
-2.  A convenient alias for our [`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interface type.
+2.  A convenient alias for our [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) interface type.
 
-Kind of a useless deserializer...
+## Scalar Deserialization
 
-But let's try deserializing a value with it anyways! We can do so by calling
-[`getty.deserialize`](https://docs.getty.so/#A;std:deserialize), which takes an
+To deserialize a value with our brand new `Deserializer`, we can call
+[`getty.deserialize`](https://docs.getty.so/#A;getty:deserialize), which takes an
 optional allocator, a type to deserialize into, and a
-[`getty.Deserializer`](https://docs.getty.so/#A;std:Deserializer) interface
+[`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) interface
 value.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="29-38"
@@ -163,13 +159,13 @@ pub fn main() !void {
 
 ```console title="Shell session"
 $ zig build run
-error: deserializeBool is not implemented by type: *main.Deserializer
+[...] error: deserializeBool is not implemented by type: *main.Deserializer
 ```
 
-Oh no, a compile error!
+A compile error!
 
 Looks like Getty can't deserialize into the `bool` type unless
-`deserializeBool` is implemented.
+`deserializeBool` is implemented. Let's fix that.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="4 17 32-41"
 const std = @import("std");
@@ -204,10 +200,10 @@ const Deserializer = struct {
     }
 
     // (1)!
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .True or token == .False) {
-                return try v.visitBool(allocator, De, token == .True);
+                return try v.visitBool(arena, De, token == .True);
             }
         }
 
@@ -242,9 +238,7 @@ true (bool)
 
 Success!
 
-Now let's do the same thing for `deserializeEnum`, `deserializeFloat`,
-`deserializeInt`, `deserializeString`, `deserializeVoid`, and
-`deserializeOptional`.
+Now let's do the same thing for the other scalar types.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="18-23 48-123 127-141"
 const std = @import("std");
@@ -284,10 +278,10 @@ const Deserializer = struct {
         return .{ .tokens = std.json.TokenStream.init(json) };
     }
 
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .True or token == .False) {
-                return try v.visitBool(allocator, De, token == .True);
+                return try v.visitBool(arena, De, token == .True);
             }
         }
 
@@ -295,37 +289,37 @@ const Deserializer = struct {
     }
 
     // (1)!
-    fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeEnum(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitString(allocator, De, str);
+                return try v.visitString(arena, De, str);
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeFloat(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeFloat(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitFloat(allocator, De, try std.fmt.parseFloat(f64, str));
+                return try v.visitFloat(arena, De, try std.fmt.parseFloat(f64, str));
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeInt(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeInt(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
 
                 if (token.Number.is_integer) {
                     return try switch (str[0]) {
-                        '-' => v.visitInt(allocator, De, try std.fmt.parseInt(i64, str, 10)),
-                        else => v.visitInt(allocator, De, try std.fmt.parseInt(u64, str, 10)),
+                        '-' => v.visitInt(arena, De, try std.fmt.parseInt(i64, str, 10)),
+                        else => v.visitInt(arena, De, try std.fmt.parseInt(u64, str, 10)),
                     };
                 }
             }
@@ -334,21 +328,21 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeString(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitString(allocator, De, try allocator.?.dupe(u8, str));
+                return try v.visitString(arena, De, try allocator.?.dupe(u8, str));
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeVoid(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeVoid(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
-                return try v.visitVoid(allocator, De);
+                return try v.visitVoid(arena, De);
             }
         }
 
@@ -356,16 +350,16 @@ const Deserializer = struct {
     }
 
     // (2)!
-    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeOptional(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         const backup = self.tokens;
 
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
-                return try v.visitNull(allocator, De);
+                return try v.visitNull(arena, De);
             }
 
             self.tokens = backup;
-            return try v.visitSome(allocator, self.deserializer());
+            return try v.visitSome(arena, self.deserializer());
         }
 
         return error.InvalidType;
@@ -373,7 +367,7 @@ const Deserializer = struct {
 };
 
 pub fn main() !void {
-    const allocator = std.heap.page_allocator; // (3)!
+    const ally = std.heap.page_allocator; // (3)!
     const types = .{ i32, f32, []u8, enum { foo }, ?u8, void };
     const jsons = .{ "10", "10.0", "\"ABC\"", "\"foo\"", "null", "null" };
 
@@ -383,8 +377,8 @@ pub fn main() !void {
         var d = Deserializer.init(s);
         const deserializer = d.deserializer();
 
-        const v = try getty.deserialize(allocator, T, deserializer);
-        defer getty.de.free(allocator, v); // (4)!
+        const v = try getty.deserialize(ally, T, deserializer);
+        defer getty.de.free(ally, v); // (4)!
 
         std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
     }
@@ -422,7 +416,7 @@ null (?u8)
 void (void)
 ```
 
-Not too shabby!
+Easy peasy! :tada:
 
 ??? info "The `deserialize*` methods"
 
@@ -440,11 +434,11 @@ Not too shabby!
     `deserializeBool` support JSON numbers as well.
 
     ```zig title="Zig code"
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             // JSON Booleans -> Getty Booleans
             if (token == .True or token == .False) {
-                return try v.visitBool(allocator, De, token == .True);
+                return try v.visitBool(arena, De, token == .True);
             }
 
             // JSON Numbers -> Getty Booleans
@@ -452,7 +446,7 @@ Not too shabby!
                 if (token.Number.is_integer) {
                     const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
                     const int = try std.fmt.parseInt(i64, str, 10);
-                    return try v.visitBool(allocator, De, int != 0);
+                    return try v.visitBool(arena, De, int != 0);
                 }
             }
         }
@@ -469,7 +463,7 @@ The difference between scalar and aggregate deserialization is that the
 aggregate types in Getty's data model do not directly map to any particular Zig
 type (or set of Zig types). That is, while _Booleans_ are represented by `bool`s
 and _Integers_ are represented by any Zig integer type, there is no native data
-type in Zig that is able to generically represent _Sequences_ or _Maps_.
+type in Zig that can generically represent _Sequences_ or _Maps_.
 
 This is where the aggregate deserialization interfaces come in. They represent
 the aggregate types within Getty's data model (from a deserialization
@@ -477,20 +471,20 @@ perspective). There are four of them:
 
 !!! info ""
 
-    [`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess)
+    [`getty.de.SeqAccess`](https://docs.getty.so/#A;getty:de.SeqAccess)
 
     :  Represents a _Sequence_.
 
-    [`getty.de.MapAccess`](https://docs.getty.so/#A;std:de.MapAccess)
+    [`getty.de.MapAccess`](https://docs.getty.so/#A;getty:de.MapAccess)
 
     :  Represents a _Map_.
 
-    [`getty.de.UnionAccess`](https://docs.getty.so/#A;std:de.UnionAccess), [`getty.de.VariantAccess`](https://docs.getty.so/#A;std:de.VariantAccess)
+    [`getty.de.UnionAccess`](https://docs.getty.so/#A;getty:de.UnionAccess), [`getty.de.VariantAccess`](https://docs.getty.so/#A;getty:de.VariantAccess)
 
     :  Represents a _Union_.
 
 Let's start by implementing `deserializeSeq`, which uses the
-[`getty.de.SeqAccess`](https://docs.getty.so/#A;std:de.SeqAccess) interface.
+[`getty.de.SeqAccess`](https://docs.getty.so/#A;getty:de.SeqAccess) interface.
 
 ??? info "getty.de.SeqAccess"
 
@@ -508,13 +502,13 @@ Let's start by implementing `deserializeSeq`, which uses the
 
     1. A [`getty.de.SeqAccess`]() is responsible for deserializing elements of a _Sequence_ into Zig.
 
-    1.  The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#A;std:de.Seed)
+    1.  The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#A;getty:de.Seed)
         interface value, which allows for stateful deserialization.
 
         By default, Getty passes in
-        [`getty.de.DefaultSeed`](https://docs.getty.so/#A;std:de.DefaultSeed)
+        [`getty.de.DefaultSeed`](https://docs.getty.so/#A;getty:de.DefaultSeed)
         `seed`. The default seed just calls
-        [`getty.deserialize`](https://docs.getty.so/#A;std:deserialize) and can
+        [`getty.deserialize`](https://docs.getty.so/#A;getty:deserialize) and can
         therefore be used for stateless deserialization.
 
 ```zig title="<code>src/main.zig</code>" hl_lines="24 124-133 136-161 166-170"
@@ -556,47 +550,47 @@ const Deserializer = struct {
         return .{ .tokens = std.json.TokenStream.init(json) };
     }
 
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .True or token == .False) {
-                return try v.visitBool(allocator, De, token == .True);
+                return try v.visitBool(arena, De, token == .True);
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeEnum(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitString(allocator, De, str);
+                return try v.visitString(arena, De, str);
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeFloat(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeFloat(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitFloat(allocator, De, try std.fmt.parseFloat(f64, str));
+                return try v.visitFloat(arena, De, try std.fmt.parseFloat(f64, str));
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeInt(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeInt(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
 
                 if (token.Number.is_integer) {
                     return try switch (str[0]) {
-                        '-' => v.visitInt(allocator, De, try std.fmt.parseInt(i64, str, 10)),
-                        else => v.visitInt(allocator, De, try std.fmt.parseInt(u64, str, 10)),
+                        '-' => v.visitInt(arena, De, try std.fmt.parseInt(i64, str, 10)),
+                        else => v.visitInt(arena, De, try std.fmt.parseInt(u64, str, 10)),
                     };
                 }
             }
@@ -605,47 +599,47 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeString(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitString(allocator, De, try allocator.?.dupe(u8, str));
+                return try v.visitString(arena, De, try allocator.?.dupe(u8, str));
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeVoid(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeVoid(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
-                return try v.visitVoid(allocator, De);
+                return try v.visitVoid(arena, De);
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeOptional(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         const backup = self.tokens;
 
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
-                return try v.visitNull(allocator, De);
+                return try v.visitNull(arena, De);
             }
 
             self.tokens = backup;
-            return try v.visitSome(allocator, self.deserializer());
+            return try v.visitSome(arena, self.deserializer());
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeSeq(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeSeq(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .ArrayBegin) {
                 var sa = SeqAccess{ .de = self };
-                return try v.visitSeq(allocator, De, sa.seqAccess());
+                return try v.visitSeq(arena, De, sa.seqAccess());
             }
         }
 
@@ -662,9 +656,9 @@ const SeqAccess = struct {
         .{ .nextElementSeed = nextElementSeed },
     );
 
-    fn nextElementSeed(self: *@This(), allocator: ?Allocator, seed: anytype) Deserializer.Error!?@TypeOf(seed).Value {
+    fn nextElementSeed(self: *@This(), arena: Allocator, seed: anytype) Deserializer.Error!?@TypeOf(seed).Value {
         // Deserialize element.
-        const element = seed.deserialize(allocator, self.de.deserializer()) catch |err| {
+        const element = seed.deserialize(arena, self.de.deserializer()) catch |err| {
             // End of input was encountered early.
             if (self.de.tokens.i - 1 >= self.de.tokens.slice.len) {
                 return err;
@@ -681,12 +675,12 @@ const SeqAccess = struct {
 };
 
 pub fn main() !void {
-    const allocator = std.heap.page_allocator;
+    const ally = std.heap.page_allocator;
 
     var d = Deserializer.init("[1,2,3]");
     const deserializer = d.deserializer();
 
-    const v = try getty.deserialize(allocator, std.ArrayList(i32), deserializer);
+    const v = try getty.deserialize(ally, std.ArrayList(i32), deserializer);
     defer v.deinit();
 
     std.debug.print("{any} ({})\n", .{ v.items, @TypeOf(v) });
@@ -707,7 +701,7 @@ Getty took care of the rest!
 
 Okay, that leaves us with `deserializeMap` and `deserializeUnion`. Let's
 implement the former, which uses the
-[`getty.de.MapAccess`](https://docs.getty.so/#A;std:de.MapAccess) interface.
+[`getty.de.MapAccess`](https://docs.getty.so/#A;getty:de.MapAccess) interface.
 
 ??? info "getty.de.MapAccess"
 
@@ -765,47 +759,47 @@ const Deserializer = struct {
         return .{ .tokens = std.json.TokenStream.init(json) };
     }
 
-    fn deserializeBool(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeBool(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .True or token == .False) {
-                return try v.visitBool(allocator, De, token == .True);
+                return try v.visitBool(arena, De, token == .True);
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeEnum(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeEnum(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitString(allocator, De, str);
+                return try v.visitString(arena, De, str);
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeFloat(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeFloat(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitFloat(allocator, De, try std.fmt.parseFloat(f64, str));
+                return try v.visitFloat(arena, De, try std.fmt.parseFloat(f64, str));
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeInt(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeInt(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Number) {
                 const str = token.Number.slice(self.tokens.slice, self.tokens.i - 1);
 
                 if (token.Number.is_integer) {
                     return try switch (str[0]) {
-                        '-' => v.visitInt(allocator, De, try std.fmt.parseInt(i64, str, 10)),
-                        else => v.visitInt(allocator, De, try std.fmt.parseInt(u64, str, 10)),
+                        '-' => v.visitInt(arena, De, try std.fmt.parseInt(i64, str, 10)),
+                        else => v.visitInt(arena, De, try std.fmt.parseInt(u64, str, 10)),
                     };
                 }
             }
@@ -814,58 +808,58 @@ const Deserializer = struct {
         return error.InvalidType;
     }
 
-    fn deserializeString(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeString(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .String) {
                 const str = token.String.slice(self.tokens.slice, self.tokens.i - 1);
-                return try v.visitString(allocator, De, try allocator.?.dupe(u8, str));
+                return try v.visitString(arena, De, try allocator.?.dupe(u8, str));
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeVoid(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeVoid(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
-                return try v.visitVoid(allocator, De);
+                return try v.visitVoid(arena, De);
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeOptional(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeOptional(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         const backup = self.tokens;
 
         if (try self.tokens.next()) |token| {
             if (token == .Null) {
-                return try v.visitNull(allocator, De);
+                return try v.visitNull(arena, De);
             }
 
             self.tokens = backup;
-            return try v.visitSome(allocator, self.deserializer());
+            return try v.visitSome(arena, self.deserializer());
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeSeq(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeSeq(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .ArrayBegin) {
                 var sa = SeqAccess{ .de = self };
-                return try v.visitSeq(allocator, De, sa.seqAccess());
+                return try v.visitSeq(arena, De, sa.seqAccess());
             }
         }
 
         return error.InvalidType;
     }
 
-    fn deserializeMap(self: *Self, allocator: ?Allocator, v: anytype) Error!@TypeOf(v).Value {
+    fn deserializeMap(self: *Self, arena: Allocator, v: anytype) Error!@TypeOf(v).Value {
         if (try self.tokens.next()) |token| {
             if (token == .ObjectBegin) {
                 var ma = MapAccess{ .de = self };
-                return try v.visitMap(allocator, De, ma.mapAccess());
+                return try v.visitMap(arena, De, ma.mapAccess());
             }
         }
 
@@ -882,8 +876,8 @@ const SeqAccess = struct {
         .{ .nextElementSeed = nextElementSeed },
     );
 
-    fn nextElementSeed(self: *@This(), allocator: ?Allocator, seed: anytype) Deserializer.Error!?@TypeOf(seed).Value {
-        const element = seed.deserialize(allocator, self.de.deserializer()) catch |err| {
+    fn nextElementSeed(self: *@This(), arena: Allocator, seed: anytype) Deserializer.Error!?@TypeOf(seed).Value {
+        const element = seed.deserialize(arena, self.de.deserializer()) catch |err| {
             // End of input was encountered early.
             if (self.de.tokens.i - 1 >= self.de.tokens.slice.len) {
                 return err;
@@ -911,7 +905,7 @@ const MapAccess = struct {
         },
     );
 
-    fn nextKeySeed(self: *@This(), allocator: ?Allocator, seed: anytype) Deserializer.Error!?@TypeOf(seed).Value {
+    fn nextKeySeed(self: *@This(), arena: Allocator, seed: anytype) Deserializer.Error!?@TypeOf(seed).Value {
         const tokens = self.d.tokens;
 
         if (try self.d.tokens.next()) |token| {
@@ -926,25 +920,25 @@ const MapAccess = struct {
                 self.de.tokens = tokens;
 
                 // Deserialize key.
-                return try seed.deserialize(allocator, self.de.deserializer());
+                return try seed.deserialize(arena, self.de.deserializer());
             }
         }
 
         return error.InvalidType;
     }
 
-    fn nextValueSeed(self: *@This(), allocator: ?Allocator, seed: anytype) Deserializer.Error!@TypeOf(seed).Value {
-        return try seed.deserialize(allocator, self.d.deserializer());
+    fn nextValueSeed(self: *@This(), arena: Allocator, seed: anytype) Deserializer.Error!@TypeOf(seed).Value {
+        return try seed.deserialize(arena, self.d.deserializer());
     }
 };
 
 pub fn main() !void {
-    const allocator = std.heap.page_allocator;
+    const ally = std.heap.page_allocator;
 
     var d = Deserializer.init("\"x\":1,\"y\":2");
     const deserializer = d.deserializer();
 
-    const v = try getty.deserialize(allocator, struct{ x: i32, y: i32 }, deserializer);
+    const v = try getty.deserialize(ally, struct{ x: i32, y: i32 }, deserializer);
 
     std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
 }
@@ -957,10 +951,10 @@ pub fn main() !void {
     If there are no elements left (i.e., if `]` was encountered) then `null` is
     returned. Otherwise, the deserialized element is.
 
-    The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#A;std:de.Seed)
+    The `seed` parameter of `nextElementSeed` is a [`getty.de.Seed`](https://docs.getty.so/#A;getty:de.Seed)
     interface value, which allows for stateful deserialization. We don't
     really need that for this tutorial, but we can still use `seed` since
-    the default seed of Getty just calls [`getty.deserialize`](https://docs.getty.so/#A;std:deserialize).
+    the default seed of Getty just calls [`getty.deserialize`](https://docs.getty.so/#A;getty:deserialize).
 
 ```console title="Shell session"
 $ zig build run
