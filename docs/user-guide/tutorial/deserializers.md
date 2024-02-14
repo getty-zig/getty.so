@@ -719,7 +719,7 @@ implement the former, which uses the
 
     1. A [`getty.de.MapAccess`]() is responsible for deserializing entries of a _Map_ into Zig.
 
-```zig title="<code>src/main.zig</code>" hl_lines="26 137-146 215-220"
+```zig title="<code>src/main.zig</code>" hl_lines="26 137-146 175-212 215-220"
 const std = @import("std");
 const getty = @import("getty");
 
