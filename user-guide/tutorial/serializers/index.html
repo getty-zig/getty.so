@@ -1120,10 +1120,6 @@
 
 
 <h1 id="serializers">Serializers</h1>
-<!--Now that we know everything we need to know, let's start writing a JSON-->
-<!--serializer that serializes values by printing their JSON equivalent to-->
-<!--`STDERR`.-->
-
 <p>Every Getty serializer must implement the
 <a href="https://docs.getty.so/#A;getty:Serializer"><code>getty.Serializer</code></a> interface, shown
 below.</p>
@@ -1402,15 +1398,27 @@ value.</p>
 <p>Now let's take a look at serialization for aggregate types.</p>
 <p>If you'll recall,
 <a href="https://docs.getty.so/#A;getty:Serializer"><code>getty.Serializer</code></a> required three
-associated types from its implementations: <code>Seq</code>, <code>Map</code>, and <code>Structure</code>. Each
-type is expected to implement one of Getty's aggregate serialization
-interfaces, which are
-<a href="https://docs.getty.so/#A;getty:ser.Seq"><code>getty.ser.Seq</code></a>,
-<a href="https://docs.getty.so/#A;getty:ser.Map"><code>getty.ser.Map</code></a> and
-<a href="https://docs.getty.so/#A;getty:ser.Structure"><code>getty.ser.Structure</code></a>.</p>
+associated types from its implementations: <code>Seq</code>, <code>Map</code>, and <code>Structure</code>. These
+types must implement an aggregate serialization interface:</p>
+<div class="admonition info">
+<dl>
+<dt><a href="https://docs.getty.so/#A;getty:ser.Seq"><code>getty.ser.Seq</code></a></dt>
+<dd>
+<p>Serializes the elements of and ends the serialization process for <em>Getty Sequences</em>.</p>
+</dd>
+<dt><a href="https://docs.getty.so/#A;getty:ser.Map"><code>getty.ser.Map</code></a></dt>
+<dd>
+<p>Serializes the keys and values of and ends the serialization process for <em>Getty Maps</em>.</p>
+</dd>
+<dt><a href="https://docs.getty.so/#A;getty:ser.Structure"><code>getty.ser.Structure</code></a></dt>
+<dd>
+<p>Serializes the fields of and ends the serialization process for <em>Getty Structures</em>.</p>
+</dd>
+</dl>
+</div>
 <p>The reason why we need <code>Seq</code>, <code>Map</code>, and <code>Structure</code> is because aggregate types
 have all kinds of different access and iteration patterns, but Getty can't
-possibly know about all of them. Therefore, the aggregate serialization methods
+possibly know about all of them. As a result, the aggregate serialization methods
 (e.g., <code>serializeSeq</code>) are responsible only for <em>starting</em> the serialization
 process, before returning a value of either <code>Seq</code>, <code>Map</code>, or <code>Structure</code>. The
 returned value is then used by the caller to finish serialization in whatever
