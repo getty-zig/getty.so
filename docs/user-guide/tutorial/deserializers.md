@@ -375,7 +375,6 @@ pub fn main() !void {
         const dd = d.deserializer();
 
         const v = try getty.deserialize(ally, types[i], dd);
-        defer getty.de.free(ally, v); // (3)!
 
         std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
     }
@@ -397,9 +396,6 @@ pub fn main() !void {
 
     You can think of this method as a place to do some pre-processing before
     deserializing an actual payload value.
-
-3.  This is a convenience function that lets you to easily free values that
-    were deserialized by Getty.
 
 ```console title="Shell session"
 $ zig build run
