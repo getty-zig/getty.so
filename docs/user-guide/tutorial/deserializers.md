@@ -116,7 +116,7 @@ optional allocator, a type to deserialize into, and a
 [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) interface
 value.
 
-```zig title="<code>src/main.zig</code>" hl_lines="4 31-40"
+```zig title="<code>src/main.zig</code>" hl_lines="4 31-38"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -148,9 +148,7 @@ const Deserializer = struct {
 };
 
 pub fn main() !void {
-    const s = "true";
-
-    var d = Deserializer.init(s);
+    var d = Deserializer.init("true");
     const dd = d.deserializer();
 
     const v = try getty.deserialize(ally, bool, dd);
@@ -215,9 +213,7 @@ const Deserializer = struct {
 };
 
 pub fn main() !void {
-    const s = "true";
-
-    var d = Deserializer.init(s);
+    var d = Deserializer.init("true");
     const dd = d.deserializer();
 
     const v = try getty.deserialize(ally, bool, dd);
@@ -243,7 +239,7 @@ Success!
 
 Now let's do the same thing for the other scalar types.
 
-```zig title="<code>src/main.zig</code>" hl_lines="19-24 49-124 128-141"
+```zig title="<code>src/main.zig</code>" hl_lines="19-24 49-124 128-139"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -374,13 +370,11 @@ pub fn main() !void {
     const types = .{ i32, f32, []u8, enum { foo }, ?u8, void };
     const jsons = .{ "10", "10.0", "\"ABC\"", "\"foo\"", "null", "null" };
 
-    inline for (jsons) |s, i| {
-        const T = types[i];
-
-        var d = Deserializer.init(s);
+    inline for (jsons, 0..) |data, i| {
+        var d = Deserializer.init(data);
         const dd = d.deserializer();
 
-        const v = try getty.deserialize(ally, T, dd);
+        const v = try getty.deserialize(ally, types[i], dd);
         defer getty.de.free(ally, v); // (3)!
 
         std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
@@ -404,7 +398,7 @@ pub fn main() !void {
     You can think of this method as a place to do some pre-processing before
     deserializing an actual payload value.
 
-4.  This is a convenience function that lets you to easily free values that
+3.  This is a convenience function that lets you to easily free values that
     were deserialized by Getty.
 
 ```console title="Shell session"
