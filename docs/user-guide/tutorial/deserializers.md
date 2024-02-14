@@ -116,9 +116,11 @@ optional allocator, a type to deserialize into, and a
 [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) interface
 value.
 
-```zig title="<code>src/main.zig</code>" hl_lines="29-38"
+```zig title="<code>src/main.zig</code>" hl_lines="4 31-40"
 const std = @import("std");
 const getty = @import("getty");
+
+const ally = std.heap.page_allocator;
 
 const Deserializer = struct {
     tokens: std.json.TokenStream,
@@ -151,7 +153,7 @@ pub fn main() !void {
     var d = Deserializer.init(s);
     const deserializer = d.deserializer();
 
-    const v = try getty.deserialize(null, bool, deserializer);
+    const v = try getty.deserialize(ally, bool, deserializer);
 
     std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
 }
@@ -167,11 +169,12 @@ A compile error!
 Looks like Getty can't deserialize into the `bool` type unless
 `deserializeBool` is implemented. Let's fix that.
 
-```zig title="<code>src/main.zig</code>" hl_lines="4 17 32-41"
+```zig title="<code>src/main.zig</code>" hl_lines="4 18 33-42"
 const std = @import("std");
 const getty = @import("getty");
 
 const Allocator = std.mem.Allocator;
+const ally = std.heap.page_allocator;
 
 const Deserializer = struct {
     tokens: std.json.TokenStream,
@@ -217,7 +220,7 @@ pub fn main() !void {
     var d = Deserializer.init(s);
     const deserializer = d.deserializer();
 
-    const v = try getty.deserialize(null, bool, deserializer);
+    const v = try getty.deserialize(ally, bool, deserializer);
 
     std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
 }
@@ -240,11 +243,12 @@ Success!
 
 Now let's do the same thing for the other scalar types.
 
-```zig title="<code>src/main.zig</code>" hl_lines="18-23 48-123 127-141"
+```zig title="<code>src/main.zig</code>" hl_lines="19-24 49-124 128-141"
 const std = @import("std");
 const getty = @import("getty");
 
 const Allocator = std.mem.Allocator;
+const ally = std.heap.page_allocator;
 
 const Deserializer = struct {
     tokens: std.json.TokenStream,
@@ -367,7 +371,6 @@ const Deserializer = struct {
 };
 
 pub fn main() !void {
-    const ally = std.heap.page_allocator; // (3)!
     const types = .{ i32, f32, []u8, enum { foo }, ?u8, void };
     const jsons = .{ "10", "10.0", "\"ABC\"", "\"foo\"", "null", "null" };
 
@@ -378,7 +381,7 @@ pub fn main() !void {
         const deserializer = d.deserializer();
 
         const v = try getty.deserialize(ally, T, deserializer);
-        defer getty.de.free(ally, v); // (4)!
+        defer getty.de.free(ally, v); // (3)!
 
         std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
     }
@@ -400,8 +403,6 @@ pub fn main() !void {
 
     You can think of this method as a place to do some pre-processing before
     deserializing an actual payload value.
-
-3.  To deserialize pointer values, Getty requires an allocator.
 
 4.  This is a convenience function that lets you to easily free values that
     were deserialized by Getty.
@@ -511,11 +512,12 @@ Let's start by implementing `deserializeSeq`, which uses the
         [`getty.deserialize`](https://docs.getty.so/#A;getty:deserialize) and can
         therefore be used for stateless deserialization.
 
-```zig title="<code>src/main.zig</code>" hl_lines="24 124-133 136-161 166-170"
+```zig title="<code>src/main.zig</code>" hl_lines="25 125-134 137-162 165-171"
 const std = @import("std");
 const getty = @import("getty");
 
 const Allocator = std.mem.Allocator;
+const ally = std.heap.page_allocator;
 
 const Deserializer = struct {
     tokens: std.json.TokenStream,
@@ -675,8 +677,6 @@ const SeqAccess = struct {
 };
 
 pub fn main() !void {
-    const ally = std.heap.page_allocator;
-
     var d = Deserializer.init("[1,2,3]");
     const deserializer = d.deserializer();
 
@@ -719,11 +719,12 @@ implement the former, which uses the
 
     1. A [`getty.de.MapAccess`]() is responsible for deserializing entries of a _Map_ into Zig.
 
-```zig title="<code>src/main.zig</code>" linenums="1" hl_lines="25 136-145"
+```zig title="<code>src/main.zig</code>" hl_lines="26 137-146 215-220"
 const std = @import("std");
 const getty = @import("getty");
 
 const Allocator = std.mem.Allocator;
+const ally = std.heap.page_allocator;
 
 const Deserializer = struct {
     tokens: std.json.TokenStream,
@@ -933,8 +934,6 @@ const MapAccess = struct {
 };
 
 pub fn main() !void {
-    const ally = std.heap.page_allocator;
-
     var d = Deserializer.init("\"x\":1,\"y\":2");
     const deserializer = d.deserializer();
 
