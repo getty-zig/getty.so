@@ -151,9 +151,9 @@ pub fn main() !void {
     const s = "true";
 
     var d = Deserializer.init(s);
-    const deserializer = d.deserializer();
+    const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, bool, deserializer);
+    const v = try getty.deserialize(ally, bool, dd);
 
     std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
 }
@@ -218,9 +218,9 @@ pub fn main() !void {
     const s = "true";
 
     var d = Deserializer.init(s);
-    const deserializer = d.deserializer();
+    const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, bool, deserializer);
+    const v = try getty.deserialize(ally, bool, dd);
 
     std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
 }
@@ -378,9 +378,9 @@ pub fn main() !void {
         const T = types[i];
 
         var d = Deserializer.init(s);
-        const deserializer = d.deserializer();
+        const dd = d.deserializer();
 
-        const v = try getty.deserialize(ally, T, deserializer);
+        const v = try getty.deserialize(ally, T, dd);
         defer getty.de.free(ally, v); // (3)!
 
         std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
@@ -678,9 +678,9 @@ const SeqAccess = struct {
 
 pub fn main() !void {
     var d = Deserializer.init("[1,2,3]");
-    const deserializer = d.deserializer();
+    const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, std.ArrayList(i32), deserializer);
+    const v = try getty.deserialize(ally, std.ArrayList(i32), dd);
     defer v.deinit();
 
     std.debug.print("{any} ({})\n", .{ v.items, @TypeOf(v) });
@@ -935,9 +935,9 @@ const MapAccess = struct {
 
 pub fn main() !void {
     var d = Deserializer.init("\"x\":1,\"y\":2");
-    const deserializer = d.deserializer();
+    const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, struct{ x: i32, y: i32 }, deserializer);
+    const v = try getty.deserialize(ally, struct{ x: i32, y: i32 }, dd);
 
     std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
 }
