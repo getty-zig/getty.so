@@ -116,7 +116,7 @@ optional allocator, a type to deserialize into, and a
 [`getty.Deserializer`](https://docs.getty.so/#A;getty:Deserializer) interface
 value.
 
-```zig title="<code>src/main.zig</code>" hl_lines="4 31-38"
+```zig title="<code>src/main.zig</code>" hl_lines="4 31-40"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -151,9 +151,11 @@ pub fn main() !void {
     var d = Deserializer.init("true");
     const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, bool, dd);
+    const result = try getty.deserialize(ally, bool, dd);
+    defer result.deinit();
+    const value = result.value;
 
-    std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
+    std.debug.print("{} ({})\n", .{ value, @TypeOf(value) });
 }
 ```
 
@@ -216,9 +218,11 @@ pub fn main() !void {
     var d = Deserializer.init("true");
     const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, bool, dd);
+    const result = try getty.deserialize(ally, bool, dd);
+    defer result.deinit();
+    const value = result.value;
 
-    std.debug.print("{} ({})\n", .{ v, @TypeOf(v) });
+    std.debug.print("{} ({})\n", .{ value, @TypeOf(value) });
 }
 ```
 
@@ -239,7 +243,7 @@ Success!
 
 Now let's do the same thing for the other scalar types.
 
-```zig title="<code>src/main.zig</code>" hl_lines="19-24 49-124 128-139"
+```zig title="<code>src/main.zig</code>" hl_lines="19-24 49-124 128-140"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -374,9 +378,11 @@ pub fn main() !void {
         var d = Deserializer.init(data);
         const dd = d.deserializer();
 
-        const v = try getty.deserialize(ally, types[i], dd);
+        const result = try getty.deserialize(ally, types[i], dd);
+        defer result.deinit();
+        const value = result.value;
 
-        std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
+        std.debug.print("{any} ({})\n", .{ value, @TypeOf(value) });
     }
 }
 ```
@@ -502,7 +508,7 @@ Let's start by implementing `deserializeSeq`, which uses the
         [`getty.deserialize`](https://docs.getty.so/#A;getty:deserialize) and can
         therefore be used for stateless deserialization.
 
-```zig title="<code>src/main.zig</code>" hl_lines="25 125-134 137-162 165-171"
+```zig title="<code>src/main.zig</code>" hl_lines="25 125-134 137-162 165-173"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -670,10 +676,12 @@ pub fn main() !void {
     var d = Deserializer.init("[1,2,3]");
     const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, std.ArrayList(i32), dd);
-    defer v.deinit();
+    const result = try getty.deserialize(ally, std.ArrayList(i32), dd);
+    defer result.deinit();
+    const value = result.value;
+    defer value.deinit();
 
-    std.debug.print("{any} ({})\n", .{ v.items, @TypeOf(v) });
+    std.debug.print("{any} ({})\n", .{ value.items, @TypeOf(value) });
 }
 ```
 
@@ -709,7 +717,7 @@ implement the former, which uses the
 
     1. A [`getty.de.MapAccess`]() is responsible for deserializing entries of a _Map_ into Zig.
 
-```zig title="<code>src/main.zig</code>" hl_lines="26 137-146 175-212 215-220"
+```zig title="<code>src/main.zig</code>" hl_lines="26 137-146 175-212 215-222"
 const std = @import("std");
 const getty = @import("getty");
 
@@ -927,9 +935,11 @@ pub fn main() !void {
     var d = Deserializer.init("\"x\":1,\"y\":2");
     const dd = d.deserializer();
 
-    const v = try getty.deserialize(ally, struct{ x: i32, y: i32 }, dd);
+    const result = try getty.deserialize(ally, struct{ x: i32, y: i32 }, dd);
+    defer result.deinit();
+    const value = result.value;
 
-    std.debug.print("{any} ({})\n", .{ v, @TypeOf(v) });
+    std.debug.print("{any} ({})\n", .{ value, @TypeOf(value) });
 }
 ```
 
