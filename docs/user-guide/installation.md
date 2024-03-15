@@ -3,10 +3,6 @@
 1. Declare Getty as a project dependency with `zig fetch`:
 
     ```sh title="Shell session"
-    # Latest version
-    zig fetch --save git+https://github.com/getty-zig/getty.git#main
-
-    # Specific version
     zig fetch --save git+https://github.com/getty-zig/getty.git#<COMMIT>
     ```
 
